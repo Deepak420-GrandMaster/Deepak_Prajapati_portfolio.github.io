@@ -1,240 +1,992 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Portfolio</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepak Prajapati | Data & AI Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f4f0;
+      --card: #ebe9e5;
+      --text: #111111;
+      --muted: #6d6d6d;
+      --border: #d9d7d2;
+      --white: #ffffff;
+      --accent: #245c44;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* NAVBAR */
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 1.2rem 3rem;
+
+      background: rgba(245, 244, 240, 0.92);
+      backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .logo span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* HERO */
+
+    #hero {
+      min-height: 100vh;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .hero-left {
+      padding: 8rem 4rem 4rem;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      margin-bottom: 2rem;
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      line-height: 0.95;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+
+      margin-bottom: 2rem;
+    }
+
+    .hero-title span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-text {
+      max-width: 500px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-btn {
+      width: fit-content;
+
+      background: var(--text);
+      color: white;
+
+      padding: 0.85rem 1.5rem;
+      border-radius: 999px;
+
+      font-size: 0.9rem;
+      font-weight: 500;
+
+      transition: 0.3s;
+    }
+
+    .hero-btn:hover {
+      opacity: 0.8;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+
+      margin-top: 4rem;
+      padding-top: 2rem;
+
+      border-top: 1px solid var(--border);
+    }
+
+    .stat h2 {
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .stat p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* RIGHT */
+
+    .hero-right {
+      background: var(--card);
+
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-image {
+      width: 320px;
+      height: 320px;
+
+      border-radius: 50%;
+      object-fit: cover;
+
+      border: 5px solid white;
+
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .floating-card {
+      position: absolute;
+      bottom: 2rem;
+
+      background: white;
+      border-radius: 14px;
+
+      padding: 1rem 1.2rem;
+
+      font-size: 0.85rem;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .left-card {
+      left: 2rem;
+    }
+
+    .right-card {
+      right: 2rem;
+      text-align: right;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 6rem 3rem;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    .section-label {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+
+      margin-bottom: 2rem;
+
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+
+      margin-bottom: 3rem;
+    }
+
+    .section-title span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ABOUT */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 4rem;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 2rem;
+    }
+
+    .tag {
+      background: var(--card);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: 18px;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h4 {
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .card p {
+      margin-bottom: 0.7rem;
+      font-size: 0.92rem;
+    }
+
+    /* EXPERIENCE */
+
+    #experience {
+      background: var(--card);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-date {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .timeline-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-content h4 {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    .timeline-content ul {
+      padding-left: 1rem;
+      color: var(--muted);
+    }
+
+    .timeline-content li {
+      margin-bottom: 0.7rem;
+    }
+
+    /* SKILLS */
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 1.4rem;
+      text-align: center;
+
+      transition: 0.3s;
+    }
+
+    .skill:hover {
+      transform: translateY(-5px);
+    }
+
+    .skill span {
+      display: block;
+      font-size: 1.7rem;
+      margin-bottom: 0.7rem;
+    }
+
+    /* PROJECTS */
+
+    #projects {
+      background: var(--card);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+
+      transition: 0.3s;
+    }
+
+    .project:hover {
+      transform: translateY(-6px);
+    }
+
+    .project small {
+      display: inline-block;
+
+      background: var(--bg);
+
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+
+      margin-bottom: 1rem;
+
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .project h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .project p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .project a {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* CONTACT */
+
+    #contact {
+      background: #111111;
+      color: white;
+    }
+
+    #contact .section-label {
+      color: rgba(255,255,255,0.4);
+    }
+
+    #contact .section-label::after {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .contact-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-title span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .contact-desc {
+      color: rgba(255,255,255,0.65);
+      max-width: 500px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-links a {
+      color: rgba(255,255,255,0.8);
+      transition: 0.3s;
+    }
+
+    .contact-links a:hover {
+      color: white;
+    }
+
+    footer {
+      background: #111;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.8rem;
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 900px) {
+
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      #hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left {
+        padding: 7rem 1.5rem 3rem;
+      }
+
+      .hero-right {
+        min-height: 500px;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .about-grid,
+      .contact-grid,
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .floating-card {
+        position: static;
+        margin-top: 1rem;
+      }
+    }
+
+  </style>
 </head>
 
-<body class="is-preload">
+<body>
 
-	<!-- Wrapper -->
-	<div id="wrapper" class="fade-in">
+  <!-- NAV -->
 
-		<!-- Intro -->
-		<div id="intro">
-			<h1>Deepak prajapati</h1><br><br><br><br><br>
+  <nav>
 
-			<p>I’m Deepak Prajapati, a data professional with 4+ years improving process quality, automation, and
-				analytics. At Numerator, I increased data processing speed by 20% and boosted team productivity by 15%
-				through workflow automation. I work across Python, SQL, and Power BI, and have built tools like a
-				flight-fare prediction dashboard and analytics systems that cut manual work.
+    <a href="#" class="logo">
+      DEEPAK<span>.</span>
+    </a>
 
-				<br> I completed a Minor in Artificial Intelligence from IIT Ropar and I’m now pursuing my MSc in Big
-				Data
-				and AI at Montpellier Business School, where I’m expanding into model building, pipelines, and
-				end-to-end automation. With certifications in Six Sigma and Data Analytics, I focus on turning raw data
-				into scalable, intelligent solutions that help businesses operate smarter and grow faster.
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
 
-				<br><br><br>
+  </nav>
 
-			<ul class="actions">
-				<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-			</ul>
-		</div>
+  <!-- HERO -->
 
-		<!-- Header -->
-		<header id="header">
-			<a href="index.html" class="logo">PORTFOLIO</a>
-		</header>
+  <section id="hero">
 
-		<!-- icons-->
-		<nav id="nav">
-			<ul class="links">
-				<li class="active"><a href="index.html">Projects</a></li>
-			</ul>
-			<ul class="icons">
-				<li>
-					<i><a target="_blank" href="https://github.com/Deepak420-GrandMaster"
-							class="icon brands fa-github"><span class="label">GitHub</span></a></i>
-					<i><a target="_blank" href="https://www.linkedin.com/in/deepak-prajapati-695963204/"
-							class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></i>
-				</li>
-			</ul>
-		</nav>
+    <div class="hero-left">
 
+      <div class="badge">
+        Data Engineer • AI Engineer • Data Analyst
+      </div>
 
-		<!-- Main -->
-		<div id="main">
+      <h1 class="hero-title">
+        DEEPAK <br>
+        <span>PRAJAPATI</span>
+      </h1>
 
-			<article>
-				<header style="text-align: center">
-					<h2><a target="_blank"
-							href="https://github.com/Deepak420-GrandMaster/Agentic-AI/blob/main/Agents/HR%20AI%20Agent.json	">HR
-							AI Agent</a></h2>
-					<h3>N8N</h3>
-					<p style="text-align: center">It automatically screens CVs as soon as they hit your inbox,
-						classifies candidates, extracts the key data, and qualifies profiles—all without human bias or
-						delay.
-						The workflow scores every applicant based on mapped skills, experience, and fit for the role,
-						then logs structured results directly to a Google Sheet for your team.
-						From smart filtering to instant insight, it brings speed, transparency, and clear
-						decision-making to your recruitment pipeline.</p>
-					<!-- <h5 style="text-align: left"><b>TOOLS USED: Microsoft Power B</b>
-						<h5>
-							<h4 style="text-align: left">KEY TAKEAWAYS:</h4> -->
-					<!-- <ul style="text-align: left">
-						<li><i>Applied theoretical knowledge to a real-world problem, enhancing practical
-								understanding and problem-solving skills.</i></li>
-						<li><i>Collaborated with a team to achieve project goals, improving teamwork and
-								communication skills.</i></li>
-						<li><i>Learned to use tools like Power BI to visualize data and derive meaningful
-								insights.</i> </li>
-						<li><i>Created interactive dashboards to illustrate fare trends, aiding decision-making
-								for both consumers and airlines.</i></li>
-					</ul> -->
-				</header>
-				<a target="_blank" class="image fit"><img src="images/hrai.jpeg" alt="Projects" /></a>
-				<!-- <ul class="actions special">
-					<li><a target="_blank"
-							href="https://app.powerbi.com/groups/me/reports/81ca9648-2c26-46da-ae2f-2e0fefc0759e/f365cbcf457fab8c257d?experience=power-bi"
-							class="button">View Project</a></li>
-					<li><a target="_blank"
-							href="https://app.powerbi.com/groups/me/insights/655a4df4-1099-49b9-8deb-f84261cb8ad9?insightsSource=Desktop&ScenarioId=Signup&experience=power-bi"
-							class="button">View insights</a></li>
+      <p class="hero-text">
+        MSc in Big Data & AI at Montpellier Business School. 
+        Building intelligent systems, scalable data pipelines, analytics dashboards, and AI-powered applications focused on real-world business impact.
+      </p>
 
-				</ul> -->
+      <a href="mailto:deepak.byte07@gmail.com" class="hero-btn">
+        Let's Connect →
+      </a>
 
+      <div class="hero-stats">
 
-			</article>
+        <div class="stat">
+          <h2>4+</h2>
+          <p>Years Experience</p>
+        </div>
 
+        <div class="stat">
+          <h2>15+</h2>
+          <p>Projects Built</p>
+        </div>
 
-			<article>
-				<header style="text-align: center">
-					<h2><a target="_blank"
-							href="https://app.powerbi.com/groups/me/reports/81ca9648-2c26-46da-ae2f-2e0fefc0759e/f365cbcf457fab8c257d?experience=power-bi">FLIGHT
-							FARE PREDICTION</a></h2>
-					<h3>Microsoft Power Bi</h3>
-					<p style="text-align: center"> Developed a data visualization tool to predict flight fares, helping
-						users identify optimal booking times, analyze seasonal trends, and manage travel budgets
-						efficiently, enabling cost savings and informed decision-making.</p>
-					<h5 style="text-align: left"><b>TOOLS USED: Microsoft Power B</b>
-						<h5>
-							<h4 style="text-align: left">KEY TAKEAWAYS:</h4>
-							<ul style="text-align: left">
-								<li><i>Applied theoretical knowledge to a real-world problem, enhancing practical
-										understanding and problem-solving skills.</i></li>
-								<li><i>Collaborated with a team to achieve project goals, improving teamwork and
-										communication skills.</i></li>
-								<li><i>Learned to use tools like Power BI to visualize data and derive meaningful
-										insights.</i> </li>
-								<li><i>Created interactive dashboards to illustrate fare trends, aiding decision-making
-										for both consumers and airlines.</i></li>
-							</ul>
-				</header>
-				<a target="_blank"
-					href="https://app.powerbi.com/groups/me/reports/81ca9648-2c26-46da-ae2f-2e0fefc0759e/f365cbcf457fab8c257d?experience=power-bi"
-					class="image fit"><img src="images/project.jpg" alt="Projects" /></a>
-				<ul class="actions special">
-					<li><a target="_blank"
-							href="https://app.powerbi.com/groups/me/reports/81ca9648-2c26-46da-ae2f-2e0fefc0759e/f365cbcf457fab8c257d?experience=power-bi"
-							class="button">View Project</a></li>
-					<li><a target="_blank"
-							href="https://app.powerbi.com/groups/me/insights/655a4df4-1099-49b9-8deb-f84261cb8ad9?insightsSource=Desktop&ScenarioId=Signup&experience=power-bi"
-							class="button">View insights</a></li>
+        <div class="stat">
+          <h2>3</h2>
+          <p>Languages</p>
+        </div>
 
-				</ul>
+        <div class="stat">
+          <h2>MSc</h2>
+          <p>Big Data & AI</p>
+        </div>
 
+      </div>
 
-			</article>
+    </div>
 
+    <div class="hero-right">
 
-			<article>
-				<header style="text-align: center">
-					<h2><a href="#">Exploring Trends in the AutomotiveIndustry</a></h2>
-					<h3>SQL Project</h3>
-					<p style="text-align: center">This project involved performing extensive analysis on a database of
-						car sales information
-						to uncover insights into pricing trends, model performance, and more. The data contained details
-						on car models,
-						pricing history, mileage, transmission types and other attributes.</p>
-					<h5 style="text-align: left"><b>TOOLS USED: SQL</b>
-						<h5>
-							<h4 style="text-align: left">Tasks Performed:</h4>
-							<ul style="text-align: left">
-								<li><i>Performed general data exploration and validation checks on the cars dataset</i>
-								</li>
-								<li><i>Analyzed average selling prices by various dimensions like transmission, fuel
-										type, ownership etc. to reveal pricing patterns</i></li>
-								<li><i>Identified highest mileage models to understand durability and maintenance
-										costs</i></li>
-								<li><i>Computed price variability within and across models to guide pricing strategy</i>
-								</li>
-							</ul>
-							<a href="https://github.com/Deepak420-GrandMaster/SQL-Project/blob/main/Auto%20Mobile%20Industry/Exploring%20Trends%20in%20the%20AutomotiveIndustry.sql"
-								class="image fit" target="_blank"><img src="images/sql.png" alt="" /></a>
-							<ul class="actions special">
-								<li><a href="https://github.com/Deepak420-GrandMaster/SQL-Project/blob/main/Auto%20Mobile%20Industry/Exploring%20Trends%20in%20the%20AutomotiveIndustry.sql"
-										class="button" target="_blank">View Project</a></li>
-							</ul>
-			</article>
+      <img src="images/profile.png" alt="Deepak Prajapati" class="hero-image" />
 
+      <div class="floating-card left-card">
+        📍 Antibes, France
+      </div>
 
+      <div class="floating-card right-card">
+        <strong>Montpellier Business School</strong><br>
+        MSc Big Data & AI
+      </div>
 
+    </div>
 
+  </section>
 
-			<!-- Footer -->
-			<footer>
-				<section class="split contact">
-					<section class="alt">
-						<h3>Location</h3>
-						<p style="text-align: center"><a href="#">Vadodara, Gujarat </a></p>
-					</section>
-					<section>
-						<h3>Phone</h3>
-						<p style="text-align: center"><a href="tel:9624882769">+91 9624882769</a></p>
-					</section>
-					<section>
-						<h3>E-Mail</h3>
-						<p style="text-align: center"><a
-								href="mailto:deepak.byte07@gmail.com">deepak.byte07@gmail.com</a></p>
-					</section>
-					<section>
-						<h3>Resume</h3>
-						<p style="text-align: center"><a
-								href="https://docs.google.com/document/d/18A-QVFT8la39SVYogwQpjQdCSOPxBtidV3ZLeESu4gk/edit?usp=sharing"
-								target="_blank"><u><b>Download Resume</b></u></a></p>
-					</section>
-					<section>
-						<h3>Social</h3>
-						<ul class="icons alt">
-							<li><a target="_blank" href="https://github.com/Deepak420-GrandMaster"
-									class="icon brands alt fa-github"><span class="label"
-										target="_blank">GitHub</span></a></li>
-							<li><a target="_blank" href="https://www.linkedin.com/in/deepak-prajapati-695963204/"
-									class="icon brands fa-linkedin"><span class="label"
-										target="_blank">Linkedin</span></a></li>
-						</ul>
-					</section>
-				</section>
-			</footer>
+  <!-- ABOUT -->
 
-			<!-- Copyright -->
-			<!-- <div id="copyright">
-						<ul><li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-					</div> -->
+  <section id="about">
 
-		</div>
+    <div class="container">
 
-		<!-- Scripts -->
-		<script src="assets/js/jquery.min.js"></script>
-		<script src="assets/js/jquery.scrollex.min.js"></script>
-		<script src="assets/js/jquery.scrolly.min.js"></script>
-		<script src="assets/js/browser.min.js"></script>
-		<script src="assets/js/breakpoints.min.js"></script>
-		<script src="assets/js/util.js"></script>
-		<script src="assets/js/main.js"></script>
+      <div class="section-label">
+        About
+      </div>
+
+      <h2 class="section-title">
+        Building data systems that create <span>real business impact</span>
+      </h2>
+
+      <div class="about-grid">
+
+        <div class="about-text">
+
+          <p>
+            I’m Deepak Prajapati, a Data & AI professional with experience in analytics, quality control, automation, and AI systems.
+          </p>
+
+          <p>
+            I worked as a QC Data Analyst at Numerator where I handled large-scale data operations, reporting workflows, and analytical quality checks for international clients.
+          </p>
+
+          <p>
+            My focus now is Data Engineering, AI Engineering, LLMs, Machine Learning systems, and scalable analytics infrastructure.
+          </p>
+
+          <div class="tags">
+
+            <div class="tag">Python</div>
+            <div class="tag">SQL</div>
+            <div class="tag">Power BI</div>
+            <div class="tag">Machine Learning</div>
+            <div class="tag">LLMs</div>
+            <div class="tag">Data Engineering</div>
+            <div class="tag">ETL Pipelines</div>
+            <div class="tag">AI Agents</div>
+
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="card">
+
+            <h4>Languages</h4>
+
+            <p>English • Fluent</p>
+            <p>French • B1</p>
+            <p>Hindi • Native</p>
+
+          </div>
+
+          <div class="card">
+
+            <h4>Certifications</h4>
+
+            <p>AI Minor • IIT Ropar</p>
+            <p>Big Data & AI MSc</p>
+            <p>Data Analytics Experience</p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- EXPERIENCE -->
+
+  <section id="experience">
+
+    <div class="container">
+
+      <div class="section-label">
+        Experience
+      </div>
+
+      <h2 class="section-title">
+        Professional <span>Journey</span>
+      </h2>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+
+          <div class="timeline-date">
+            2021 — 2025
+          </div>
+
+          <div class="timeline-content">
+
+            <h3>QC Data Analyst</h3>
+
+            <h4>Numerator</h4>
+
+            <ul>
+              <li>Managed large-scale quality control workflows and analytical reporting.</li>
+              <li>Handled data validation, dashboard monitoring, and operational analytics.</li>
+              <li>Improved workflow efficiency through automation and reporting optimization.</li>
+            </ul>
+
+          </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+          <div class="timeline-date">
+            2025 — Present
+          </div>
+
+          <div class="timeline-content">
+
+            <h3>MSc Big Data & AI</h3>
+
+            <h4>Montpellier Business School • France</h4>
+
+            <ul>
+              <li>Focused on AI systems, machine learning, cloud technologies, and data engineering.</li>
+              <li>Building projects around LLMs, AI agents, predictive analytics, and automation.</li>
+            </ul>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SKILLS -->
+
+  <section id="skills">
+
+    <div class="container">
+
+      <div class="section-label">
+        Skills
+      </div>
+
+      <h2 class="section-title">
+        Tools & <span>Technologies</span>
+      </h2>
+
+      <div class="skills-grid">
+
+        <div class="skill">
+          <span>🐍</span>
+          Python
+        </div>
+
+        <div class="skill">
+          <span>🗄️</span>
+          SQL
+        </div>
+
+        <div class="skill">
+          <span>📊</span>
+          Power BI
+        </div>
+
+        <div class="skill">
+          <span>🤖</span>
+          Machine Learning
+        </div>
+
+        <div class="skill">
+          <span>🧠</span>
+          LLMs
+        </div>
+
+        <div class="skill">
+          <span>⚡</span>
+          AI Agents
+        </div>
+
+        <div class="skill">
+          <span>☁️</span>
+          Cloud
+        </div>
+
+        <div class="skill">
+          <span>📈</span>
+          Analytics
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- PROJECTS -->
+
+  <section id="projects">
+
+    <div class="container">
+
+      <div class="section-label">
+        Projects
+      </div>
+
+      <h2 class="section-title">
+        Selected <span>Projects</span>
+      </h2>
+
+      <div class="projects-grid">
+
+        <div class="project">
+
+          <small>AI</small>
+
+          <h3>AI Business Analytics Assistant</h3>
+
+          <p>
+            Built an AI assistant capable of analyzing datasets, generating insights, and automating reporting workflows.
+          </p>
+
+          <a href="#">
+            View Project →
+          </a>
+
+        </div>
+
+        <div class="project">
+
+          <small>DATA ENGINEERING</small>
+
+          <h3>Automated ETL Pipeline</h3>
+
+          <p>
+            Designed scalable ETL workflows for cleaning, transforming, and visualizing operational business data.
+          </p>
+
+          <a href="#">
+            View Project →
+          </a>
+
+        </div>
+
+        <div class="project">
+
+          <small>LLM</small>
+
+          <h3>Agentic AI Workflow System</h3>
+
+          <p>
+            Developed AI-agent architecture using LLM orchestration and autonomous task execution pipelines.
+          </p>
+
+          <a href="#">
+            View Project →
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section id="contact">
+
+    <div class="container">
+
+      <div class="section-label">
+        Contact
+      </div>
+
+      <div class="contact-grid">
+
+        <div>
+
+          <h2 class="contact-title">
+            Let's build <span>something impactful</span>
+          </h2>
+
+          <p class="contact-desc">
+            Open to opportunities in Data Engineering, AI Engineering, Analytics, and scalable AI product development across France and international markets.
+          </p>
+
+        </div>
+
+        <div class="contact-links">
+
+          <a href="mailto:deepak.byte07@gmail.com">
+            📧 deepak.byte07@gmail.com
+          </a>
+
+          <a href="#">
+            💼 LinkedIn
+          </a>
+
+          <a href="#">
+            💻 GitHub
+          </a>
+
+          <a href="#">
+            📄 Resume
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    © 2026 Deepak Prajapati. All rights reserved.
+  </footer>
 
 </body>
-
 </html>
