@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deepak Prajapati · Portfolio Review</title>
+    <title>Deepak Prajapati · Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -50,6 +50,28 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 9999;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        .nav-dot:focus-visible,
+        .nav-arrow:focus-visible {
+            outline: 2px solid var(--bronze);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* --- READING PROGRESS BAR --- */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--bronze), var(--bronze-light));
+            z-index: 200;
+            transition: width 0.8s var(--transition);
+            box-shadow: 0 0 12px rgba(184, 148, 29, 0.4);
         }
 
         .magazine-track {
@@ -149,7 +171,7 @@
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.9rem;
             z-index: 100;
         }
         .nav-dot {
@@ -172,6 +194,31 @@
         }
         .nav-dot:hover::after {
             border-color: var(--bronze-light);
+        }
+        /* Tooltip labels */
+        .nav-dot::before {
+            content: attr(data-label);
+            position: absolute;
+            right: 22px;
+            top: 50%;
+            transform: translateY(-50%) translateX(8px);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ivory);
+            background: var(--ink);
+            padding: 0.35rem 0.8rem;
+            border-radius: 100px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.35s var(--transition);
+        }
+        .nav-dot:hover::before,
+        .nav-dot:focus-visible::before {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
         }
         .nav-dot.active {
             background: var(--bronze);
@@ -198,6 +245,11 @@
             border-radius: 100px;
             border: 1px solid var(--border-warm);
             box-shadow: var(--shadow);
+            transition: all 0.4s var(--transition);
+        }
+        .nav-arrows:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: var(--stone-light);
         }
         .nav-arrow {
             width: 36px;
@@ -212,11 +264,19 @@
             font-size: 1rem;
             color: var(--ink);
             transition: all 0.3s var(--transition);
+            font-family: inherit;
         }
         .nav-arrow:hover {
             background: var(--ink);
             color: var(--ivory);
-            transform: scale(1.05) rotate(5deg);
+            transform: scale(1.05);
+        }
+        .nav-arrow:active {
+            transform: scale(0.92);
+        }
+        .nav-arrow.disabled {
+            opacity: 0.25;
+            pointer-events: none;
         }
         .page-indicator {
             font-family: 'Inter', sans-serif;
@@ -227,241 +287,180 @@
             text-align: center;
             font-weight: 400;
         }
+        .page-indicator .current {
+            color: var(--bronze);
+            font-weight: 600;
+        }
 
-        /* --- ENHANCED ANIMATIONS --- */
+        /* --- KEYFRAMES --- */
         @keyframes pageEnter {
             0% {
                 opacity: 0;
-                transform: scale(0.92) rotateX(3deg) rotateY(2deg) perspective(800px);
-                clip-path: inset(0 0 100% 0);
-                filter: blur(10px);
+                transform: scale(0.96);
+                filter: blur(8px);
             }
-            40% {
-                filter: blur(2px);
-                transform: scale(0.98) rotateX(1deg) perspective(800px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotateX(0deg) rotateY(0deg) perspective(800px);
-                clip-path: inset(0 0 0 0);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes pageExit {
-            0% {
-                opacity: 1;
-                transform: scale(1) rotateX(0deg) perspective(800px);
-                clip-path: inset(0 0 0 0);
-                filter: blur(0px);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0.92) rotateX(-3deg) rotateY(-2deg) perspective(800px);
-                clip-path: inset(0 0 100% 0);
-                filter: blur(10px);
-            }
-        }
-
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-12px) rotate(0.5deg);
-            }
-        }
-
-        @keyframes float-reverse {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(12px) rotate(-0.5deg);
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-
-        @keyframes pulse-glow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(184, 148, 29, 0.05);
-            }
-            50% {
-                box-shadow: 0 0 60px rgba(184, 148, 29, 0.2);
-            }
-        }
-
-        @keyframes gradient-shift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-                filter: blur(5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.95);
-                filter: blur(5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-60px) scale(0.92) perspective(600px) rotateY(8deg);
-                filter: blur(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1) perspective(600px) rotateY(0deg);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(60px) scale(0.92) perspective(600px) rotateY(-8deg);
-                filter: blur(4px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1) perspective(600px) rotateY(0deg);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes scaleReveal {
-            from {
-                opacity: 0;
-                transform: scale(0.7) rotate(4deg) perspective(400px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg) perspective(400px);
-            }
-        }
-
-        @keyframes pulse-dot {
-            0%,
             100% {
                 opacity: 1;
                 transform: scale(1);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scale(0.7);
+                filter: blur(0px);
             }
         }
-
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(0.5deg); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px) scale(0.97); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px) scale(0.95); filter: blur(4px); }
+            to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0px); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px) scale(0.95); filter: blur(4px); }
+            to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0px); }
+        }
+        @keyframes scaleReveal {
+            from { opacity: 0; transform: scale(0.7) rotate(3deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
         @keyframes border-glow {
-            0%,
-            100% {
-                border-color: var(--border-warm);
-            }
-            50% {
-                border-color: var(--bronze-light);
-            }
+            0%, 100% { border-color: rgba(45, 106, 79, 0.15); }
+            50% { border-color: rgba(45, 106, 79, 0.45); }
         }
-
         @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.85) rotate(-2deg);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
         }
-
-        @keyframes textReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.98);
-                clip-path: inset(0 0 100% 0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                clip-path: inset(0 0 0 0);
-            }
+        @keyframes lineGrow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+        @keyframes markerPop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.35); }
+            100% { transform: scale(1); }
         }
 
         .spread {
-            animation: pageEnter 1s var(--transition) forwards;
-        }
-        .spread.exit {
-            animation: pageExit 0.7s var(--transition) forwards;
+            animation: pageEnter 0.9s var(--transition) forwards;
         }
 
-        .spread .cover-left,
-        .spread .cover-right {
-            animation: slideUp 1s var(--transition) forwards;
-        }
-
-        .spread .projects-left,
-        .spread .projects-right,
-        .spread .timeline-left,
-        .spread .timeline-right,
-        .spread .skills-left,
-        .spread .skills-right,
-        .spread .closing-left,
-        .spread .closing-right {
-            animation: slideUp 1s var(--transition) forwards;
-        }
-
-        .project-card {
-            animation: slideInLeft 0.8s var(--transition) forwards;
+        /* --- SCROLL-TRIGGERED ENTRANCES (replay every visit) --- */
+        .cover-left > *, .cover-caption,
+        .projects-left .section-header, .projects-right > *,
+        .timeline-left .section-header, .timeline-left .body-text,
+        .skills-left > *,
+        .closing-cta-block > * {
             opacity: 0;
         }
-        .project-card:nth-child(1) {
-            animation-delay: 0.05s;
+        .project-card, .skill-item, .timeline-event, .edu-mini,
+        .stat-block, .detail-item, .skill-tag, .cert-tag {
+            opacity: 0;
         }
-        .project-card:nth-child(2) {
-            animation-delay: 0.13s;
+
+        .spread.in-view .cover-left > * { animation: slideUp 0.9s var(--transition) forwards; }
+        .spread.in-view .cover-left > *:nth-child(1) { animation-delay: 0.05s; }
+        .spread.in-view .cover-left > *:nth-child(2) { animation-delay: 0.2s; }
+        .spread.in-view .cover-caption { animation: slideInRight 0.9s var(--transition) 0.45s forwards; }
+
+        .spread.in-view .projects-left .section-header { animation: slideUp 0.8s var(--transition) forwards; }
+        .spread.in-view .projects-right > * { animation: slideInRight 0.8s var(--transition) forwards; }
+        .spread.in-view .projects-right > *:nth-child(1) { animation-delay: 0.1s; }
+        .spread.in-view .projects-right > *:nth-child(2) { animation-delay: 0.2s; }
+        .spread.in-view .projects-right > *:nth-child(3) { animation-delay: 0.3s; }
+        .spread.in-view .projects-right > *:nth-child(4) { animation-delay: 0.4s; }
+        .spread.in-view .projects-right > *:nth-child(5) { animation-delay: 0.5s; }
+
+        .spread.in-view .timeline-left .section-header,
+        .spread.in-view .timeline-left .body-text { animation: slideUp 0.8s var(--transition) forwards; }
+        .spread.in-view .skills-left > * { animation: slideUp 0.8s var(--transition) forwards; }
+        .spread.in-view .skills-left > *:nth-child(2) { animation-delay: 0.12s; }
+        .spread.in-view .skills-left > *:nth-child(3) { animation-delay: 0.24s; }
+        .spread.in-view .closing-cta-block > * { animation: slideUp 0.8s var(--transition) forwards; }
+        .spread.in-view .closing-cta-block > *:nth-child(2) { animation-delay: 0.1s; }
+        .spread.in-view .closing-cta-block > *:nth-child(3) { animation-delay: 0.22s; }
+        .spread.in-view .closing-cta-block > *:nth-child(4) { animation-delay: 0.34s; }
+        .spread.in-view .closing-cta-block > *:nth-child(5) { animation-delay: 0.46s; }
+
+        .spread.in-view .project-card { animation: slideInLeft 0.8s var(--transition) forwards; }
+        .spread.in-view .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .spread.in-view .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .spread.in-view .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .spread.in-view .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .spread.in-view .skill-item { animation: slideInRight 0.8s var(--transition) forwards; }
+        .spread.in-view .skill-item:nth-child(1) { animation-delay: 0.1s; }
+        .spread.in-view .skill-item:nth-child(2) { animation-delay: 0.22s; }
+        .spread.in-view .skill-item:nth-child(3) { animation-delay: 0.34s; }
+        .spread.in-view .skill-item:nth-child(4) { animation-delay: 0.46s; }
+
+        .spread.in-view .timeline-event { animation: slideInLeft 0.7s var(--transition) forwards; }
+        .spread.in-view .timeline-event:nth-child(1) { animation-delay: 0.1s; }
+        .spread.in-view .timeline-event:nth-child(2) { animation-delay: 0.2s; }
+        .spread.in-view .timeline-event:nth-child(3) { animation-delay: 0.3s; }
+        .spread.in-view .timeline-event:nth-child(4) { animation-delay: 0.4s; }
+
+        .spread.in-view .edu-mini { animation: slideInRight 0.7s var(--transition) forwards; }
+        .spread.in-view .edu-mini:nth-child(2) { animation-delay: 0.12s; }
+        .spread.in-view .edu-mini:nth-child(3) { animation-delay: 0.24s; }
+        .spread.in-view .edu-mini:nth-child(4) { animation-delay: 0.36s; }
+
+        .spread.in-view .stat-block { animation: scaleReveal 0.9s var(--transition) forwards; }
+        .spread.in-view .stat-block:nth-child(1) { animation-delay: 0.5s; }
+        .spread.in-view .stat-block:nth-child(2) { animation-delay: 0.62s; }
+        .spread.in-view .stat-block:nth-child(3) { animation-delay: 0.74s; }
+        .spread.in-view .stat-block:nth-child(4) { animation-delay: 0.86s; }
+
+        .spread.in-view .detail-item { animation: slideUp 0.7s var(--transition) forwards; }
+        .spread.in-view .detail-item:nth-child(1) { animation-delay: 0.5s; }
+        .spread.in-view .detail-item:nth-child(2) { animation-delay: 0.6s; }
+        .spread.in-view .detail-item:nth-child(3) { animation-delay: 0.7s; }
+        .spread.in-view .detail-item:nth-child(4) { animation-delay: 0.8s; }
+
+        .spread.in-view .skill-tag { animation: fadeInScale 0.5s var(--transition) forwards; }
+        .spread.in-view .skill-tag:nth-child(1) { animation-delay: 0.1s; }
+        .spread.in-view .skill-tag:nth-child(2) { animation-delay: 0.16s; }
+        .spread.in-view .skill-tag:nth-child(3) { animation-delay: 0.22s; }
+        .spread.in-view .skill-tag:nth-child(4) { animation-delay: 0.28s; }
+        .spread.in-view .skill-tag:nth-child(5) { animation-delay: 0.34s; }
+        .spread.in-view .skill-tag:nth-child(6) { animation-delay: 0.40s; }
+
+        .spread.in-view .cert-tag { animation: fadeInScale 0.5s var(--transition) forwards; }
+        .spread.in-view .cert-tag:nth-child(1) { animation-delay: 0.4s; }
+        .spread.in-view .cert-tag:nth-child(2) { animation-delay: 0.48s; }
+        .spread.in-view .cert-tag:nth-child(3) { animation-delay: 0.56s; }
+        .spread.in-view .cert-tag:nth-child(4) { animation-delay: 0.64s; }
+
+        /* Timeline spine draws in */
+        .timeline-spine::before {
+            transform-origin: top;
+            transform: scaleY(0);
+            transition: transform 1.2s var(--transition) 0.2s;
         }
-        .project-card:nth-child(3) {
-            animation-delay: 0.21s;
+        .spread.in-view .timeline-spine::before {
+            transform: scaleY(1);
         }
-        .project-card:nth-child(4) {
-            animation-delay: 0.29s;
+        .timeline-spine .timeline-event::before {
+            transform: scale(0);
         }
+        .spread.in-view .timeline-spine .timeline-event::before {
+            animation: markerPop 0.5s var(--transition) forwards;
+        }
+        .spread.in-view .timeline-spine .timeline-event:nth-child(1)::before { animation-delay: 0.3s; }
+        .spread.in-view .timeline-spine .timeline-event:nth-child(2)::before { animation-delay: 0.45s; }
+        .spread.in-view .timeline-spine .timeline-event:nth-child(3)::before { animation-delay: 0.6s; }
+        .spread.in-view .timeline-spine .timeline-event:nth-child(4)::before { animation-delay: 0.75s; }
 
         .project-card .project-image {
             transition: transform 1.2s var(--transition), filter 0.8s var(--transition);
@@ -469,111 +468,6 @@
         .project-card:hover .project-image {
             transform: scale(1.1);
             filter: brightness(0.5) saturate(1.4);
-        }
-
-        .skill-item {
-            animation: slideInRight 0.8s var(--transition) forwards;
-            opacity: 0;
-        }
-        .skill-item:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-        .skill-item:nth-child(2) {
-            animation-delay: 0.13s;
-        }
-        .skill-item:nth-child(3) {
-            animation-delay: 0.21s;
-        }
-        .skill-item:nth-child(4) {
-            animation-delay: 0.29s;
-        }
-
-        .timeline-event {
-            animation: slideInLeft 0.7s var(--transition) forwards;
-            opacity: 0;
-        }
-        .timeline-event:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-        .timeline-event:nth-child(2) {
-            animation-delay: 0.10s;
-        }
-        .timeline-event:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-        .timeline-event:nth-child(4) {
-            animation-delay: 0.20s;
-        }
-
-        .edu-mini {
-            animation: slideInRight 0.7s var(--transition) forwards;
-            opacity: 0;
-        }
-        .edu-mini:nth-child(1) {
-            animation-delay: 0.08s;
-        }
-        .edu-mini:nth-child(2) {
-            animation-delay: 0.16s;
-        }
-        .edu-mini:nth-child(3) {
-            animation-delay: 0.24s;
-        }
-
-        .stat-block {
-            animation: scaleReveal 0.9s var(--transition) forwards;
-            opacity: 0;
-        }
-        .stat-block:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-        .stat-block:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .stat-block:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-        .stat-block:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .detail-item {
-            animation: slideUp 0.7s var(--transition) forwards;
-            opacity: 0;
-        }
-        .detail-item:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-        .detail-item:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .detail-item:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-        .detail-item:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .skill-tag {
-            animation: fadeInScale 0.5s var(--transition) forwards;
-            opacity: 0;
-        }
-        .skill-tag:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-        .skill-tag:nth-child(2) {
-            animation-delay: 0.10s;
-        }
-        .skill-tag:nth-child(3) {
-            animation-delay: 0.15s;
-        }
-        .skill-tag:nth-child(4) {
-            animation-delay: 0.20s;
-        }
-        .skill-tag:nth-child(5) {
-            animation-delay: 0.25s;
-        }
-        .skill-tag:nth-child(6) {
-            animation-delay: 0.30s;
         }
 
         /* --- COVER --- */
@@ -589,20 +483,36 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            padding-bottom: 1rem;
+            position: relative;
+        }
+        .cover-masthead::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, var(--bronze), transparent);
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        .spread.in-view .cover-masthead::after {
+            animation: lineGrow 1.2s var(--transition) 0.5s forwards;
         }
         .masthead-logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.7rem;
-            letter-spacing: 0.35em;
+            font-size: 1.05rem;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--bronze);
-            font-weight: 500;
+            font-weight: 600;
         }
         .masthead-date {
             font-family: 'Inter', sans-serif;
-            font-size: 0.55rem;
+            font-size: 0.8rem;
             letter-spacing: 0.2em;
-            color: var(--stone);
+            color: var(--ink-soft);
         }
         .cover-title-block {
             margin-top: auto;
@@ -611,7 +521,7 @@
         }
         .cover-issue {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--oxblood);
@@ -663,15 +573,14 @@
             background: var(--ink);
         }
         .cover-image {
-            width: 100%;
-            height: 100%;
+            width: 106%;
+            height: 106%;
+            margin: -3%;
             object-fit: cover;
             opacity: 0.75;
             filter: sepia(12%) contrast(1.1);
-            transition: transform 1.8s var(--transition);
-        }
-        .cover-right:hover .cover-image {
-            transform: scale(1.06);
+            transition: transform 0.6s ease-out;
+            will-change: transform;
         }
         .cover-image-overlay {
             position: absolute;
@@ -705,12 +614,12 @@
             align-items: center;
             gap: 0.5rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             color: var(--green);
             font-weight: 500;
             margin-bottom: 1.5rem;
             letter-spacing: 0.05em;
-            padding: 0.3rem 0.9rem;
+            padding: 0.35rem 1rem;
             border-radius: 100px;
             background: rgba(45, 106, 79, 0.08);
             border: 1px solid rgba(45, 106, 79, 0.15);
@@ -762,7 +671,7 @@
             overflow: hidden;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.6s var(--transition);
+            transition: transform 0.6s var(--transition), box-shadow 0.6s var(--transition);
             min-height: 200px;
             display: flex;
             flex-direction: column;
@@ -770,7 +679,6 @@
             padding: 1.2rem 1.2rem 1.2rem 1.5rem;
             text-decoration: none;
             background: var(--ink);
-            opacity: 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
         .project-card::before {
@@ -791,7 +699,6 @@
             height: 100%;
             object-fit: cover;
             z-index: 0;
-            transition: transform 0.8s var(--transition);
         }
         .project-card>* {
             position: relative;
@@ -803,7 +710,7 @@
         }
         .project-card-tag {
             font-family: 'Inter', sans-serif;
-            font-size: 0.45rem;
+            font-size: 0.5rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--bronze-light);
@@ -820,11 +727,20 @@
         }
         .project-card-desc {
             font-family: 'Inter', sans-serif;
-            font-size: 0.55rem;
-            color: rgba(250, 248, 243, 0.6);
+            font-size: 0.58rem;
+            color: rgba(250, 248, 243, 0.65);
             margin-top: 0.2rem;
             line-height: 1.6;
             font-weight: 300;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s var(--transition), opacity 0.5s var(--transition), margin-top 0.5s;
+        }
+        .project-card:hover .project-card-desc {
+            max-height: 140px;
+            opacity: 1;
+            margin-top: 0.4rem;
         }
         .project-card .card-icon {
             position: absolute;
@@ -867,22 +783,21 @@
         .stat-block {
             display: flex;
             flex-direction: column;
-            opacity: 0;
         }
         .stat-number {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 300;
+            font-size: 1.7rem;
+            font-weight: 400;
             color: var(--ink);
             line-height: 1;
         }
         .stat-label {
             font-family: 'Inter', sans-serif;
-            font-size: 0.45rem;
+            font-size: 0.5rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--stone);
-            margin-top: 0.2rem;
+            margin-top: 0.25rem;
         }
 
         /* --- TIMELINE --- */
@@ -911,10 +826,6 @@
             height: 100%;
             object-fit: cover;
             filter: grayscale(100%) sepia(30%);
-            transition: transform 2.5s var(--transition);
-        }
-        .timeline-right:hover .timeline-visual img {
-            transform: scale(1.05);
         }
         .timeline-track {
             display: flex;
@@ -941,10 +852,9 @@
             position: relative;
             transition: all 0.4s;
             padding-left: 0.5rem;
-            opacity: 0;
         }
         .timeline-event:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             margin: 0 -0.5rem;
             padding-left: 1rem;
             padding-right: 0.5rem;
@@ -962,11 +872,11 @@
         }
         .timeline-era-label {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--stone);
-            margin-top: 0.2rem;
+            margin-top: 0.25rem;
         }
         .timeline-desc {
             font-size: 0.82rem;
@@ -1003,10 +913,8 @@
             border-radius: 50%;
             border: 2px solid var(--ivory);
             box-shadow: 0 0 0 3px var(--parchment);
-            transition: all 0.4s;
         }
         .timeline-spine .timeline-event:hover::before {
-            transform: scale(1.3);
             background: var(--bronze-light);
             box-shadow: 0 0 0 6px rgba(184, 148, 29, 0.15);
         }
@@ -1019,12 +927,12 @@
             margin-bottom: 0.6rem;
             border: 1px solid var(--border-warm);
             transition: all 0.4s;
-            opacity: 0;
         }
         .edu-mini:hover {
             background: rgba(255, 255, 255, 0.95);
             transform: translateX(8px) scale(1.01);
             box-shadow: var(--shadow);
+            border-color: var(--bronze-light);
         }
         .edu-mini-school {
             font-family: 'Cormorant Garamond', serif;
@@ -1034,17 +942,17 @@
         }
         .edu-mini-degree {
             font-family: 'Inter', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.62rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--stone);
-            margin-top: 0.1rem;
+            color: var(--ink-soft);
+            margin-top: 0.15rem;
         }
         .edu-mini-year {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.58rem;
             color: var(--bronze);
-            margin-top: 0.1rem;
+            margin-top: 0.15rem;
         }
         .cert-tags {
             display: flex;
@@ -1054,13 +962,20 @@
         }
         .cert-tag {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
-            padding: 0.2rem 0.7rem;
-            border: 1px solid var(--border-warm);
+            font-size: 0.72rem;
+            padding: 0.35rem 0.95rem;
+            border: 1px solid var(--stone-light);
             border-radius: 100px;
-            color: var(--ink-soft);
-            background: rgba(255, 255, 255, 0.5);
-            font-weight: 300;
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            transition: all 0.35s var(--transition);
+        }
+        .cert-tag:hover {
+            border-color: var(--bronze);
+            color: var(--bronze);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 148, 29, 0.12);
         }
 
         /* --- SKILLS --- */
@@ -1103,12 +1018,11 @@
         }
         .skill-category-title {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--bronze);
             margin-bottom: 0.5rem;
-            opacity: 0.8;
         }
         .skill-tags {
             display: flex;
@@ -1117,15 +1031,14 @@
         }
         .skill-tag {
             font-family: 'Inter', sans-serif;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             padding: 0.3rem 0.9rem;
             border: 1px solid var(--border-warm);
             border-radius: 100px;
             color: var(--ink-soft);
             transition: all 0.4s var(--transition);
-            font-weight: 300;
+            font-weight: 400;
             background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
         }
         .skill-tag:hover {
             border-color: var(--bronze);
@@ -1154,11 +1067,10 @@
             padding: 0.8rem 0;
             border-bottom: 1px solid var(--border-warm);
             transition: all 0.4s;
-            opacity: 0;
         }
         .skill-item:hover {
             padding-left: 0.8rem;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.4);
             margin: 0 -0.5rem;
             padding-right: 0.5rem;
             border-radius: 4px;
@@ -1189,16 +1101,16 @@
         }
         .skill-info h4 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             color: var(--ink);
-            margin-bottom: 0.1rem;
+            margin-bottom: 0.15rem;
         }
         .skill-info p {
             font-family: 'Inter', sans-serif;
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             color: var(--ink-soft);
-            line-height: 1.6;
+            line-height: 1.65;
             font-weight: 300;
         }
 
@@ -1278,6 +1190,21 @@
             cursor: pointer;
             border: none;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transition: left 0.6s var(--transition);
+        }
+        .cta-btn:hover::after {
+            left: 130%;
         }
         .cta-btn-primary {
             background: var(--ink);
@@ -1311,11 +1238,10 @@
             display: flex;
             flex-direction: column;
             gap: 0.2rem;
-            opacity: 0;
         }
         .detail-label {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--stone);
@@ -1338,7 +1264,7 @@
         }
         .closing-caption {
             position: absolute;
-            bottom: 2.5rem;
+            bottom: 7rem;
             left: 2.5rem;
             right: 2.5rem;
             z-index: 5;
@@ -1352,11 +1278,27 @@
         }
         .closing-caption .caption-credit {
             font-family: 'Inter', sans-serif;
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: rgba(250, 248, 243, 0.3);
+            color: rgba(250, 248, 243, 0.4);
             margin-top: 0.4rem;
+        }
+
+        /* --- REDUCED MOTION --- */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .cover-left > *, .cover-caption, .projects-left .section-header,
+            .projects-right > *, .timeline-left .section-header, .timeline-left .body-text,
+            .skills-left > *, .closing-cta-block > *, .project-card, .skill-item,
+            .timeline-event, .edu-mini, .stat-block, .detail-item, .skill-tag, .cert-tag {
+                opacity: 1 !important;
+            }
         }
 
         /* --- RESPONSIVE --- */
@@ -1376,7 +1318,7 @@
                 height: auto;
                 overflow-x: hidden;
                 overflow-y: auto;
-                scroll-snap-type: y mandatory;
+                scroll-snap-type: y proximity;
             }
             .cover-right {
                 min-height: 50vh;
@@ -1390,6 +1332,9 @@
             .closing-right {
                 min-height: 40vh;
             }
+            .closing-caption {
+                bottom: 2.5rem;
+            }
             .project-grid {
                 grid-template-columns: 1fr 1fr;
             }
@@ -1400,6 +1345,9 @@
                 display: none;
             }
             .page-num {
+                display: none;
+            }
+            .progress-bar {
                 display: none;
             }
             .cover-left,
@@ -1433,6 +1381,11 @@
                 border-right: none;
                 border-bottom: 1px solid var(--border-warm);
             }
+            .project-card-desc {
+                max-height: none;
+                opacity: 1;
+                margin-top: 0.4rem;
+            }
         }
         @media (max-width: 600px) {
             .project-grid {
@@ -1465,26 +1418,27 @@
 </head>
 <body>
 
+    <div class="progress-bar" id="progressBar"></div>
+
     <!-- Navigation -->
-    <div class="nav-dots">
-        <div class="nav-dot active" data-index="0"></div>
-        <div class="nav-dot" data-index="1"></div>
-        <div class="nav-dot" data-index="2"></div>
-        <div class="nav-dot" data-index="3"></div>
-        <div class="nav-dot" data-index="4"></div>
+    <div class="nav-dots" role="navigation" aria-label="Page navigation">
+        <div class="nav-dot active" data-index="0" data-label="Cover" tabindex="0" role="button" aria-label="Go to Cover"></div>
+        <div class="nav-dot" data-index="1" data-label="Projects" tabindex="0" role="button" aria-label="Go to Projects"></div>
+        <div class="nav-dot" data-index="2" data-label="Timeline" tabindex="0" role="button" aria-label="Go to Timeline"></div>
+        <div class="nav-dot" data-index="3" data-label="Skills" tabindex="0" role="button" aria-label="Go to Skills"></div>
+        <div class="nav-dot" data-index="4" data-label="Contact" tabindex="0" role="button" aria-label="Go to Contact"></div>
     </div>
 
     <div class="nav-arrows">
-        <div class="nav-arrow" id="prevArrow">←</div>
-        <div class="page-indicator"><span id="currentPage">01</span> / 05</div>
-        <div class="nav-arrow" id="nextArrow">→</div>
+        <button class="nav-arrow" id="prevArrow" aria-label="Previous page">←</button>
+        <div class="page-indicator"><span class="current" id="currentPage">01</span> / 05</div>
+        <button class="nav-arrow" id="nextArrow" aria-label="Next page">→</button>
     </div>
 
     <div class="magazine-track" id="magazineTrack">
 
         <!-- SPREAD 1: COVER -->
-        <div class="spread" data-index="0">
-            <div class="page-num left">Vol. I</div>
+        <div class="spread in-view" data-index="0">
             <div class="cover-left">
                 <div class="cover-masthead">
                     <span class="masthead-logo">Deepak Prajapati</span>
@@ -1500,12 +1454,9 @@
                     <p class="cover-subtitle">Turning raw data into intelligence. Building LLM applications, agentic RAG systems, and end-to-end analytics stacks.</p>
                     <div class="cover-byline">MSc Big Data &amp; AI · Montpellier Business School</div>
                 </div>
-                <div style="margin-top: auto;">
-                    <span class="label-text">Scroll or use arrows to turn pages →</span>
-                </div>
             </div>
-            <div class="cover-right">
-                <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&q=80" alt="Data & AI" class="cover-image" />
+            <div class="cover-right" id="coverRight">
+                <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&q=80" alt="Data & AI" class="cover-image" id="coverImage" />
                 <div class="cover-image-overlay"></div>
                 <div class="cover-caption">
                     <div class="cover-caption-title">Intelligent Systems</div>
@@ -1557,29 +1508,29 @@
             <div class="projects-right">
                 <div class="project-quote">“I design clean workflows, build scalable data systems, and turn complex datasets into business-ready intelligence.”</div>
                 <p class="project-body">
-                    Data &amp; analytics engineer with an <strong>MSc in Big Data &amp; AI</strong> and <strong>4+ years</strong> across data quality, KPI governance, and analytics at Numerator. I now channel that expertise into Python-based modelling, SQL pipelines, n8n automation, and LLM development.
+                    Analytics engineer with an <strong>MSc in Big Data &amp; AI</strong> and <strong>4+ years</strong> spanning data quality, KPI governance, and analytics — including leading QC analyst teams at Numerator at 95%+ SLA.
                 </p>
                 <p class="project-body">
-                    At TravelJuice I built the analytics stack in BigQuery — funnel models, GA4/GTM tracking, and dashboards marketing and product rely on — and I build LLM applications on the side (agentic RAG, evaluation-driven).
+                    At TravelJuice I own the analytics stack end-to-end: <strong>BigQuery mart models</strong> for the full funnel (search, conversion, checkout, loyalty, product performance), rebuilt <strong>GA4/GTM tracking</strong> with custom dimensions and server-side tagging, closed an <strong>82% Meta Ads vs GA4 attribution gap</strong> via Consent Mode V2, and cut BigQuery costs <strong>70%</strong> through partitioning and query optimization — all surfaced in Looker Studio dashboards that marketing and product run on daily.
                 </p>
                 <p class="project-body">
-                    I hold a Major in <strong>Artificial Intelligence from IIT Ropar</strong>, certifications in Six Sigma and Microsoft PL-300, and speak English, Hindi, and French.
+                    On the AI side I build <strong>evaluation-driven LLM applications</strong>: an agentic RAG assistant tuned with RAGAS (faithfulness <strong>0.60 → 0.92</strong>) and a custom LLM eval harness. Certified in Microsoft PL-300 and Six Sigma; fluent in English and Hindi, working proficiency in French.
                 </p>
                 <div class="project-stats">
                     <div class="stat-block">
-                        <span class="stat-number">4+</span>
+                        <span class="stat-number" data-target="4" data-suffix="+">4+</span>
                         <span class="stat-label">Years Exp</span>
                     </div>
                     <div class="stat-block">
-                        <span class="stat-number">4</span>
+                        <span class="stat-number" data-target="4" data-suffix="">4</span>
                         <span class="stat-label">Featured Projects</span>
                     </div>
                     <div class="stat-block">
-                        <span class="stat-number">82%</span>
+                        <span class="stat-number" data-target="82" data-suffix="%">82%</span>
                         <span class="stat-label">Attribution Gap Closed</span>
                     </div>
                     <div class="stat-block">
-                        <span class="stat-number">70%</span>
+                        <span class="stat-number" data-target="70" data-suffix="%">70%</span>
                         <span class="stat-label">Cost Optimization</span>
                     </div>
                 </div>
@@ -1642,7 +1593,7 @@
                     <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Data Visualization" />
                 </div>
                 <div style="position: relative; z-index: 2;">
-                    <div class="label-text" style="margin-bottom: 0.8rem; color: var(--bronze);">Education</div>
+                    <div class="label-text" style="margin-bottom: 0.8rem; color: var(--bronze); font-size: 0.75rem;">Education</div>
                     <div class="edu-mini">
                         <div class="edu-mini-school">Montpellier Business School</div>
                         <div class="edu-mini-degree">MSc — Big Data &amp; Artificial Intelligence</div>
@@ -1659,7 +1610,7 @@
                         <div class="edu-mini-year">2017–2020 · India</div>
                     </div>
                     <div style="margin-top: 1.2rem;">
-                        <div class="label-text" style="color: var(--bronze); margin-bottom: 0.5rem;">Certifications</div>
+                        <div class="label-text" style="color: var(--bronze); margin-bottom: 0.5rem; font-size: 0.75rem;">Certifications</div>
                         <div class="cert-tags">
                             <span class="cert-tag">Microsoft PL-300</span>
                             <span class="cert-tag">Six Sigma Yellow Belt</span>
@@ -1811,7 +1762,7 @@
                 </div>
             </div>
             <div class="closing-right">
-                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80" alt="Technology & Innovation" />
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80" alt="Analytics & Data Intelligence" />
                 <div class="overlay-gradient"></div>
                 <div class="closing-caption">
                     <p>“Turning raw data into intelligence, one model at a time.”</p>
@@ -1830,93 +1781,144 @@
             const prevArrow = document.getElementById('prevArrow');
             const nextArrow = document.getElementById('nextArrow');
             const currentPageEl = document.getElementById('currentPage');
+            const progressBar = document.getElementById('progressBar');
             const spreads = document.querySelectorAll('.spread');
             const totalPages = spreads.length;
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let currentIndex = 0;
-            let isAnimating = false;
 
             function goToPage(index) {
-                if (isAnimating) return;
                 index = Math.max(0, Math.min(index, totalPages - 1));
                 if (index === currentIndex) return;
-
-                const currentSpread = spreads[currentIndex];
-                if (currentSpread) {
-                    isAnimating = true;
-                    currentSpread.classList.add('exit');
-                    setTimeout(() => {
-                        currentSpread.classList.remove('exit');
-                        currentIndex = index;
-                        const targetSpread = spreads[index];
-                        if (targetSpread) {
-                            targetSpread.scrollIntoView({ behavior: 'smooth', inline: 'start',
-                                block: 'nearest' });
-                            targetSpread.style.animation = 'none';
-                            requestAnimationFrame(() => {
-                                targetSpread.style.animation = '';
-                            });
-                        }
-                        updateUI(index);
-                        setTimeout(() => { isAnimating = false; }, 800);
-                    }, 700);
-                } else {
-                    currentIndex = index;
-                    const targetSpread = spreads[index];
-                    if (targetSpread) {
-                        targetSpread.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-                    }
-                    updateUI(index);
+                currentIndex = index;
+                const targetSpread = spreads[index];
+                if (targetSpread) {
+                    targetSpread.scrollIntoView({
+                        behavior: reducedMotion ? 'auto' : 'smooth',
+                        inline: 'start',
+                        block: 'nearest'
+                    });
                 }
+                updateUI(index);
             }
 
             function updateUI(index) {
                 dots.forEach((d, i) => d.classList.toggle('active', i === index));
                 currentPageEl.textContent = String(index + 1).padStart(2, '0');
+                progressBar.style.width = ((index + 1) / totalPages * 100) + '%';
+                prevArrow.classList.toggle('disabled', index === 0);
+                nextArrow.classList.toggle('disabled', index === totalPages - 1);
             }
 
+            /* --- Scroll-triggered entrance animations (replay on every visit) --- */
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        if (entry.target.dataset.index === '1') runCountUp(entry.target);
+                    } else {
+                        entry.target.classList.remove('in-view');
+                    }
+                });
+            }, { root: null, threshold: 0.45 });
+            spreads.forEach((s) => observer.observe(s));
+
+            /* --- Count-up stats --- */
+            function runCountUp(spread) {
+                if (reducedMotion) return;
+                spread.querySelectorAll('.stat-number').forEach((el) => {
+                    const target = parseInt(el.dataset.target, 10);
+                    const suffix = el.dataset.suffix || '';
+                    if (isNaN(target)) return;
+                    const duration = 1400;
+                    const start = performance.now();
+                    function tick(now) {
+                        const p = Math.min((now - start) / duration, 1);
+                        const eased = 1 - Math.pow(1 - p, 3);
+                        el.textContent = Math.round(eased * target) + suffix;
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+            }
+
+            /* --- Cover image parallax --- */
+            const coverRight = document.getElementById('coverRight');
+            const coverImage = document.getElementById('coverImage');
+            if (coverRight && coverImage && !reducedMotion && matchMedia('(pointer: fine)').matches) {
+                coverRight.addEventListener('mousemove', (e) => {
+                    const rect = coverRight.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
+                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 14;
+                    coverImage.style.transform = 'translate(' + (-x) + 'px, ' + (-y) + 'px) scale(1.03)';
+                });
+                coverRight.addEventListener('mouseleave', () => {
+                    coverImage.style.transform = 'translate(0, 0) scale(1)';
+                });
+            }
+
+            /* --- Controls --- */
             prevArrow.addEventListener('click', () => goToPage(currentIndex - 1));
             nextArrow.addEventListener('click', () => goToPage(currentIndex + 1));
 
             dots.forEach((dot, i) => {
                 dot.addEventListener('click', () => goToPage(i));
+                dot.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        goToPage(i);
+                    }
+                });
             });
 
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') {
                     e.preventDefault();
                     goToPage(currentIndex + 1);
-                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
                     e.preventDefault();
                     goToPage(currentIndex - 1);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    goToPage(0);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    goToPage(totalPages - 1);
                 }
             });
 
+            /* Sync UI when user scrolls/swipes directly */
+            let scrollTimer;
             track.addEventListener('scroll', () => {
-                const scrollLeft = track.scrollLeft;
-                const pageWidth = window.innerWidth;
-                const newIndex = Math.round(scrollLeft / pageWidth);
-                if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalPages && !isAnimating) {
-                    currentIndex = newIndex;
-                    updateUI(currentIndex);
-                    spreads.forEach((s, i) => {
-                        if (i === currentIndex) s.classList.remove('exit');
-                    });
-                }
-            });
+                clearTimeout(scrollTimer);
+                scrollTimer = setTimeout(() => {
+                    const isVertical = window.innerWidth <= 900;
+                    const pos = isVertical ? track.scrollTop : track.scrollLeft;
+                    const size = isVertical ? window.innerHeight : window.innerWidth;
+                    const newIndex = Math.round(pos / size);
+                    if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalPages) {
+                        currentIndex = newIndex;
+                        updateUI(currentIndex);
+                    }
+                }, 80);
+            }, { passive: true });
 
+            /* Touch swipe (horizontal, desktop-mode) */
             let touchStartX = 0;
             track.addEventListener('touchstart', (e) => {
                 touchStartX = e.changedTouches[0].screenX;
             }, { passive: true });
-
             track.addEventListener('touchend', (e) => {
+                if (window.innerWidth <= 900) return;
                 const diff = touchStartX - e.changedTouches[0].screenX;
                 if (Math.abs(diff) > 40) {
                     goToPage(currentIndex + (diff > 0 ? 1 : -1));
                 }
             }, { passive: true });
 
+            /* Vertical wheel turns pages on desktop */
             track.addEventListener('wheel', (e) => {
+                if (window.innerWidth <= 900) return;
                 if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
                 e.preventDefault();
                 track.scrollLeft += e.deltaY;
