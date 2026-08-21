@@ -3,13 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+<!-- Hardening. NOTE: X-Frame-Options, HSTS, X-Content-Type-Options and
+     CSP frame-ancestors are response headers -- a static GitHub Pages site
+     cannot set them. Everything expressible in markup is set below. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; connect-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; upgrade-insecure-requests" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="color-scheme" content="light" />
 <meta name="theme-color" content="#f6f3ec" />
 <title>Deepak Prajapati · Analytics Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
 <style>
 /* ============================================================
    TOKENS — light only
@@ -73,10 +79,15 @@ img{max-width:100%;display:block}
    TYPE ROLES
    ============================================================ */
 .display{
-  font-family:var(--display);font-weight:380;font-optical-sizing:auto;
-  letter-spacing:-.025em;line-height:1;
+  font-family:var(--display);font-weight:420;font-optical-sizing:auto;
+  font-variation-settings:'SOFT' 32,'WONK' 1;
+  letter-spacing:-.035em;line-height:.98;
 }
-.display em{font-style:italic;font-weight:340}
+.display em{
+  font-style:italic;font-weight:360;
+  font-variation-settings:'SOFT' 60,'WONK' 1;
+  letter-spacing:-.02em;
+}
 .eyebrow{
   font-family:var(--mono);font-size:.62rem;font-weight:500;
   letter-spacing:.22em;text-transform:uppercase;color:var(--brass);
@@ -262,7 +273,7 @@ img{max-width:100%;display:block}
 }
 .kicker::before,.kicker::after{content:'';width:28px;height:1px;background:var(--oxide);opacity:.6}
 
-h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1rem;color:var(--ink)}
+h1.hero-title{font-size:clamp(2.1rem,5.7vw,4.9rem);max-width:15ch;margin-bottom:1rem;color:var(--ink);text-wrap:balance}
 /* headline rises line by line from behind a mask */
 .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
 .hero-title .line-i{display:block}
@@ -289,10 +300,12 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 
 .hero-sub{
-  font-family:var(--display);font-style:italic;font-weight:340;
-  font-size:clamp(.95rem,1.5vw,1.2rem);line-height:1.6;
-  color:var(--ink-2);max-width:56ch;margin-bottom:1.5rem;
+  font-family:var(--display);font-style:normal;font-weight:400;
+  font-variation-settings:'SOFT' 45,'WONK' 0;
+  font-size:clamp(1rem,1.58vw,1.26rem);line-height:1.58;letter-spacing:-.011em;
+  color:var(--ink-2);max-width:54ch;margin-bottom:1.5rem;text-wrap:pretty;
 }
+.hero-sub strong{font-variation-settings:'SOFT' 45,'WONK' 1}
 .hero-sub strong{
   color:var(--ink);font-weight:600;font-style:normal;
   font-family:var(--sans);font-size:.9em;
@@ -403,8 +416,9 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   letter-spacing:.17em;text-transform:uppercase;color:var(--oxide);margin-bottom:.22rem;
 }
 .card h3{
-  font-family:var(--display);font-weight:500;font-size:1.05rem;line-height:1.2;
-  color:var(--ink);letter-spacing:-.01em;
+  font-family:var(--display);font-weight:520;font-size:1.08rem;line-height:1.18;
+  font-variation-settings:'SOFT' 30,'WONK' 1;
+  color:var(--ink);letter-spacing:-.022em;
 }
 .card p{font-size:.66rem;line-height:1.6;color:var(--ink-2);margin-top:.3rem}
 .card .acts{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
@@ -456,7 +470,8 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 }
 
 .pull{
-  font-family:var(--display);font-style:italic;font-weight:340;
+  font-family:var(--display);font-style:italic;font-weight:370;
+  font-variation-settings:'SOFT' 60,'WONK' 1;
   font-size:clamp(1rem,1.7vw,1.28rem);line-height:1.55;color:var(--ink);
   padding-left:1.2rem;border-left:2px solid var(--brass-hi);margin-bottom:1rem;
 }
@@ -495,7 +510,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 .col-photo .inner{position:relative;z-index:2}
 
 .spine{
-  position:relative;padding-left:1.85rem;margin-top:.25rem;
+  position:relative;padding-left:2.95rem;margin-top:.25rem;
   flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
   scrollbar-width:thin;scrollbar-color:var(--brass-hi) transparent;
 }
@@ -503,7 +518,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 .spine::-webkit-scrollbar-thumb{background:var(--brass-hi);border-radius:3px}
 .spine::-webkit-scrollbar-track{background:transparent}
 .spine::after{
-  content:'';position:absolute;left:.4rem;top:.5rem;bottom:.5rem;width:1px;
+  content:'';position:absolute;left:1.05rem;top:.5rem;bottom:.5rem;width:1px;
   background:linear-gradient(180deg,var(--brass),transparent);
   transform:scaleY(0);transform-origin:top;transition:transform 1.25s var(--ease) .15s;
 }
@@ -518,9 +533,44 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 .node:last-child{border-bottom:0}
 .node:hover{background:rgba(255,253,248,.75);padding-left:.8rem}
 .node::before{
-  content:'';position:absolute;left:-1.66rem;top:1.2rem;width:7px;height:7px;border-radius:50%;
+  content:'';position:absolute;left:-2.09rem;top:1.2rem;width:7px;height:7px;border-radius:50%;
   background:var(--brass);box-shadow:0 0 0 3px var(--paper-2);
   transform:scale(0);transition:transform .5s var(--ease),box-shadow var(--t) var(--ease-soft);
+}
+/* nodes carrying a company mark don't need the plain dot */
+.node:has(.mark)::before{display:none}
+
+/* ---- company marks on the spine ---- */
+.node .mark{
+  position:absolute;left:-2.63rem;top:.92rem;
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:var(--paper-3);border:1px solid var(--line);
+  box-shadow:0 0 0 3px var(--paper-2),0 2px 8px rgba(22,25,31,.09);
+  transform:scale(0);opacity:0;
+  transition:transform .55s var(--ease),opacity .4s var(--ease-soft),
+             border-color var(--t) var(--ease-soft),box-shadow var(--t) var(--ease);
+}
+.is-live .node .mark{transform:scale(1);opacity:1}
+.is-live .node:nth-child(1) .mark{transition-delay:.35s}
+.is-live .node:nth-child(2) .mark{transition-delay:.5s}
+.is-live .node:nth-child(3) .mark{transition-delay:.65s}
+.is-live .node:nth-child(4) .mark{transition-delay:.8s}
+.node:hover .mark{
+  border-color:var(--brass);
+  box-shadow:0 0 0 4px rgba(140,47,42,.1),0 6px 16px rgba(22,25,31,.14);
+  transform:scale(1.12) rotate(-4deg);
+}
+.node .mark img{width:100%;height:100%;object-fit:contain;padding:3px;display:block}
+/* monogram shown until a real logo file is dropped into images/ */
+.node .mark b{
+  display:none;font-family:var(--mono);font-size:.5rem;font-weight:600;
+  letter-spacing:.02em;color:var(--oxide);
+}
+.node .mark.no-img img{display:none}
+.node .mark.no-img b{display:block}
+@media (prefers-reduced-motion:reduce){
+  .node .mark{transform:none!important;opacity:1!important;transition:none!important}
 }
 .is-live .node::before{transform:scale(1)}
 .is-live .node:nth-child(1)::before{transition-delay:.35s}
@@ -554,6 +604,36 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   transition:transform var(--t) var(--ease),color var(--t) var(--ease-soft),border-color var(--t) var(--ease-soft);
 }
 .chip:hover{color:var(--oxide);border-color:var(--oxide);transform:translateY(-2px)}
+
+/* a chip that links out: brass accent, an arrow that slides in on hover, and
+   one slow shimmer after reveal so it reads as clickable among plain chips */
+a.chip-link{
+  display:inline-flex;align-items:center;gap:0;text-decoration:none;
+  border-color:var(--brass-hi);color:var(--ink-2);
+  position:relative;overflow:hidden;
+}
+a.chip-link svg{
+  width:0;height:9px;flex:none;opacity:0;margin-left:0;
+  transition:width .3s var(--ease),opacity .3s var(--ease-soft),margin-left .3s var(--ease);
+}
+a.chip-link:hover{
+  color:var(--paper-3);background:var(--oxide);border-color:var(--oxide);
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 8px 18px rgba(140,47,42,.22);
+}
+a.chip-link:hover svg{width:9px;opacity:1;margin-left:.34rem}
+a.chip-link:focus-visible{outline:2px solid var(--oxide);outline-offset:3px}
+a.chip-link::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 38%,rgba(176,141,87,.5) 50%,transparent 62%);
+  transform:translateX(-130%);
+}
+.is-live a.chip-link::after{animation:chipShine 1.5s var(--ease) 1.5s 2}
+@keyframes chipShine{to{transform:translateX(130%)}}
+@media (prefers-reduced-motion:reduce){
+  .is-live a.chip-link::after{animation:none}
+  a.chip-link svg{width:9px;opacity:.7;margin-left:.34rem}
+}
 .sub-label{
   font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--brass);margin-bottom:.65rem;display:block;
@@ -566,7 +646,12 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   display:flex;flex-direction:column;
   padding:var(--pad-y) var(--pad-x) calc(var(--pad-y) + 1.8rem);
 }
-.skills-head{text-align:center;margin-bottom:1.2rem}
+.skills-head{text-align:center;margin-bottom:1.2rem;position:relative}
+/* the fine-tuning curve now carries this role -- rule kept for short screens */
+.skills-head::after{
+  content:'';display:none;width:64px;height:1px;margin:1rem auto 0;
+  background:linear-gradient(90deg,transparent,var(--brass),transparent);
+}
 .skills-head .eyebrow{justify-content:center;margin-bottom:.45rem}
 .skills-head h2{font-size:clamp(1.8rem,3vw,3.1rem)}
 .skills-head p{font-size:.81rem;color:var(--ink-2);max-width:60ch;margin:.55rem auto 0;line-height:1.65}
@@ -576,16 +661,53 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 .tag-row .tag{
   font-family:var(--mono);font-size:.59rem;padding:.32rem .8rem;border-radius:100px;
   border:1px solid var(--line);color:var(--ink-2);background:var(--paper-3);
-  transition:transform var(--t) var(--ease),color var(--t) var(--ease-soft),border-color var(--t) var(--ease-soft);
+  opacity:0;transform:translateY(11px) scale(.93);
+  transition:opacity .5s var(--ease-soft),transform .6s var(--ease),
+             color var(--t) var(--ease-soft),border-color var(--t) var(--ease-soft),
+             box-shadow var(--t) var(--ease);
 }
-.tag-row .tag:hover{color:var(--oxide);border-color:var(--oxide);transform:translateY(-3px)}
+/* staggered entrance: row offset + column offset */
+.tag-row:nth-child(1) .tag{--rd:0ms}
+.tag-row:nth-child(2) .tag{--rd:110ms}
+.tag-row:nth-child(3) .tag{--rd:220ms}
+.tag-row:nth-child(4) .tag{--rd:330ms}
+.tag-row .tag:nth-child(1){--cd:0ms}
+.tag-row .tag:nth-child(2){--cd:42ms}
+.tag-row .tag:nth-child(3){--cd:84ms}
+.tag-row .tag:nth-child(4){--cd:126ms}
+.tag-row .tag:nth-child(5){--cd:168ms}
+.tag-row .tag:nth-child(6){--cd:210ms}
+.tag-row .tag:nth-child(7){--cd:252ms}
+.is-live .tag-row .tag{
+  opacity:1;transform:none;
+  transition-delay:calc(var(--rd,0ms) + var(--cd,0ms) + .28s);
+}
+.tag-row .tag:hover{
+  color:var(--paper-3);border-color:var(--oxide);background:var(--oxide);
+  transform:translateY(-4px) scale(1.04);
+  box-shadow:0 8px 18px rgba(140,47,42,.2);
+  transition-delay:0s;
+}
 
-.prof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;align-content:center;flex:1;min-height:0}
+.prof-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;
+  gap:.9rem;align-content:stretch;flex:1;min-height:0;perspective:1000px;
+}
 .prof{
   background:var(--paper-3);border:1px solid var(--line-2);border-radius:var(--r-lg);
   padding:1.4rem 1.25rem;text-align:center;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;
   transition:transform var(--t-slow) var(--ease),box-shadow var(--t-slow) var(--ease),border-color var(--t) var(--ease-soft);
 }
+/* light sweeps across the tile on hover */
+.prof::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.6) 50%,transparent 66%);
+  transform:translateX(-130%);
+  transition:transform .95s var(--ease);
+}
+.prof:hover::after{transform:translateX(130%)}
+.prof > *{position:relative;z-index:2}
 .prof::before{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,var(--oxide),var(--brass-hi));
@@ -599,7 +721,19 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--brass);background:var(--paper);
   transition:transform var(--t-slow) var(--ease),background var(--t) var(--ease-soft),color var(--t) var(--ease-soft);
 }
-.prof:hover .ic{background:var(--brass);color:var(--paper-3);transform:rotate(-7deg) scale(1.08)}
+@keyframes icFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.is-live .prof .ic{animation:icFloat 4.6s var(--ease-soft) infinite}
+.is-live .prof:nth-child(2) .ic{animation-delay:.35s}
+.is-live .prof:nth-child(3) .ic{animation-delay:.7s}
+.is-live .prof:nth-child(4) .ic{animation-delay:1.05s}
+.is-live .prof:nth-child(5) .ic{animation-delay:1.4s}
+.is-live .prof:nth-child(6) .ic{animation-delay:1.75s}
+/* animation:none releases transform so the hover tilt applies */
+.prof:hover .ic{
+  animation:none;background:var(--brass);color:var(--paper-3);
+  transform:rotate(-7deg) scale(1.14);
+  box-shadow:0 6px 18px rgba(140,47,42,.22);
+}
 .prof h3{font-family:var(--display);font-weight:500;font-size:1.1rem;color:var(--ink);margin-bottom:.22rem}
 .prof p{font-size:.65rem;line-height:1.55;color:var(--ink-2)}
 
@@ -667,7 +801,9 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 .form .btn{width:100%;margin-top:.2rem}
 .form .note{font-family:var(--mono);font-size:.53rem;color:var(--ink-3);text-align:center;margin-top:.5rem}
 
-.caption{position:absolute;bottom:5rem;right:var(--pad-x);z-index:5;text-align:right;max-width:34ch}
+/* bottom:7.6rem keeps the credit line clear of the fixed language switcher,
+   which occupies roughly 3.5rem-5.4rem in the same right-hand column */
+.caption{position:absolute;bottom:6rem;right:var(--pad-x);z-index:5;text-align:right;max-width:34ch}
 .caption p{
   font-family:var(--display);font-style:italic;font-weight:340;font-size:.86rem;
   color:var(--ink-2);line-height:1.5;
@@ -726,6 +862,11 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   h1.hero-title{font-size:clamp(1.9rem,4.2vw,3.3rem)}
   .hero-sub{margin-bottom:1.1rem}
   .prof{padding:1rem .9rem}
+  /* the narrative column is the tallest thing on a short screen -- tighten it
+     so every paragraph stays readable instead of clipping at the fold */
+  .col-alt .prose{font-size:.75rem;line-height:1.62;margin-bottom:.55rem}
+  .col-alt .pull{font-size:.98rem;line-height:1.45}
+  .col-alt .stats{margin-top:.5rem}
 }
 
 /* ---- tablet portrait + phone: unpin the stack, single column ---- */
@@ -795,6 +936,169 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   .hero{min-height:100svh}
   .scroll-hint{display:none}
 }
+/* ============================================================
+   LANGUAGE SWITCHER  (bottom-right, above the scene marker)
+   ============================================================ */
+.lang{
+  position:fixed;z-index:750;
+  right:var(--pad-x);bottom:calc(3.5rem + var(--safe-b));
+  display:flex;align-items:center;gap:.1rem;
+  padding:.26rem;border-radius:100px;
+  background:rgba(255,253,248,.86);border:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 8px 26px rgba(22,25,31,.1);
+  animation:langIn .7s var(--ease) .9s both;
+}
+@keyframes langIn{from{opacity:0;transform:translateY(14px) scale(.94)}to{opacity:1;transform:none}}
+
+/* sliding indicator that glides under the active option */
+.lang::before{
+  content:'';position:absolute;top:.26rem;left:.26rem;
+  width:calc(50% - .26rem);height:calc(100% - .52rem);
+  border-radius:100px;background:var(--ink);
+  transition:transform .42s var(--ease);
+  will-change:transform;
+}
+.lang[data-active="fr"]::before{transform:translateX(100%)}
+
+.lang button{
+  position:relative;z-index:1;
+  display:flex;align-items:center;gap:.38rem;
+  padding:.34rem .62rem;border:0;background:none;cursor:pointer;
+  font-family:var(--mono);font-size:.55rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  border-radius:100px;
+  transition:color .32s var(--ease-soft);
+}
+.lang button[aria-pressed="true"]{color:var(--paper-3)}
+.lang button:hover{color:var(--oxide)}
+.lang button[aria-pressed="true"]:hover{color:var(--paper-3)}
+
+.lang .flag{
+  display:block;width:17px;height:11px;flex:none;border-radius:2px;
+  box-shadow:0 0 0 1px rgba(22,25,31,.14);
+  transition:transform .34s var(--ease);
+}
+.lang button:hover .flag{transform:translateY(-2px) scale(1.12)}
+.lang button[aria-pressed="true"] .flag{transform:scale(1.06)}
+
+/* text swap animation when the language changes */
+@keyframes langSwap{
+  0%{opacity:1;filter:blur(0)}
+  38%{opacity:.12;filter:blur(2.5px)}
+  100%{opacity:1;filter:blur(0)}
+}
+#stack.lang-swapping{animation:langSwap .5s var(--ease-soft) both}
+
+@media (max-width:900px){
+  /* the shared langIn keyframes end at transform:none, which would cancel the
+     centring translate -- so mobile gets its own keyframes that keep it */
+  .lang{
+    right:auto;left:50%;transform:translateX(-50%);
+    bottom:calc(4.4rem + var(--safe-b));
+    animation:langInMobile .7s var(--ease) .9s both;
+  }
+}
+@keyframes langInMobile{
+  from{opacity:0;transform:translateX(-50%) translateY(14px) scale(.94)}
+  to{opacity:1;transform:translateX(-50%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .is-live .prof .ic{animation:none!important}
+  .prof::after{display:none}
+  .tag-row .tag{opacity:1!important;transform:none!important;transition:none!important}
+  .skills-head::after{transform:scaleX(1)!important;transition:none!important}
+  .lang,.lang::before,.lang .flag{animation:none!important;transition:none!important}
+  #stack.lang-swapping{animation:none!important}
+}
+/* ============================================================
+   CAPABILITY MOTIFS
+   Ambient, decorative SVG that says what the work actually is:
+   an agent graph, a fine-tuning curve, an automation loop.
+   All pointer-events:none, all opt out under reduced motion.
+   ============================================================ */
+.motif{position:absolute;pointer-events:none;z-index:0}
+.motif *{vector-effect:non-scaling-stroke}
+
+/* ---- Projects: agent graph. Nodes light up in turn while a packet
+        travels the connecting paths -- "building AI agents". ---- */
+.motif-agents{
+  left:0;right:auto;top:calc(var(--pad-y) + 7.4rem);
+  width:min(20rem,78%);opacity:0;
+  transition:opacity .9s var(--ease-soft) .5s;
+}
+.is-live .motif-agents{opacity:.62}
+.motif-agents .edge{
+  fill:none;stroke:var(--brass-hi);stroke-width:1.1;stroke-linecap:round;
+  stroke-dasharray:3 5;
+}
+.motif-agents .flow{
+  fill:none;stroke:var(--oxide);stroke-width:1.5;stroke-linecap:round;
+  stroke-dasharray:14 210;stroke-dashoffset:224;
+  animation:agentFlow 4.6s linear infinite;
+}
+.motif-agents .flow.f2{animation-delay:1.5s;stroke:var(--brass)}
+.motif-agents .flow.f3{animation-delay:3s}
+@keyframes agentFlow{to{stroke-dashoffset:0}}
+.motif-agents .nd{fill:var(--paper-3);stroke:var(--brass);stroke-width:1.3}
+.motif-agents .core{fill:var(--oxide);opacity:.25;animation:agentPulse 3.4s var(--ease-soft) infinite}
+.motif-agents .nd2 .core{animation-delay:.55s}
+.motif-agents .nd3 .core{animation-delay:1.1s}
+.motif-agents .nd4 .core{animation-delay:1.65s}
+.motif-agents .nd5 .core{animation-delay:2.2s}
+@keyframes agentPulse{0%,100%{opacity:.16;r:2.6}50%{opacity:.8;r:4.4}}
+
+/* ---- Skills: a training loss curve that draws itself and settles,
+        with the epoch ticks stepping along -- "fine-tuning models". ---- */
+.motif-tune{
+  position:relative;display:block;margin:.9rem auto 0;
+  width:190px;height:44px;overflow:visible;
+}
+.motif-tune .axis{stroke:var(--line);stroke-width:1}
+.motif-tune .loss{
+  fill:none;stroke:var(--brass);stroke-width:1.6;stroke-linecap:round;
+  stroke-dasharray:230;stroke-dashoffset:230;
+}
+.is-live .motif-tune .loss{animation:tuneDraw 2.5s var(--ease) .45s forwards}
+@keyframes tuneDraw{to{stroke-dashoffset:0}}
+.motif-tune .head{fill:var(--oxide);opacity:0}
+.is-live .motif-tune .head{animation:tuneHead 2.9s var(--ease) .45s forwards}
+@keyframes tuneHead{0%{opacity:0}20%{opacity:1}100%{opacity:1}}
+.motif-tune .band{fill:var(--brass-hi);opacity:0}
+.is-live .motif-tune .band{animation:tuneBand .9s var(--ease-soft) 2.5s forwards}
+@keyframes tuneBand{to{opacity:.14}}
+.motif-tune .lbl{
+  font-family:var(--mono);font-size:5.6px;letter-spacing:.12em;
+  fill:var(--ink-3);text-transform:uppercase;opacity:0;
+}
+.is-live .motif-tune .lbl{animation:tuneBand .7s var(--ease-soft) 2.7s forwards}
+
+/* ---- Hero: an automation loop joining the existing doodles ---- */
+.doodle-loop{
+  right:6.5%;bottom:16%;width:74px;opacity:.5;
+}
+.doodle-loop .ring{
+  fill:none;stroke:var(--brass-hi);stroke-width:2.1;stroke-linecap:round;
+  stroke-dasharray:96 34;transform-origin:50% 50%;
+  animation:loopSpin 9s linear infinite;
+}
+.doodle-loop .ring2{
+  stroke:var(--brass);stroke-dasharray:40 90;
+  animation:loopSpin 6s linear infinite reverse;
+}
+.doodle-loop .cog{fill:var(--oxide);opacity:.6;animation:agentPulse 3s var(--ease-soft) infinite}
+@keyframes loopSpin{to{transform:rotate(360deg)}}
+
+/* the agent graph needs real vertical room -- only show it where it exists */
+@media (max-height:880px),(max-width:1100px){.motif-agents{display:none}}
+@media (max-width:900px){.doodle-loop{display:none}}
+
+@media (prefers-reduced-motion:reduce){
+  .motif-agents .flow,.motif-agents .core,
+  .doodle-loop .ring,.doodle-loop .cog{animation:none!important}
+  .motif-tune .loss{stroke-dashoffset:0!important;animation:none!important}
+  .motif-tune .head,.motif-tune .band,.motif-tune .lbl{opacity:.6!important;animation:none!important}
+}
 </style>
 <noscript><style>
 [data-r]{opacity:1!important;transform:none!important}
@@ -822,6 +1126,33 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   <button id="next" aria-label="Next section"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
 </div>
 
+<div class="lang" id="lang" data-active="en" role="group" aria-label="Language / Langue">
+  <button type="button" data-lang="en" aria-pressed="true" title="English">
+    <svg class="flag" viewBox="0 0 60 30" aria-hidden="true">
+      <clipPath id="flagGB"><rect width="60" height="30" rx="3"/></clipPath>
+      <g clip-path="url(#flagGB)">
+        <rect width="60" height="30" fill="#012169"/>
+        <path d="M0 0 60 30M60 0 0 30" stroke="#fff" stroke-width="6"/>
+        <path d="M0 0 60 30M60 0 0 30" stroke="#C8102E" stroke-width="3.4"/>
+        <path d="M30 0V30M0 15H60" stroke="#fff" stroke-width="10"/>
+        <path d="M30 0V30M0 15H60" stroke="#C8102E" stroke-width="6"/>
+      </g>
+    </svg>
+    <span>EN</span>
+  </button>
+  <button type="button" data-lang="fr" aria-pressed="false" title="Français">
+    <svg class="flag" viewBox="0 0 60 30" aria-hidden="true">
+      <clipPath id="flagFR"><rect width="60" height="30" rx="3"/></clipPath>
+      <g clip-path="url(#flagFR)">
+        <rect width="20" height="30" fill="#002395"/>
+        <rect x="20" width="20" height="30" fill="#F5F5F5"/>
+        <rect x="40" width="20" height="30" fill="#ED2939"/>
+      </g>
+    </svg>
+    <span>FR</span>
+  </button>
+</div>
+
 <main id="stack">
 
   <!-- ══════════ 0 · HERO ══════════ -->
@@ -841,6 +1172,11 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       <path d="M6 36 C6 41 17 45 30 45 C43 45 54 41 54 36" fill="none" stroke="var(--brass-hi)" stroke-width="1.8" opacity="0.6"/>
     </svg>
 
+    <svg class="doodle doodle-loop" viewBox="0 0 60 60" aria-hidden="true">
+      <circle class="ring" cx="30" cy="30" r="23"/>
+      <circle class="ring ring2" cx="30" cy="30" r="14"/>
+      <circle class="cog" cx="30" cy="30" r="3.4"/>
+    </svg>
     <header class="topbar" data-r style="--d:0">
       <span class="wordmark">Deepak Prajapati</span>
       <nav class="topnav" aria-label="Primary">
@@ -854,12 +1190,12 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 
     <div class="hero-body">
       <span class="badge" data-r style="--d:1">Open to Opportunities</span>
-      <span class="kicker" data-r style="--d:2">Analytics Engineer &middot; Data &amp; AI</span>
+      <span class="kicker" data-r style="--d:2">Analytics Engineer &middot; Data, AI &amp; Agents</span>
       <h1 class="display hero-title"><span class="line"><span class="line-i">Turning raw data</span></span><span class="line"><span class="line-i">into <em class="brass-word" id="typeWord">intelligence.</em><span class="caret" aria-hidden="true"></span></span></span></h1>
-      <p class="hero-sub" data-r style="--d:4">I'm <strong>Deepak Prajapati</strong> &mdash; I build BigQuery analytics stacks, GA4/GTM tracking systems, and evaluation-driven LLM applications that turn complex datasets into decisions.</p>
+      <p class="hero-sub" data-r style="--d:4">I'm <strong>Deepak Prajapati</strong> &mdash; I build BigQuery analytics stacks and GA4/GTM tracking systems, <strong>train and fine-tune models</strong>, and ship <strong>AI agents</strong> and evaluation-driven LLM applications that turn complex datasets into decisions.</p>
       <div class="hero-ctas" data-r style="--d:5">
         <button class="btn btn-solid" data-go="1">View Projects</button>
-        <a class="btn btn-line" href="assets/Deepak Prajapati Resume26.pdf" target="_blank" rel="noopener">&darr; Resume</a>
+        <a class="btn btn-line" href="assets/Deepak Prajapati Resume26.pdf" target="_blank" rel="noopener noreferrer">&darr; Resume</a>
         <button class="btn btn-line" data-go="4">Contact</button>
       </div>
       <div class="console" data-r style="--d:6">
@@ -877,13 +1213,25 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   <!-- ══════════ 1 · PROJECTS ══════════ -->
   <section class="scene tone-a split" data-i="1" aria-label="Projects">
     <div class="col">
+      <svg class="motif motif-agents" viewBox="0 0 300 150" fill="none" aria-hidden="true">
+        <path class="edge" d="M28 118 C70 118 74 40 118 40 S176 40 196 76 S250 112 282 96"/>
+        <path class="edge" d="M28 118 C88 132 132 116 196 76"/>
+        <path class="edge" d="M118 40 C150 62 158 92 196 76"/>
+        <path class="flow"    d="M28 118 C70 118 74 40 118 40 S176 40 196 76 S250 112 282 96"/>
+        <path class="flow f2" d="M28 118 C88 132 132 116 196 76"/>
+        <path class="flow f3" d="M118 40 C150 62 158 92 196 76"/>
+        <g class="nd1"><circle class="nd" cx="28"  cy="118" r="7"/><circle class="core" cx="28"  cy="118" r="3"/></g>
+        <g class="nd2"><circle class="nd" cx="118" cy="40"  r="7"/><circle class="core" cx="118" cy="40"  r="3"/></g>
+        <g class="nd3"><circle class="nd" cx="196" cy="76"  r="8.5"/><circle class="core" cx="196" cy="76" r="3"/></g>
+        <g class="nd4"><circle class="nd" cx="282" cy="96"  r="7"/><circle class="core" cx="282" cy="96"  r="3"/></g>
+      </svg>
       <div class="head" data-r>
         <span class="eyebrow">Selected Works</span>
         <h2 class="display">Featured<br /><em>Projects</em></h2>
       </div>
       <div class="grid-4">
         <article class="card" data-tilt data-r="left" style="--d:1">
-          <div class="shot"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80" alt="Agentic RAG" loading="lazy" /></div>
+          <div class="shot"><img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80" alt="Agentic RAG" loading="lazy" /></div>
           <span class="corners"></span>
           <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
           <div class="card-body">
@@ -891,14 +1239,14 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
             <h3>Agentic RAG Travel Assistant</h3>
             <p>Airbnb travel assistant on an agentic RAG pipeline &mdash; Chroma DB, Llama 3.3 via Groq, Streamlit. RAGAS-tuned retrieval took faithfulness from 0.60 to 0.92. Deployed and live.</p>
             <div class="acts">
-              <a class="mini mini-solid" href="https://deepak420-grandmaster-airbnb-agentic-rag-app-s4hmxa.streamlit.app/" target="_blank" rel="noopener">Live Demo</a>
-              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Airbnb-agentic-rag" target="_blank" rel="noopener">GitHub</a>
+              <a class="mini mini-solid" href="https://deepak420-grandmaster-airbnb-agentic-rag-app-s4hmxa.streamlit.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Airbnb-agentic-rag" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </article>
 
         <article class="card" data-tilt data-r="left" style="--d:2">
-          <div class="shot"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Analytics" loading="lazy" /></div>
+          <div class="shot"><img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Analytics" loading="lazy" /></div>
           <span class="corners"></span>
           <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
           <div class="card-body">
@@ -906,13 +1254,13 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
             <h3>Fraud Detection Model</h3>
             <p>Credit-card fraud detection in TensorFlow/scikit-learn supervised and unsupervised models spanning deep neural networks, Isolation Forest, K-Means, and One-Class SVM, compared via precision, recall, and confusion-matrix analysis on 284K imbalanced transactions.</p>
             <div class="acts">
-              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Fraud-Detection" target="_blank" rel="noopener">GitHub</a>
+              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Fraud-Detection" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </article>
 
         <article class="card" data-tilt data-r="left" style="--d:3">
-          <div class="shot"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Stock Market" loading="lazy" /></div>
+          <div class="shot"><img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80" alt="Stock Market" loading="lazy" /></div>
           <span class="corners"></span>
           <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
           <div class="card-body">
@@ -920,13 +1268,13 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
             <h3>Stock Market Prediction</h3>
             <p>Forecasting price trends using RAG, Matplotlib &amp; PyTorch. Surfacing actionable, decision-ready insights for investors and analysts.</p>
             <div class="acts">
-              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Stock-Market-Analysis" target="_blank" rel="noopener">GitHub</a>
+              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/Stock-Market-Analysis" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </article>
 
         <article class="card" data-tilt data-r="left" style="--d:4">
-          <div class="shot"><img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=80" alt="HR Automation" loading="lazy" /></div>
+          <div class="shot"><img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=80" alt="HR Automation" loading="lazy" /></div>
           <span class="corners"></span>
           <span class="glyph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 5V9"/><circle cx="12" cy="4" r="1.4"/><path d="M8 14h.01"/><path d="M16 14h.01"/><path d="M9.5 17.5h5"/></svg></span>
           <div class="card-body">
@@ -934,7 +1282,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
             <h3>HR Resume Sorting Workflow</h3>
             <p>AI-powered CV screening pipeline with automated intake, parsing, and JD scoring. Reduced screening time by 70%+ and improved candidate matching accuracy.</p>
             <div class="acts">
-              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/HR-AI-Agent" target="_blank" rel="noopener">GitHub</a>
+              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/HR-AI-Agent" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </article>
@@ -948,8 +1296,8 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
             <h3>France River Flow</h3>
             <p>Live river discharge across metropolitan France &mdash; 3,272 rivers and 121,530 km of network animated downstream, with real-time Hub&rsquo;Eau readings for all 96 departments. Streamlit + Folium, bilingual EN/FR.</p>
             <div class="acts">
-              <a class="mini mini-solid" href="https://france-river-flow.streamlit.app/" target="_blank" rel="noopener">Live Demo</a>
-              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/France-River-Flow-Map" target="_blank" rel="noopener">GitHub</a>
+              <a class="mini mini-solid" href="https://france-river-flow.streamlit.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+              <a class="mini mini-ghost" href="https://github.com/Deepak420-GrandMaster/France-River-Flow-Map" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
           </div>
         </article>
@@ -960,7 +1308,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       <blockquote class="pull" data-r="right" style="--d:0">&ldquo;I design clean workflows, build scalable data systems, and turn complex datasets into business-ready intelligence.&rdquo;</blockquote>
       <p class="prose" data-r="right" style="--d:1">Analytics engineer with an <strong>MSc in Big Data &amp; AI</strong> and <strong>4+ years</strong> spanning data quality, KPI governance, and analytics &mdash; including leading QC analyst teams at Numerator at 95%+ SLA.</p>
       <p class="prose" data-r="right" style="--d:2">At TravelJuice I own the analytics stack end-to-end: <strong>BigQuery mart models</strong> for the full funnel (search, conversion, checkout, loyalty, product performance), rebuilt <strong>GA4/GTM tracking</strong> with custom dimensions and server-side tagging, closed an <strong>82% Meta Ads vs GA4 attribution gap</strong> via Consent Mode V2, and cut BigQuery costs <strong>70%</strong> through partitioning and query optimization &mdash; all surfaced in Looker Studio dashboards that marketing and product run on daily. I also built a one-click newsletter generator that turns a simple form into a ready-to-send Brevo campaign, removing manual email build time for the marketing team.</p>
-      <p class="prose" data-r="right" style="--d:3">On the AI side I build <strong>evaluation-driven LLM applications</strong>: an agentic RAG assistant tuned with RAGAS (faithfulness <strong>0.60 &rarr; 0.92</strong>), a custom LLM eval harness, and a live map of French river discharge built on <strong>open public data</strong>. Certified in Microsoft PL-300 and Six Sigma; fluent in English and Hindi, working proficiency in French.</p>
+      <p class="prose" data-r="right" style="--d:3">On the AI side I build <strong>evaluation-driven LLM applications</strong>: an agentic RAG assistant tuned with RAGAS (faithfulness <strong>0.60 &rarr; 0.92</strong>) and a custom LLM eval harness. Most recently <strong>France River Flow</strong> &mdash; live discharge for <strong>3,272 French rivers</strong> and 121,530 km of network, pulled from the open Hub&rsquo;Eau API across all 96 departments and animated downstream on the map. Certified in Microsoft PL-300 and Six Sigma; fluent in English and Hindi, working proficiency in French.</p>
       <div class="stats">
         <div class="stat" data-r="scale" style="--d:5"><b data-target="4" data-suffix="+">4+</b><span>Years Exp</span></div>
         <div class="stat" data-r="scale" style="--d:6"><b data-target="5" data-suffix="">5</b><span>Featured Projects</span></div>
@@ -987,15 +1335,15 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
           <div class="what"><strong>Market Researcher</strong> &mdash; Cleaned and segmented multi-source data with advanced Excel (lookups, pivots, conditional logic), lifting reporting accuracy and cutting turnaround by 25%. Packaged findings into summaries that shaped product and go-to-market decisions.</div>
         </div>
         <div class="node" data-r="left" style="--d:3">
-          <div><div class="yr">2021&ndash;2023</div><div class="where">Numerator &middot; India</div></div>
+          <span class="mark"><img src="images/logo-numerator.png" alt="Numerator" loading="lazy" /><b>N</b></span><div><div class="yr">2021&ndash;2023</div><div class="where">Numerator &middot; India</div></div>
           <div class="what"><strong>Data Associate</strong> &mdash; Ran real-time productivity tracking for 80+ associates and built backlog playbooks that cut peak clearance time by 40%. Onboarded new retailers through 15+ trainings and reused validated data to remove repetitive work.</div>
         </div>
         <div class="node" data-r="left" style="--d:4">
-          <div><div class="yr">2023&ndash;2024</div><div class="where">Numerator &middot; India</div></div>
+          <span class="mark"><img src="images/logo-numerator.png" alt="Numerator" loading="lazy" /><b>N</b></span><div><div class="yr">2023&ndash;2024</div><div class="where">Numerator &middot; India</div></div>
           <div class="what"><strong>QC Data Analyst</strong> &mdash; Built 4+ executive dashboards and a leaner reporting pipeline that cut turnaround time by 30%. Led 10&ndash;12 analysts through 800+ QC blocks/week at 95%+ SLA, standardised QC methodology, and ran 10+ cross-trainings, lifting audit scores by 25% and cutting process deviation by 20%.</div>
         </div>
         <div class="node" data-r="left" style="--d:5">
-          <div><div class="yr">2026&ndash;Present</div><div class="where">TravelJuice &middot; France</div></div>
+          <span class="mark"><img src="images/logo-traveljuice.png" alt="TravelJuice" loading="lazy" /><b>TJ</b></span><div><div class="yr">2026&ndash;Present</div><div class="where">TravelJuice &middot; France</div></div>
           <div class="what"><strong>Data Analyst Intern</strong> &mdash; Built the analytics layer for funnel rebuild in BigQuery (search, conversion, checkout, product performance, customer lifecycle). Rebuilt GA4/GTM tracking, closed an <strong>82% Meta Ads vs GA4 conversion gap</strong> via Consent Mode V2 with server-side tagging. Optimized BigQuery costs by <strong>70%</strong> through query optimization and data partitioning. Built an internal <strong>newsletter generation tool</strong> that assembles a ready-to-send campaign in one click &mdash; two templates, service blocks for flights, hotels, car rental and parking, and direct import into Brevo.</div>
         </div>
       </div>
@@ -1003,7 +1351,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
 
     <div class="col col-alt col-photo">
       <div class="bg" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="" loading="lazy" />
+        <img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="" loading="lazy" />
       </div>
       <div class="inner">
         <span class="sub-label" data-r="right">Education</span>
@@ -1025,10 +1373,10 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
         <div style="margin-top:1.2rem">
           <span class="sub-label" data-r="right" style="--d:4">Certifications</span>
           <div class="chips">
-            <span class="chip" data-r="scale" style="--d:5">Microsoft PL-300</span>
-            <span class="chip" data-r="scale" style="--d:6">Six Sigma Yellow Belt</span>
-            <span class="chip" data-r="scale" style="--d:7">7 Tools of QC</span>
-            <span class="chip" data-r="scale" style="--d:8">Data Analytics</span>
+            <a class="chip chip-link" data-r="scale" style="--d:5" href="https://drive.google.com/file/d/1s1q3luy1AEAElVLU_UX36XX-0GdlC0h6/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="View certificate">Microsoft PL-300<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+            <a class="chip chip-link" data-r="scale" style="--d:6" href="https://drive.google.com/file/d/1nBH5nGBcSaDitWjp4rei3mpc7Nn-Gm5V/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="View certificate">Six Sigma Yellow Belt<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+            <a class="chip chip-link" data-r="scale" style="--d:7" href="https://drive.google.com/file/d/1BT5IJKqnINfItF_QwWqmZMd4jXNRWDMY/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="View certificate">7 Tools of QC<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
+            <a class="chip chip-link" data-r="scale" style="--d:8" href="https://drive.google.com/file/d/19eV-0XjW19Hq7H-IWTUWt0afFO2nNgZ3/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="View certificate">Data Analytics<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></a>
           </div>
         </div>
       </div>
@@ -1042,6 +1390,14 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       <span class="eyebrow" data-r>Toolbox</span>
       <h2 class="display" data-r style="--d:1">Technical <em>Arsenal</em></h2>
       <p data-r style="--d:2">Tools spanning data engineering, machine learning, LLMs, business intelligence, and ad-tech &mdash; battle-tested in production.</p>
+      <svg class="motif-tune" viewBox="0 0 190 44" fill="none" aria-hidden="true">
+        <rect class="band" x="140" y="4" width="46" height="30" rx="3"/>
+        <path class="axis" d="M6 36 H184"/>
+        <path class="loss" d="M8 8 C26 26 34 12 48 24 S66 33 82 27 S108 32 126 30 S158 31 182 30.6"/>
+        <circle class="head" cx="182" cy="30.6" r="2.6"/>
+        <text class="lbl" x="140" y="42">converged</text>
+        <text class="lbl" x="6" y="42">loss</text>
+      </svg>
     </div>
 
     <div class="tag-rows">
@@ -1060,15 +1416,19 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
         <span class="tag">Folium</span><span class="tag">Plotly</span>
         <span class="tag">REST APIs</span><span class="tag">Pytest</span>
       </div>
+      <div class="tag-row">
+        <span class="tag">Model Training</span><span class="tag">LLM Evaluation</span>
+        <span class="tag">Jira</span><span class="tag">HTML &amp; CSS</span>
+      </div>
     </div>
 
     <div class="prof-grid">
       <div class="prof" data-r style="--d:5"><div class="ic">Py</div><h3>Python &amp; SQL</h3><p>Data modelling, pipelines, geospatial &amp; analytics engineering</p></div>
       <div class="prof" data-r style="--d:6"><div class="ic">BQ</div><h3>BigQuery</h3><p>Mart models, partitioning &amp; 70% cost optimization</p></div>
       <div class="prof" data-r style="--d:7"><div class="ic">GA</div><h3>GA4 &amp; GTM</h3><p>Tracking architecture, Consent Mode V2, server-side tagging</p></div>
-      <div class="prof" data-r style="--d:8"><div class="ic">AI</div><h3>LLMs &amp; RAG</h3><p>Agentic pipelines, RAGAS evaluation 0.60 &rarr; 0.92</p></div>
+      <div class="prof" data-r style="--d:8"><div class="ic">AI</div><h3>LLMs, Agents &amp; Fine-Tuning</h3><p>Model training, fine-tuning &amp; agentic pipelines &mdash; RAGAS 0.60 &rarr; 0.92</p></div>
       <div class="prof" data-r style="--d:9"><div class="ic">BI</div><h3>Looker &amp; Apache Superset</h3><p>Executive dashboards &amp; KPI reporting teams run on</p></div>
-      <div class="prof" data-r style="--d:10"><div class="ic">N8N</div><h3>N8N &amp; Git</h3><p>Workflow automation, AI agents &amp; version control</p></div>
+      <div class="prof" data-r style="--d:10"><div class="ic">N8N</div><h3>N8N, Git &amp; Jira</h3><p>Workflow automation, version control &amp; sprint delivery</p></div>
     </div>
     <span class="marker"><b>04</b> / 05</span>
   </section>
@@ -1081,9 +1441,9 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       <p class="desc" data-r style="--d:2">I'm always interested in new opportunities and collaborations. Let's discuss how we can work together on your next data science project from analytics pipelines to production AI.</p>
       <div class="close-ctas" data-r style="--d:3">
         <a class="btn btn-solid" href="mailto:deepak.byte07@gmail.com">Send an Email</a>
-        <a class="btn btn-line" href="assets/Deepak Prajapati Resume26.pdf" target="_blank" rel="noopener">&darr; Resume</a>
-        <a class="btn btn-line" href="https://github.com/Deepak420-GrandMaster" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn btn-line" href="https://www.linkedin.com/in/deepak-prajapati-695963204/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-line" href="assets/Deepak Prajapati Resume26.pdf" target="_blank" rel="noopener noreferrer">&darr; Resume</a>
+        <a class="btn btn-line" href="https://github.com/Deepak420-GrandMaster" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn-line" href="https://www.linkedin.com/in/deepak-prajapati-695963204/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
       <div class="details">
         <div class="det" data-r style="--d:4"><span class="k">Email</span><span class="v"><a href="mailto:deepak.byte07@gmail.com">deepak.byte07@gmail.com</a></span></div>
@@ -1094,18 +1454,18 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
     </div>
 
     <div class="close-b">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80" alt="Analytics &amp; Data Intelligence" loading="lazy" />
+      <img referrerpolicy="no-referrer" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80" alt="Analytics &amp; Data Intelligence" loading="lazy" />
       <div class="veil" aria-hidden="true"></div>
 
       <div class="form" data-r="right" style="--d:2">
         <h3>Send a Message</h3>
         <p class="intro">Fill this in and hit send &mdash; it opens your mail app with everything pre-filled.</p>
         <div class="f-row">
-          <div class="f"><label for="fName">Name</label><input type="text" id="fName" autocomplete="name" placeholder="Your full name" /></div>
-          <div class="f"><label for="fEmail">Email</label><input type="email" id="fEmail" autocomplete="email" inputmode="email" placeholder="your.email@example.com" /></div>
+          <div class="f"><label for="fName">Name</label><input type="text" id="fName" autocomplete="name" maxlength="80" spellcheck="false" placeholder="Your full name" /></div>
+          <div class="f"><label for="fEmail">Email</label><input type="email" id="fEmail" autocomplete="email" inputmode="email" maxlength="120" spellcheck="false" placeholder="your.email@example.com" /></div>
         </div>
-        <div class="f"><label for="fSubject">Subject</label><input type="text" id="fSubject" placeholder="What's this about?" /></div>
-        <div class="f"><label for="fMessage">Message</label><textarea id="fMessage" rows="4" placeholder="Tell me more about your project or inquiry..."></textarea></div>
+        <div class="f"><label for="fSubject">Subject</label><input type="text" id="fSubject" maxlength="140" placeholder="What's this about?" /></div>
+        <div class="f"><label for="fMessage">Message</label><textarea id="fMessage" rows="4" maxlength="2000" placeholder="Tell me more about your project or inquiry..."></textarea></div>
         <button class="btn btn-solid" id="sendBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>Send Message</button>
         <p class="note">Opens your email client &mdash; no data is stored on this page.</p>
       </div>
@@ -1237,10 +1597,17 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   /* ---------- headline typewriter ---------- */
   var typeWord = document.getElementById('typeWord');
   if (typeWord && !reduced) {
-    var words = ['intelligence.', 'dashboards.', 'decisions.', 'pipelines.', 'models.'];
+    var DEFAULT_WORDS = ['intelligence.', 'dashboards.', 'decisions.', 'pipelines.', 'models.', 'agents.'];
+    function heroWords() {
+      var w = window.I18N_WORDS && window.I18N_WORDS();
+      return (w && w.length) ? w : DEFAULT_WORDS;
+    }
+    var words = heroWords();
     var wi = 0, ci = words[0].length, del = true;
     setTimeout(function step() {
       if (index !== 0 || document.hidden) { setTimeout(step, 900); return; }
+      words = heroWords();
+      if (wi >= words.length) wi = 0;
       var w = words[wi];
       if (del) {
         ci--; typeWord.textContent = w.slice(0, ci);
@@ -1262,6 +1629,7 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       "$ SELECT insight FROM bigquery.raw_events;  -- 2.4M rows \u2713",
       "$ gtag('event', 'purchase', {attribution: 'restored'});",
       "$ ragas.evaluate(rag_chain)  # faithfulness: 0.92 \u2713",
+      "$ trainer.fine_tune(base_model, eval_gate=True) \u2713",
       "$ looker.refresh(dashboard='conversion_funnel') \u2713",
       "$ agent.run('turn raw data into decisions')..."
     ];
@@ -1472,7 +1840,17 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
       var email   = document.getElementById('fEmail').value.trim();
       var subject = document.getElementById('fSubject').value.trim() || 'Portfolio inquiry';
       var message = document.getElementById('fMessage').value.trim();
-      var body    = message + '\n\n\u2014\n' + (name || 'Anonymous') + (email ? '\n' + email : '');
+      /* Defence in depth: encodeURIComponent already neutralises CRLF header
+         injection, but strip control characters at the source and cap the
+         payload so a pasted blob cannot build a hostile mailto URL. */
+      function clean(s, max) {
+        return s.replace(/[\u0000-\u001F\u007F-\u009F\u2028\u2029]/g, ' ')
+                .replace(/\s{3,}/g, '  ').slice(0, max);
+      }
+      subject = clean(subject, 140) || 'Portfolio inquiry';
+      var body = clean(message, 2000) + '\n\n\u2014\n' +
+                 (clean(name, 80) || 'Anonymous') +
+                 (email ? '\n' + clean(email, 120) : '');
       window.location.href = 'mailto:deepak.byte07@gmail.com?subject=' +
         encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     });
@@ -1543,5 +1921,238 @@ h1.hero-title{font-size:clamp(2rem,5.4vw,4.5rem);max-width:15ch;margin-bottom:1r
   }
 </script>
 
+<script>
+/* ============================================================
+   EN / FR translation layer.
+   English lives in the markup and is captured on load; this map
+   only carries the French. Keys are CSS selectors -- each must
+   match exactly one element (verified at init, see console).
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var C = '.grid-4 .card';                 // project cards
+  var N = '.spine .node';                  // timeline nodes
+  var P = '.prof-grid .prof';              // skill tiles
+  var S = 'section[data-i="1"] .col-alt';  // projects right column
+
+  var FR = {
+    /* ---------- nav / chrome ---------- */
+    '.topnav button[data-go="0"]': 'Accueil',
+    '.topnav button[data-go="1"]': 'Projets',
+    '.topnav button[data-go="2"]': 'Parcours',
+    '.topnav button[data-go="3"]': 'Compétences',
+    '.topnav button[data-go="4"]': 'Contact',
+
+    /* ---------- hero ---------- */
+    '.hero .badge': 'Ouvert aux opportunités',
+    '.hero .kicker': 'Ingénieur analytics &middot; Data, IA &amp; agents',
+    '.hero-title .line:first-child .line-i': 'Transformer la donnée brute',
+    '.hero-sub': "Je suis <strong>Deepak Prajapati</strong> &mdash; je conçois des stacks analytics BigQuery et des systèmes de tracking GA4/GTM, j'<strong>entraîne et fine-tune des modèles</strong>, et je livre des <strong>agents IA</strong> et des applications LLM pilotées par l'évaluation qui transforment des données complexes en décisions.",
+    '.hero-ctas .btn-solid': 'Voir les projets',
+    '.hero-ctas a.btn-line': '&darr; CV',
+    '.hero-ctas button.btn-line': 'Contact',
+    '.scroll-hint': 'Défiler<i aria-hidden="true"></i>',
+
+    /* ---------- projects ---------- */
+    'section[data-i="1"] .eyebrow': 'Travaux sélectionnés',
+    'section[data-i="1"] .head h2': 'Projets<br /><em>phares</em>',
+
+    [C + ':nth-child(1) .tag']: 'RAG agentique LLM',
+    [C + ':nth-child(1) h3']: 'Assistant de voyage RAG agentique',
+    [C + ':nth-child(1) p']: "Assistant de voyage Airbnb bâti sur un pipeline RAG agentique &mdash; Chroma DB, Llama 3.3 via Groq, Streamlit. Le réglage guidé par RAGAS a fait passer la fidélité de 0,60 à 0,92. Déployé et en ligne.",
+    [C + ':nth-child(1) .mini-solid']: 'Démo en ligne',
+
+    [C + ':nth-child(2) .tag']: 'Détection de fraude',
+    [C + ':nth-child(2) h3']: 'Modèle de détection de fraude',
+    [C + ':nth-child(2) p']: "Détection de fraude à la carte bancaire avec TensorFlow/scikit-learn : modèles supervisés et non supervisés couvrant réseaux de neurones profonds, Isolation Forest, K-Means et One-Class SVM, comparés via précision, rappel et matrice de confusion sur 284K transactions déséquilibrées.",
+
+    [C + ':nth-child(3) .tag']: 'ML RAG PyTorch',
+    [C + ':nth-child(3) h3']: 'Prédiction des marchés boursiers',
+    [C + ':nth-child(3) p']: "Prévision des tendances de prix avec RAG, Matplotlib &amp; PyTorch. Des insights actionnables, prêts à la décision, pour investisseurs et analystes.",
+
+    [C + ':nth-child(4) .tag']: 'Automatisation IA',
+    [C + ':nth-child(4) h3']: 'Workflow de tri de CV RH',
+    [C + ':nth-child(4) p']: "Pipeline de présélection de CV par IA : collecte, parsing et scoring automatisés face à la fiche de poste. Temps de screening réduit de plus de 70% et meilleure précision d'appariement des candidats.",
+
+    [C + ':nth-child(5) .tag']: 'Données géospatiales live',
+    [C + ':nth-child(5) h3']: 'France River Flow',
+    [C + ':nth-child(5) p']: "Débit des rivières en direct sur la France métropolitaine &mdash; 3 272 cours d'eau et 121 530 km de réseau animés vers l'aval, avec les relevés Hub'Eau en temps réel pour les 96 départements. Streamlit + Folium, interface EN/FR.",
+    [C + ':nth-child(5) .mini-solid']: 'Démo en ligne',
+
+    [S + ' .pull']: '&laquo;&nbsp;Je conçois des workflows clairs, je bâtis des systèmes de données scalables, et je transforme des jeux de données complexes en intelligence exploitable.&nbsp;&raquo;',
+    [S + ' .prose:nth-of-type(1)']: "Ingénieur analytics titulaire d'un <strong>MSc Big Data &amp; IA</strong>, avec <strong>4+ années</strong> couvrant la qualité des données, la gouvernance des KPI et l'analytics &mdash; dont l'encadrement d'équipes d'analystes QC chez Numerator à 95%+ de SLA.",
+    [S + ' .prose:nth-of-type(2)']: "Chez TravelJuice je pilote la stack analytics de bout en bout : <strong>modèles mart BigQuery</strong> sur tout le funnel (recherche, conversion, checkout, fidélité, performance produit), refonte du <strong>tracking GA4/GTM</strong> avec dimensions personnalisées et tagging server-side, comblement d'un <strong>écart d'attribution de 82% entre Meta Ads et GA4</strong> via le Consent Mode V2, et réduction de <strong>70%</strong> des coûts BigQuery par partitionnement et optimisation des requêtes &mdash; le tout exposé dans des dashboards Looker Studio utilisés au quotidien par le marketing et le produit. J'ai aussi construit un générateur de newsletter en un clic qui transforme un simple formulaire en campagne Brevo prête à envoyer, supprimant le temps de montage manuel des e-mails.",
+    [S + ' .prose:nth-of-type(3)']: "Côté IA, je construis des <strong>applications LLM pilotées par l'évaluation</strong> : un assistant RAG agentique réglé avec RAGAS (fidélité <strong>0,60 &rarr; 0,92</strong>) et un harnais d'évaluation LLM sur mesure. Plus récemment <strong>France River Flow</strong> &mdash; le débit en direct de <strong>3 272 rivières françaises</strong> et 121 530 km de réseau, issus de l'API ouverte Hub'Eau sur les 96 départements et animés vers l'aval sur la carte. Certifié Microsoft PL-300 et Six Sigma ; anglais et hindi courants, français professionnel.",
+    [S + ' .stat:nth-child(1) span']: "Ans d'exp.",
+    [S + ' .stat:nth-child(2) span']: 'Projets phares',
+    [S + ' .stat:nth-child(3) span:not(.meter)']: "Écart d'attribution comblé",
+    [S + ' .stat:nth-child(4) span:not(.meter)']: 'Réduction des coûts',
+
+    /* ---------- timeline ---------- */
+    'section[data-i="2"] .eyebrow': 'Chroniques',
+    'section[data-i="2"] .head h2': 'Parcours<br /><em>professionnel</em>',
+    'section[data-i="2"] .col > .prose': "De l'étude de marché à la qualité des données et à l'analytics engineering &mdash; une trajectoire faite de curiosité, de rigueur et de passion pour la donnée.",
+
+    [N + ':nth-child(1) .where']: 'ARSS &middot; Inde',
+    [N + ':nth-child(1) .what']: "<strong>Chargé d'études de marché</strong> &mdash; Nettoyage et segmentation de données multi-sources sous Excel avancé (recherches, TCD, logique conditionnelle), améliorant la précision du reporting et réduisant les délais de 25%. Synthèses transformées en recommandations ayant orienté les décisions produit et go-to-market.",
+    [N + ':nth-child(2) .where']: 'Numerator &middot; Inde',
+    [N + ':nth-child(2) .what']: "<strong>Data Associate</strong> &mdash; Suivi de productivité en temps réel pour 80+ collaborateurs et création de playbooks de résorption du backlog ayant réduit de 40% le temps d'écoulement en pic. Intégration de nouveaux distributeurs via 15+ formations et réutilisation des données validées pour supprimer les tâches répétitives.",
+    [N + ':nth-child(3) .where']: 'Numerator &middot; Inde',
+    [N + ':nth-child(3) .what']: "<strong>Analyste Data QC</strong> &mdash; Création de 4+ dashboards de direction et d'un pipeline de reporting allégé ayant réduit les délais de 30%. Encadrement de 10 à 12 analystes sur 800+ blocs QC/semaine à 95%+ de SLA, standardisation de la méthodologie QC et animation de 10+ formations croisées, portant les scores d'audit +25% et réduisant les déviations process de 20%.",
+    [N + ':nth-child(4) .yr']: '2026&ndash;Aujourd’hui',
+    [N + ':nth-child(4) .where']: 'TravelJuice &middot; France',
+    [N + ':nth-child(4) .what']: "<strong>Stagiaire Data Analyst</strong> &mdash; Construction de la couche analytique pour la refonte du funnel dans BigQuery (recherche, conversion, checkout, performance produit, cycle de vie client). Refonte du tracking GA4/GTM, comblement d'un <strong>écart de conversion de 82% entre Meta Ads et GA4</strong> via le Consent Mode V2 et le tagging server-side. Optimisation des coûts BigQuery de <strong>70%</strong> par optimisation des requêtes et partitionnement. Développement d'un <strong>outil interne de génération de newsletters</strong> qui assemble une campagne prête à envoyer en un clic &mdash; deux modèles, blocs services pour vols, hôtels, location de voiture et parking, et import direct dans Brevo.",
+
+    'section[data-i="2"] .inner .sub-label:first-of-type': 'Formation',
+    '.rec:nth-of-type(1) .deg': 'MSc &mdash; Big Data &amp; Intelligence Artificielle',
+    '.rec:nth-of-type(1) .when': '2025&ndash;2026 &middot; France',
+    '.rec:nth-of-type(2) .deg': 'Spécialité &mdash; Intelligence Artificielle',
+    '.rec:nth-of-type(2) .when': '2024&ndash;2025 &middot; Inde',
+    '.rec:nth-of-type(3) .deg': 'Licence de Commerce',
+    '.rec:nth-of-type(3) .when': '2017&ndash;2020 &middot; Inde',
+    'section[data-i="2"] .inner > div > .sub-label': 'Certifications',
+    '.chips .chip:nth-child(4)': 'Data Analytics',
+
+    /* ---------- skills ---------- */
+    'section[data-i="3"] .eyebrow': 'Boîte à outils',
+    '.skills-head h2': 'Arsenal <em>technique</em>',
+    '.skills-head p': "Des outils couvrant le data engineering, le machine learning, les LLM, la business intelligence et l'ad-tech &mdash; éprouvés en production.",
+
+    '.tag-row:nth-child(1) .tag:nth-child(5)': 'Fine-tuning',
+    '.tag-row:nth-child(1) .tag:nth-child(6)': 'IA agentique',
+    '.tag-row:nth-child(2) .tag:nth-child(2)': 'Pipelines ETL',
+    '.tag-row:nth-child(2) .tag:nth-child(6)': 'Tagging server-side',
+    '.tag-row:nth-child(3) .tag:nth-child(5)': 'API REST',
+    '.tag-row:nth-child(4) .tag:nth-child(1)': 'Entraînement de modèles',
+    '.tag-row:nth-child(4) .tag:nth-child(2)': 'Évaluation de LLM',
+
+    [P + ':nth-child(1) h3']: 'Python &amp; SQL',
+    [P + ':nth-child(1) p']: 'Modélisation, pipelines, géospatial &amp; analytics engineering',
+    [P + ':nth-child(2) p']: 'Modèles mart, partitionnement &amp; 70% de coûts en moins',
+    [P + ':nth-child(3) p']: 'Architecture de tracking, Consent Mode V2, tagging server-side',
+    [P + ':nth-child(4) h3']: 'LLM, agents &amp; fine-tuning',
+    [P + ':nth-child(4) p']: 'Entraînement, fine-tuning &amp; pipelines agentiques &mdash; RAGAS 0,60 &rarr; 0,92',
+    [P + ':nth-child(5) p']: 'Dashboards de direction &amp; reporting KPI au quotidien',
+    [P + ':nth-child(6) h3']: 'N8N, Git &amp; Jira',
+    [P + ':nth-child(6) p']: 'Automatisation de workflows, versioning &amp; gestion de sprints',
+
+    /* ---------- contact ---------- */
+    'section[data-i="4"] .eyebrow': 'Contact',
+    '.close-a h2': 'Entrons en<br /><em class="brass-word">contact</em>',
+    '.close-a .desc': "Je suis toujours intéressé par de nouvelles opportunités et collaborations. Discutons de la façon dont nous pourrions travailler ensemble sur votre prochain projet data &mdash; des pipelines analytics à l'IA en production.",
+    '.close-ctas a.btn-solid': 'Envoyer un e-mail',
+    '.close-ctas a.btn-line:nth-of-type(2)': '&darr; CV',
+    '.det:nth-child(1) .k': 'E-mail',
+    '.det:nth-child(2) .k': 'Téléphone',
+    '.det:nth-child(3) .k': 'Localisation',
+    '.det:nth-child(4) .k': 'Langues',
+    '.det:nth-child(4) .v': 'Anglais &middot; Hindi &middot; Français',
+    '.form h3': 'Envoyer un message',
+    '.form .intro': 'Remplissez ceci et cliquez sur envoyer &mdash; votre application mail s’ouvre avec tout de pré-rempli.',
+    'label[for="fName"]': 'Nom',
+    'label[for="fEmail"]': 'E-mail',
+    'label[for="fSubject"]': 'Objet',
+    'label[for="fMessage"]': 'Message',
+    '#sendBtn': 'Envoyer le message',
+    '.form .note': 'Ouvre votre client e-mail &mdash; aucune donnée n’est stockée sur cette page.',
+    '.caption p': '&laquo;&nbsp;Transformer la donnée brute en intelligence, un modèle à la fois.&nbsp;&raquo;',
+    '.caption .credit': 'Deepak Prajapati &middot; Portfolio 2026'
+  };
+
+  /* placeholders are attributes, not text nodes */
+  var FR_PLACEHOLDER = {
+    '#fName': 'Votre nom complet',
+    '#fEmail': 'votre.email@exemple.com',
+    '#fSubject': 'De quoi s’agit-il ?',
+    '#fMessage': 'Parlez-moi de votre projet ou de votre demande...'
+  };
+
+  /* the hero headline rotates through these */
+  var WORDS = {
+    en: ['intelligence.', 'dashboards.', 'decisions.', 'pipelines.', 'models.', 'agents.'],
+    fr: ['intelligence.', 'tableaux de bord.', 'décisions.', 'pipelines.', 'modèles.', 'agents.']
+  };
+
+  var box = document.getElementById('lang');
+  var stack = document.getElementById('stack');
+  if (!box) return;
+
+  /* capture the English already in the markup */
+  var EN = {}, EN_PH = {}, missing = [];
+  Object.keys(FR).forEach(function (sel) {
+    var el = document.querySelector(sel);
+    if (!el) { missing.push(sel); return; }
+    EN[sel] = el.innerHTML;
+  });
+  Object.keys(FR_PLACEHOLDER).forEach(function (sel) {
+    var el = document.querySelector(sel);
+    if (!el) { missing.push(sel + ' [placeholder]'); return; }
+    EN_PH[sel] = el.getAttribute('placeholder') || '';
+  });
+  if (missing.length) {
+    console.warn('[i18n] ' + missing.length + ' selector(s) did not match:', missing);
+  }
+
+  var lang = 'en';
+
+  function apply(next, animate) {
+    lang = next;
+    var src = (next === 'fr') ? FR : EN;
+    var ph = (next === 'fr') ? FR_PLACEHOLDER : EN_PH;
+
+    Object.keys(src).forEach(function (sel) {
+      if (!(sel in EN)) return;               // skip unmatched selectors
+      var el = document.querySelector(sel);
+      if (el) el.innerHTML = src[sel];
+    });
+    Object.keys(ph).forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.setAttribute('placeholder', ph[sel]);
+    });
+
+    document.documentElement.lang = next;
+    box.setAttribute('data-active', next);
+    Array.prototype.forEach.call(box.querySelectorAll('button'), function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === next));
+    });
+
+    try { localStorage.setItem('dp-lang', next); } catch (e) {}
+
+    if (animate && stack) {
+      stack.classList.remove('lang-swapping');
+      void stack.offsetWidth;                 // restart the animation
+      stack.classList.add('lang-swapping');
+    }
+  }
+
+  window.I18N_WORDS = function () { return WORDS[lang] || WORDS.en; };
+
+  box.addEventListener('click', function (ev) {
+    var btn = ev.target.closest('button[data-lang]');
+    if (!btn) return;
+    var next = btn.getAttribute('data-lang');
+    if (next !== lang) apply(next, true);
+  });
+
+  /* restore a previous choice, else follow the browser */
+  var saved = null;
+  try { saved = localStorage.getItem('dp-lang'); } catch (e) {}
+  if (!saved && (navigator.language || '').toLowerCase().indexOf('fr') === 0) saved = 'fr';
+  if (saved === 'fr') apply('fr', false);
+})();
+</script>
+<script>
+/* Company marks: show the monogram until a real logo file exists in images/. */
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('.node .mark'), function (mark) {
+    var img = mark.querySelector('img');
+    if (!img) { mark.classList.add('no-img'); return; }
+    function fail() { mark.classList.add('no-img'); }
+    if (img.complete && img.naturalWidth === 0) fail();
+    img.addEventListener('error', fail);
+  });
+})();
+</script>
 </body>
 </html>
