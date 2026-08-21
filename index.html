@@ -658,35 +658,20 @@ a.chip-link::after{
 
 .tag-rows{display:flex;flex-direction:column;gap:.42rem;align-items:center;margin-bottom:1.1rem}
 .tag-row{display:flex;flex-wrap:wrap;gap:.38rem;justify-content:center}
+/* NOTE: the entrance stagger for these chips is driven by anime.js
+   (opacity from 0 + stagger). Do not set a resting opacity here -- that makes
+   anime animate 0 -> 0 and the chips never show. Hover styling only. */
 .tag-row .tag{
   font-family:var(--mono);font-size:.59rem;padding:.32rem .8rem;border-radius:100px;
   border:1px solid var(--line);color:var(--ink-2);background:var(--paper-3);
-  opacity:0;transform:translateY(11px) scale(.93);
-  transition:opacity .5s var(--ease-soft),transform .6s var(--ease),
-             color var(--t) var(--ease-soft),border-color var(--t) var(--ease-soft),
+  transition:transform var(--t) var(--ease),color var(--t) var(--ease-soft),
+             border-color var(--t) var(--ease-soft),background var(--t) var(--ease-soft),
              box-shadow var(--t) var(--ease);
-}
-/* staggered entrance: row offset + column offset */
-.tag-row:nth-child(1) .tag{--rd:0ms}
-.tag-row:nth-child(2) .tag{--rd:110ms}
-.tag-row:nth-child(3) .tag{--rd:220ms}
-.tag-row:nth-child(4) .tag{--rd:330ms}
-.tag-row .tag:nth-child(1){--cd:0ms}
-.tag-row .tag:nth-child(2){--cd:42ms}
-.tag-row .tag:nth-child(3){--cd:84ms}
-.tag-row .tag:nth-child(4){--cd:126ms}
-.tag-row .tag:nth-child(5){--cd:168ms}
-.tag-row .tag:nth-child(6){--cd:210ms}
-.tag-row .tag:nth-child(7){--cd:252ms}
-.is-live .tag-row .tag{
-  opacity:1;transform:none;
-  transition-delay:calc(var(--rd,0ms) + var(--cd,0ms) + .28s);
 }
 .tag-row .tag:hover{
   color:var(--paper-3);border-color:var(--oxide);background:var(--oxide);
   transform:translateY(-4px) scale(1.04);
   box-shadow:0 8px 18px rgba(140,47,42,.2);
-  transition-delay:0s;
 }
 
 .prof-grid{
@@ -1006,7 +991,7 @@ a.chip-link::after{
 @media (prefers-reduced-motion:reduce){
   .is-live .prof .ic{animation:none!important}
   .prof::after{display:none}
-  .tag-row .tag{opacity:1!important;transform:none!important;transition:none!important}
+  .tag-row .tag{transform:none!important;transition:none!important}
   .skills-head::after{transform:scaleX(1)!important;transition:none!important}
   .lang,.lang::before,.lang .flag{animation:none!important;transition:none!important}
   #stack.lang-swapping{animation:none!important}
@@ -1098,6 +1083,97 @@ a.chip-link::after{
   .doodle-loop .ring,.doodle-loop .cog{animation:none!important}
   .motif-tune .loss{stroke-dashoffset:0!important;animation:none!important}
   .motif-tune .head,.motif-tune .band,.motif-tune .lbl{opacity:.6!important;animation:none!important}
+}
+/* ============================================================
+   SKILLS BACKGROUND LAB
+   Four ambient systems behind the toolbox: a transformer lattice
+   (LLM attention), quantum orbitals, an agent swarm, and a token
+   stream. Decorative only -- aria-hidden, pointer-events:none,
+   and every animation is transform/opacity so it stays on the
+   compositor.
+   ============================================================ */
+.lab{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  opacity:0;transition:opacity 1.3s var(--ease-soft) .35s;
+}
+.is-live .lab,.has-anime .scene.skills .lab{opacity:1}
+/* Lift only the content blocks above .lab. A blanket `> *` rule would also
+   hit .marker, whose position:absolute bottom-right placement it would
+   overwrite with position:relative, dropping it into normal flow. */
+.scene.skills > .skills-head,
+.scene.skills > .tag-rows,
+.scene.skills > .prof-grid{position:relative;z-index:1}
+
+/* ---- 1 · transformer lattice: signal sweeps layer to layer ---- */
+.lab-net{position:absolute;left:1%;top:4%;width:min(21rem,23%);opacity:.5}
+.lab-net .ln{stroke:var(--brass-hi);stroke-width:.8;fill:none;opacity:.5}
+.lab-net .sig{
+  stroke:var(--oxide);stroke-width:1.4;fill:none;stroke-linecap:round;
+  stroke-dasharray:10 320;stroke-dashoffset:330;
+  animation:labSig 5.2s linear infinite;
+}
+.lab-net .sig.s2{animation-delay:1.3s;stroke:var(--brass)}
+.lab-net .sig.s3{animation-delay:2.6s}
+.lab-net .sig.s4{animation-delay:3.9s;stroke:var(--brass)}
+@keyframes labSig{to{stroke-dashoffset:0}}
+.lab-net .un{fill:var(--brass);opacity:.3;animation:labUnit 3.6s var(--ease-soft) infinite}
+.lab-net .un:nth-of-type(2n){animation-delay:.6s}
+.lab-net .un:nth-of-type(3n){animation-delay:1.2s}
+.lab-net .un:nth-of-type(5n){animation-delay:1.8s}
+@keyframes labUnit{0%,100%{opacity:.22;r:2.2}50%{opacity:.85;r:3.4}}
+
+/* ---- 2 · quantum orbitals: three shells, counter-rotating ---- */
+.lab-q{position:absolute;right:2%;top:3%;width:min(13rem,14%);opacity:.55}
+.lab-q .shell{fill:none;stroke:var(--brass-hi);stroke-width:1;opacity:.75}
+.lab-q g.orb{transform-origin:60px 60px}
+.lab-q g.o1{animation:labSpin 16s linear infinite}
+.lab-q g.o2{animation:labSpin 11s linear infinite reverse}
+.lab-q g.o3{animation:labSpin 22s linear infinite}
+@keyframes labSpin{to{transform:rotate(360deg)}}
+.lab-q .qb{fill:var(--oxide);opacity:.75}
+.lab-q .nuc{fill:var(--brass);opacity:.5;animation:labUnit 2.8s var(--ease-soft) infinite}
+
+/* ---- 3 · agent swarm: satellites orbiting a coordinator ---- */
+.lab-swarm{position:absolute;left:3%;top:27%;width:min(7rem,7.5%);opacity:.5}
+.lab-swarm .tether{stroke:var(--brass-hi);stroke-width:.7;stroke-dasharray:2 4;opacity:.6}
+.lab-swarm g.ring{transform-origin:50px 50px;animation:labSpin 19s linear infinite}
+.lab-swarm g.ring.r2{animation:labSpin 13s linear infinite reverse}
+.lab-swarm .ag{fill:var(--brass);opacity:.6}
+.lab-swarm .hub{fill:var(--oxide);opacity:.55;animation:labUnit 3.2s var(--ease-soft) infinite}
+
+/* ---- 4 · token stream: LLM decode, left to right ---- */
+.lab-tok{position:absolute;right:3%;top:28%;width:min(12rem,13%);opacity:.55}
+.lab-tok .tk{
+  fill:var(--brass);opacity:0;
+  animation:labTok 3.4s var(--ease-soft) infinite;
+}
+.lab-tok .tk:nth-of-type(1){animation-delay:0s}
+.lab-tok .tk:nth-of-type(2){animation-delay:.24s}
+.lab-tok .tk:nth-of-type(3){animation-delay:.48s}
+.lab-tok .tk:nth-of-type(4){animation-delay:.72s}
+.lab-tok .tk:nth-of-type(5){animation-delay:.96s}
+.lab-tok .tk:nth-of-type(6){animation-delay:1.2s}
+.lab-tok .tk:nth-of-type(7){animation-delay:1.44s}
+.lab-tok .tk:nth-of-type(8){animation-delay:1.68s}
+@keyframes labTok{
+  0%{opacity:0;transform:translateX(-6px)}
+  22%{opacity:.85}
+  70%{opacity:.85}
+  100%{opacity:0;transform:translateX(8px)}
+}
+.lab-tok .rail{stroke:var(--line);stroke-width:1}
+.lab-tok .cap{
+  font-family:var(--mono);font-size:5px;letter-spacing:.14em;
+  fill:var(--ink-3);text-transform:uppercase;opacity:.75;
+}
+
+/* the lab needs room to read -- it is the first thing to go */
+@media (max-width:1180px),(max-height:720px){.lab{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .lab{opacity:.5}
+  .lab-net .sig,.lab-net .un,.lab-q g.orb,.lab-q .nuc,
+  .lab-swarm g.ring,.lab-swarm .hub,.lab-tok .tk{animation:none!important}
+  .lab-tok .tk{opacity:.7}
 }
 </style>
 <noscript><style>
@@ -1386,6 +1462,68 @@ a.chip-link::after{
 
   <!-- ══════════ 3 · SKILLS ══════════ -->
   <section class="scene tone-a skills" data-i="3" aria-label="Skills">
+    <div class="lab" aria-hidden="true">
+
+      <!-- transformer lattice: 3 layers, signal sweeping forward -->
+      <svg class="lab-net" viewBox="0 0 300 200" fill="none">
+        <path class="ln" d="M30 40 L150 30 M30 40 L150 80 M30 40 L150 130"/>
+        <path class="ln" d="M30 100 L150 30 M30 100 L150 80 M30 100 L150 130"/>
+        <path class="ln" d="M30 160 L150 80 M30 160 L150 130 M30 160 L150 170"/>
+        <path class="ln" d="M150 30 L270 60 M150 80 L270 60 M150 80 L270 140 M150 130 L270 140 M150 170 L270 140"/>
+        <path class="sig"    d="M30 40 L150 80 L270 60"/>
+        <path class="sig s2" d="M30 100 L150 30 L270 60"/>
+        <path class="sig s3" d="M30 160 L150 130 L270 140"/>
+        <path class="sig s4" d="M30 100 L150 170 L270 140"/>
+        <circle class="un" cx="30"  cy="40"  r="2.6"/>
+        <circle class="un" cx="30"  cy="100" r="2.6"/>
+        <circle class="un" cx="30"  cy="160" r="2.6"/>
+        <circle class="un" cx="150" cy="30"  r="2.6"/>
+        <circle class="un" cx="150" cy="80"  r="2.6"/>
+        <circle class="un" cx="150" cy="130" r="2.6"/>
+        <circle class="un" cx="150" cy="170" r="2.6"/>
+        <circle class="un" cx="270" cy="60"  r="3"/>
+        <circle class="un" cx="270" cy="140" r="3"/>
+      </svg>
+
+      <!-- quantum orbitals -->
+      <svg class="lab-q" viewBox="0 0 120 120" fill="none">
+        <g class="orb o1"><ellipse class="shell" cx="60" cy="60" rx="52" ry="20"/><circle class="qb" cx="112" cy="60" r="3.2"/></g>
+        <g class="orb o2"><ellipse class="shell" cx="60" cy="60" rx="20" ry="52"/><circle class="qb" cx="60" cy="8" r="2.8"/></g>
+        <g class="orb o3"><ellipse class="shell" cx="60" cy="60" rx="46" ry="46"/><circle class="qb" cx="106" cy="60" r="2.4"/></g>
+        <circle class="nuc" cx="60" cy="60" r="4"/>
+      </svg>
+
+      <!-- agent swarm around a coordinator -->
+      <svg class="lab-swarm" viewBox="0 0 100 100" fill="none">
+        <g class="ring">
+          <circle class="tether" cx="50" cy="50" r="34"/>
+          <circle class="ag" cx="84" cy="50" r="3.4"/>
+          <circle class="ag" cx="50" cy="16" r="2.8"/>
+          <circle class="ag" cx="16" cy="50" r="3"/>
+        </g>
+        <g class="ring r2">
+          <circle class="tether" cx="50" cy="50" r="19"/>
+          <circle class="ag" cx="69" cy="50" r="2.4"/>
+          <circle class="ag" cx="31" cy="50" r="2.4"/>
+        </g>
+        <circle class="hub" cx="50" cy="50" r="4.6"/>
+      </svg>
+
+      <!-- token stream -->
+      <svg class="lab-tok" viewBox="0 0 160 40" fill="none">
+        <path class="rail" d="M6 30 H154"/>
+        <rect class="tk" x="8"   y="14" width="9"  height="9" rx="2"/>
+        <rect class="tk" x="26"  y="14" width="13" height="9" rx="2"/>
+        <rect class="tk" x="48"  y="14" width="7"  height="9" rx="2"/>
+        <rect class="tk" x="64"  y="14" width="15" height="9" rx="2"/>
+        <rect class="tk" x="88"  y="14" width="10" height="9" rx="2"/>
+        <rect class="tk" x="107" y="14" width="8"  height="9" rx="2"/>
+        <rect class="tk" x="124" y="14" width="12" height="9" rx="2"/>
+        <rect class="tk" x="145" y="14" width="6"  height="9" rx="2"/>
+        <text class="cap" x="6" y="39">tokens</text>
+      </svg>
+
+    </div>
     <div class="skills-head">
       <span class="eyebrow" data-r>Toolbox</span>
       <h2 class="display" data-r style="--d:1">Technical <em>Arsenal</em></h2>
