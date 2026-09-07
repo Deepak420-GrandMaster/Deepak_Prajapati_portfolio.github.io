@@ -7,7 +7,7 @@
 <!-- Hardening. NOTE: X-Frame-Options, HSTS, X-Content-Type-Options and
      CSP frame-ancestors are response headers -- a static GitHub Pages site
      cannot set them. Everything expressible in markup is set below. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; connect-src 'self'; script-src 'self' 'sha256-4FuGhN1Cdd/PUwQbbFmc/2UqMFU+V3Ks+M+xf7dI0c0=' 'sha256-d5lgEQPcqSsqo8srJjtZAcCG7lQwbyFCiNXvfePsZjM=' 'sha256-zSZ3Z2y4CBpJ1aXamL3AtRNj0EuM/y/QgFMQDrIpSiE=' 'sha256-2jzhf+TQzDft8PkZbddA/7wf2I8U4QIGarc3YRyTWLs=' 'sha256-iP+L7QcUpBB5AtmVa9RQl2KhHt+354s8xWekUoz9DiY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; upgrade-insecure-requests" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; connect-src 'self'; script-src 'self' 'sha256-4FuGhN1Cdd/PUwQbbFmc/2UqMFU+V3Ks+M+xf7dI0c0=' 'sha256-vxppAq0lw/mrQtKdAdKpO9EiGLdfMpM7p+ktP+Ix1Ow=' 'sha256-zSZ3Z2y4CBpJ1aXamL3AtRNj0EuM/y/QgFMQDrIpSiE=' 'sha256-2jzhf+TQzDft8PkZbddA/7wf2I8U4QIGarc3YRyTWLs=' 'sha256-nJ9H78BnhOPrn/c0XW17aQe1ZToKcOrcCXWW9TNEA0I='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="color-scheme" content="light" />
 <meta name="theme-color" content="#f6f3ec" />
@@ -810,32 +810,37 @@ a.chip-link::after{
 }
 .tag-row .tag::after{
   content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(105deg,transparent 22%,rgba(255,253,248,.5) 50%,transparent 78%);
-  transform:translateX(-135%);
+  /* highlight follows the pointer inside the pill (--mx/--my set in JS) */
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),
+             rgba(255,253,248,.62) 0%,rgba(255,253,248,.18) 38%,transparent 68%);
+  opacity:0;transition:opacity .22s var(--ease-soft);
 }
-.tag-row .tag:hover::after{transform:translateX(135%);transition:transform .6s var(--ease-soft)}
-.tag-row .tag:hover::before{transform:scale(2);background:var(--paper-3)}
+.tag-row .tag:hover::after{opacity:1}
+.tag-row .tag:hover::before{transform:scale(2.3);background:var(--paper-3)}
 
 .tag-row:nth-child(1) .tag{--acc:var(--moss)}
 .tag-row:nth-child(2) .tag{--acc:var(--oxide)}
 .tag-row:nth-child(3) .tag{--acc:var(--brass)}
 .tag-row:nth-child(4) .tag{--acc:var(--ink-3)}
 
-/* hover adopts the row's own accent, and the pill lifts and grows */
+/* hover adopts the row's own accent, and the pill lifts and grows.
+   !important because anime.js may still hold an inline transform on a pill
+   whose entrance was interrupted mid-flight by an early hover. */
 .tag-row .tag:hover,
 .tag-row .tag:focus-visible{
   color:var(--paper-3);
   border-color:var(--acc,var(--oxide));
   background:var(--acc,var(--oxide));
-  transform:translateY(-7px) scale(1.16);
-  box-shadow:0 14px 26px rgba(22,25,31,.22);
+  transform:translateY(-8px) scale(1.22) !important;
+  box-shadow:0 16px 30px rgba(22,25,31,.26);
+  letter-spacing:.02em;
   z-index:3;
 }
 /* neighbours ease back so the hovered pill has room to grow into.
    Deliberately no opacity here: anime.js writes opacity inline for the
    entrance stagger, so a stylesheet value would either lose to it or
    fight it mid-animation. Scale alone is enough and is not contended. */
-.tag-row:hover .tag:not(:hover){transform:scale(.955)}
+.tag-row:hover .tag:not(:hover){transform:scale(.94) !important;filter:saturate(.6)}
 @media (prefers-reduced-motion:reduce){
   .tag-row .tag::after{display:none}
   .tag-row .tag:hover{transform:none}
@@ -2273,7 +2278,13 @@ a.chip-link::after{
             y: { from: 14 },
             duration: 700,
             delay: stagger(26),
-            ease: 'inOutQuint'
+            ease: 'inOutQuint',
+            /* release the inline transform anime leaves behind, otherwise it
+               outranks every :hover rule in the stylesheet and the pills sit
+               there inert. Opacity is left alone -- it is the entrance. */
+            onComplete: () => {
+              tags.forEach((t) => { t.style.transform = ''; t.style.translate = ''; });
+            }
           });
         }
       }
@@ -2582,6 +2593,33 @@ a.chip-link::after{
       root.classList.add('no-lenis');   /* restore CSS smooth-scroll */
       console.warn('[cinematic] Lenis unavailable, native scrolling kept:', err);
     }
+  })();
+
+  /* ---------------------------------------------------------------
+     1b · TAG PILLS — the highlight tracks the pointer inside each pill.
+     One delegated listener on the container rather than 23 listeners, and
+     it only writes two custom properties, so there is no layout work.
+     --------------------------------------------------------------- */
+  (function tagGlow() {
+    var rows = document.querySelector('.tag-rows');
+    if (!rows || reduced) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    rows.addEventListener('pointermove', function (ev) {
+      var tag = ev.target.closest('.tag');
+      if (!tag) return;
+      var r = tag.getBoundingClientRect();
+      tag.style.setProperty('--mx', (((ev.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+      tag.style.setProperty('--my', (((ev.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+    }, { passive: true });
+
+    /* recentre on exit so the next hover does not start from a stale corner */
+    rows.addEventListener('pointerout', function (ev) {
+      var tag = ev.target.closest('.tag');
+      if (!tag) return;
+      tag.style.removeProperty('--mx');
+      tag.style.removeProperty('--my');
+    }, { passive: true });
   })();
 
   /* ---------------------------------------------------------------
