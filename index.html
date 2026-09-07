@@ -1565,12 +1565,12 @@ a.chip-link::after{
       <h2 class="display" data-r style="--d:1">Technical <em>Arsenal</em></h2>
       <p data-r style="--d:2">Tools spanning data engineering, machine learning, LLMs, business intelligence, and ad-tech &mdash; battle-tested in production.</p>
       <svg class="motif-tune" viewBox="0 0 190 44" fill="none" aria-hidden="true">
-        <rect class="band" x="140" y="4" width="46" height="30" rx="3"/>
+        <rect class="band" x="140" y="5" width="46" height="16" rx="3"/>
         <path class="axis" d="M6 36 H184"/>
-        <path class="loss" d="M8 8 C26 26 34 12 48 24 S66 33 82 27 S108 32 126 30 S158 31 182 30.6"/>
-        <circle class="head" cx="182" cy="30.6" r="2.6"/>
-        <text class="lbl" x="140" y="42">converged</text>
-        <text class="lbl" x="6" y="42">loss</text>
+        <path class="loss" d="M8 33 C20 24.5 29 20 44 17.6 S63 13.6 82 12.5 S106 10.7 126 10.1 S158 9.6 182 9.4"/>
+        <circle class="head" cx="182" cy="9.4" r="2.6"/>
+        <text class="lbl" x="6" y="42">faithfulness</text>
+        <text class="lbl lbl-end" x="139" y="42">0.60 &#8594; 0.92</text>
       </svg>
     </div>
 
@@ -2194,6 +2194,8 @@ a.chip-link::after{
     /* ---------- skills ---------- */
     'section[data-i="3"] .eyebrow': 'Boîte à outils',
     '.skills-head h2': 'Arsenal <em>technique</em>',
+    '.motif-tune text:nth-of-type(1)': 'fidélité',
+    '.motif-tune .lbl-end': '0,60 &#8594; 0,92',
     '.skills-head p': "Des outils couvrant le data engineering, le machine learning, les LLM, la business intelligence et l'ad-tech &mdash; éprouvés en production.",
 
     '.tag-row:nth-child(1) .tag:nth-child(5)': 'Fine-tuning',
