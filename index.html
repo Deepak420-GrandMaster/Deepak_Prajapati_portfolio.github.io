@@ -11,7 +11,19 @@
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="color-scheme" content="light" />
 <meta name="theme-color" content="#f6f3ec" />
-<title>Deepak Prajapati · Analytics Engineer</title>
+<title>Deepak Prajapati · AI Engineer & Data Scientist</title>
+<meta name="description" content="Deepak Prajapati — AI Engineer & Data Scientist in Nice, France. Applied machine learning, evaluation-driven LLM and RAG systems, PyTorch, BigQuery analytics engineering. MSc Big Data & AI." />
+<meta name="author" content="Deepak Prajapati" />
+<link rel="canonical" href="https://deepak420-grandmaster.github.io/Deepak_Prajapati_portfolio.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Deepak Prajapati · AI Engineer & Data Scientist" />
+<meta property="og:description" content="Applied machine learning, evaluation-driven LLM and RAG systems, and analytics engineering. MSc Big Data & AI, Nice, France." />
+<meta property="og:url" content="https://deepak420-grandmaster.github.io/Deepak_Prajapati_portfolio.github.io/" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:locale:alternate" content="fr_FR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Deepak Prajapati · AI Engineer & Data Scientist" />
+<meta name="twitter:description" content="Applied machine learning, evaluation-driven LLM and RAG systems, and analytics engineering." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -56,7 +68,13 @@
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* NOTE: native smooth-scroll is intentionally OFF -- Lenis drives scrolling.
+   If Lenis fails to load, the JS re-enables it via .no-lenis (see boot script). */
+html{-webkit-text-size-adjust:100%}
+html.no-lenis{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto !important}
+.lenis.lenis-stopped{overflow:hidden}
 body{
   font-family:var(--sans);
   background:var(--paper);
@@ -228,7 +246,24 @@ img{max-width:100%;display:block}
    0 · HERO
    ============================================================ */
 .hero{position:relative;grid-template-rows:auto 1fr auto;background:var(--paper)}
-#field{position:absolute;inset:0;width:100%;height:100%;opacity:.85}
+#field{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+/* three.js embedding-space field, painted under the 2D scatter */
+#neural{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;opacity:0;
+  transition:opacity 1.2s var(--ease-soft);
+}
+#neural.on{opacity:.85}
+@media (prefers-reduced-motion:reduce){#neural{display:none}}
+
+/* filmic vignette -- reads as depth, keeps the headline the brightest thing */
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(120% 78% at 50% 42%, transparent 42%, rgba(22,25,31,.10) 78%, rgba(22,25,31,.20) 100%);
+  mix-blend-mode:multiply;
+}
+@media (prefers-reduced-motion:reduce){.hero::after{display:none}}
 
 .topbar{
   position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;
@@ -1233,6 +1268,7 @@ a.chip-link::after{
 
   <!-- ══════════ 0 · HERO ══════════ -->
   <section class="scene tone-a hero" data-i="0" aria-label="Home">
+    <canvas id="neural" aria-hidden="true"></canvas>
     <canvas id="field" aria-hidden="true"></canvas>
     <div class="spot" id="spot" aria-hidden="true"></div>
 
@@ -1266,9 +1302,9 @@ a.chip-link::after{
 
     <div class="hero-body">
       <span class="badge" data-r style="--d:1">Open to Opportunities</span>
-      <span class="kicker" data-r style="--d:2">Analytics Engineer &middot; Data, AI &amp; Agents</span>
+      <span class="kicker" data-r style="--d:2">AI Engineer &middot; Data Scientist &middot; Applied ML</span>
       <h1 class="display hero-title"><span class="line"><span class="line-i">Turning raw data</span></span><span class="line"><span class="line-i">into <em class="brass-word" id="typeWord">intelligence.</em><span class="caret" aria-hidden="true"></span></span></span></h1>
-      <p class="hero-sub" data-r style="--d:4">I'm <strong>Deepak Prajapati</strong> &mdash; I build BigQuery analytics stacks and GA4/GTM tracking systems, <strong>train and fine-tune models</strong>, and ship <strong>AI agents</strong> and evaluation-driven LLM applications that turn complex datasets into decisions.</p>
+      <p class="hero-sub" data-r style="--d:4">I'm <strong>Deepak Prajapati</strong> &mdash; I build <strong>evaluation-driven AI systems</strong>: agentic RAG, retrieval and LLM evaluation with PyTorch and RAGAS, backed by 4+ years of data-quality and investigative work. Currently an <strong>MSc in Big Data &amp; AI</strong> candidate, shipping analytics engineering in BigQuery alongside applied ML.</p>
       <div class="hero-ctas" data-r style="--d:5">
         <button class="btn btn-solid" data-go="1">View Projects</button>
         <a class="btn btn-line" href="assets/Deepak Prajapati Resume26.pdf" target="_blank" rel="noopener noreferrer">&darr; Resume</a>
@@ -1645,7 +1681,10 @@ a.chip-link::after{
   }
   function goTo(i) {
     i = Math.max(0, Math.min(i, total - 1));
-    window.scrollTo({ top: targetTop(i), behavior: reduced ? 'auto' : 'smooth' });
+    var top = targetTop(i);
+    /* Lenis owns scrolling when it booted; fall back to native otherwise */
+    if (window.__lenis && !reduced) { window.__lenis.scrollTo(top, { duration: 1.15 }); return; }
+    window.scrollTo({ top: top, behavior: reduced ? 'auto' : 'smooth' });
   }
   function activeIndex() {
     if (mqStack.matches) {
@@ -2084,9 +2123,9 @@ a.chip-link::after{
 
     /* ---------- hero ---------- */
     '.hero .badge': 'Ouvert aux opportunités',
-    '.hero .kicker': 'Ingénieur analytics &middot; Data, IA &amp; agents',
+    '.hero .kicker': 'Ingénieur IA &middot; Data scientist &middot; ML appliqué',
     '.hero-title .line:first-child .line-i': 'Transformer la donnée brute',
-    '.hero-sub': "Je suis <strong>Deepak Prajapati</strong> &mdash; je conçois des stacks analytics BigQuery et des systèmes de tracking GA4/GTM, j'<strong>entraîne et fine-tune des modèles</strong>, et je livre des <strong>agents IA</strong> et des applications LLM pilotées par l'évaluation qui transforment des données complexes en décisions.",
+    '.hero-sub': "Je suis <strong>Deepak Prajapati</strong> &mdash; je construis des <strong>systèmes d'IA pilotés par l'évaluation</strong> : RAG agentique, évaluation de la recherche et des LLM avec PyTorch et RAGAS, adossés à 4+ ans de qualité de données et d'investigation. Actuellement en <strong>MSc Big Data &amp; IA</strong>, je livre de l'analytics engineering sur BigQuery en parallèle du ML appliqué.",
     '.hero-ctas .btn-solid': 'Voir les projets',
     '.hero-ctas a.btn-line': '&darr; CV',
     '.hero-ctas button.btn-line': 'Contact',
@@ -2290,6 +2329,211 @@ a.chip-link::after{
     if (img.complete && img.naturalWidth === 0) fail();
     img.addEventListener('error', fail);
   });
+})();
+</script>
+
+<!-- ============================================================
+     CINEMATIC LAYER — Lenis inertial scroll + three.js embedding field.
+     Both load from jsdelivr, already allow-listed in the CSP at the top
+     of this file. Every part is optional: if a module fails to load the
+     page keeps working exactly as it did before.
+     ============================================================ -->
+<script type="module">
+(function () {
+  'use strict';
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root    = document.documentElement;
+
+  /* ---------------------------------------------------------------
+     1 · LENIS — inertial scrolling
+     The stack relies on real window scroll (position:sticky scenes and
+     window.scrollY reads), so Lenis runs in its default mode where it
+     drives the actual scroll position. No rewiring of the scene engine
+     is needed; we only hand it the RAF loop and the scrollTo entry point.
+     --------------------------------------------------------------- */
+  (async function lenisBoot() {
+    if (reduced) { root.classList.add('no-lenis'); return; }
+    try {
+      var mod   = await import('https://cdn.jsdelivr.net/npm/lenis@1.3.26/+esm');
+      var Lenis = mod.default || mod.Lenis;
+      if (!Lenis) throw new Error('Lenis export not found');
+
+      var lenis = new Lenis({
+        duration: 1.05,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        smoothWheel: true,
+        syncTouch: false,          /* native inertia on touch reads better */
+        touchMultiplier: 1.6,
+        wheelMultiplier: 1.0
+      });
+
+      window.__lenis = lenis;
+      function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+
+      /* anchors keep working */
+      document.addEventListener('click', function (ev) {
+        var a = ev.target.closest('a[href^="#"]');
+        if (!a) return;
+        var el = document.querySelector(a.getAttribute('href'));
+        if (!el) return;
+        ev.preventDefault();
+        lenis.scrollTo(el, { duration: 1.15 });
+      });
+    } catch (err) {
+      root.classList.add('no-lenis');   /* restore CSS smooth-scroll */
+      console.warn('[cinematic] Lenis unavailable, native scrolling kept:', err);
+    }
+  })();
+
+  /* ---------------------------------------------------------------
+     2 · THREE.JS — the embedding field behind the hero
+     A latent space read as a picture: clustered points, nearest-neighbour
+     edges, slow drift, pointer parallax. Brass on paper so it belongs to
+     the existing palette rather than fighting it.
+     --------------------------------------------------------------- */
+  (async function fieldBoot() {
+    var canvas = document.getElementById('neural');
+    if (!canvas || reduced) return;
+    if (!window.matchMedia('(min-width: 760px)').matches) return;  /* skip on phones */
+
+    /* bail if WebGL is unavailable rather than throwing */
+    try {
+      var probe = document.createElement('canvas');
+      if (!(probe.getContext('webgl2') || probe.getContext('webgl'))) return;
+    } catch (e) { return; }
+
+    var THREE;
+    try {
+      THREE = await import('https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js');
+    } catch (err) {
+      console.warn('[cinematic] three.js unavailable:', err); return;
+    }
+
+    var PAPER = 0xf6f3ec, BRASS = 0xc79a3e, OXIDE = 0x8c2f2a, INK = 0x4a515b;
+
+    var scene    = new THREE.Scene();
+    scene.fog    = new THREE.FogExp2(PAPER, 0.055);
+    var camera   = new THREE.PerspectiveCamera(56, 1, 0.1, 200);
+    camera.position.set(0, 0, 26);
+
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+    renderer.setClearColor(PAPER, 0);
+
+    /* ---- build clustered points: a latent space, not a random cloud ---- */
+    var CLUSTERS = 7, PER = 96, N = CLUSTERS * PER;
+    var pos = new Float32Array(N * 3);
+    var col = new Float32Array(N * 3);
+    var siz = new Float32Array(N);
+    var pts = [];
+    var cBrass = new THREE.Color(BRASS), cOxide = new THREE.Color(OXIDE), cInk = new THREE.Color(INK);
+
+    function gauss() {                     /* Box-Muller */
+      var u = 1 - Math.random(), v = Math.random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    for (var c = 0; c < CLUSTERS; c++) {
+      var ang = (c / CLUSTERS) * Math.PI * 2 + Math.random() * 0.5;
+      var rad = 7 + Math.random() * 6;
+      var cx = Math.cos(ang) * rad, cy = gauss() * 3.4, cz = Math.sin(ang) * rad * 0.8;
+      var tint = (c % 3 === 0) ? cOxide : (c % 3 === 1 ? cBrass : cInk);
+      for (var p = 0; p < PER; p++) {
+        var i = c * PER + p, s = 1.5;
+        var x = cx + gauss() * s, y = cy + gauss() * s * 0.8, z = cz + gauss() * s;
+        pos[i*3] = x; pos[i*3+1] = y; pos[i*3+2] = z;
+        var mix = tint.clone().lerp(cBrass, Math.random() * 0.45);
+        col[i*3] = mix.r; col[i*3+1] = mix.g; col[i*3+2] = mix.b;
+        siz[i] = 0.10 + Math.random() * 0.16;
+        pts.push([x, y, z]);
+      }
+    }
+
+    var pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    pGeo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+    var cloud = new THREE.Points(pGeo, new THREE.PointsMaterial({
+      size: 0.30, vertexColors: true, transparent: true, opacity: 0.95,
+      sizeAttenuation: true, depthWrite: false
+    }));
+    scene.add(cloud);
+
+    /* ---- nearest-neighbour edges, capped so the frame stays cheap ---- */
+    var seg = [], sc = [], MAXD = 3.1, MAX_EDGES = 1500;
+    outer:
+    for (var a = 0; a < pts.length; a++) {
+      for (var b = a + 1; b < pts.length; b++) {
+        var dx = pts[a][0]-pts[b][0], dy = pts[a][1]-pts[b][1], dz = pts[a][2]-pts[b][2];
+        var d2 = dx*dx + dy*dy + dz*dz;
+        if (d2 < MAXD * MAXD) {
+          seg.push(pts[a][0],pts[a][1],pts[a][2], pts[b][0],pts[b][1],pts[b][2]);
+          var f = 1 - Math.sqrt(d2) / MAXD;
+          for (var k = 0; k < 2; k++) sc.push(cBrass.r, cBrass.g * (0.72 + f*0.28), cBrass.b * 0.55);
+          if (seg.length / 6 >= MAX_EDGES) break outer;
+        }
+      }
+    }
+    var lGeo = new THREE.BufferGeometry();
+    lGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(seg), 3));
+    lGeo.setAttribute('color',    new THREE.BufferAttribute(new Float32Array(sc), 3));
+    var mesh = new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({
+      vertexColors: true, transparent: true, opacity: 0.24, depthWrite: false
+    }));
+    scene.add(mesh);
+
+    var group = new THREE.Group();
+    scene.add(group);
+    group.add(cloud); group.add(mesh);
+
+    /* ---- sizing ---- */
+    function resize() {
+      var r = canvas.getBoundingClientRect();
+      var w = Math.max(1, r.width), h = Math.max(1, r.height);
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    var ro = ('ResizeObserver' in window) ? new ResizeObserver(resize) : null;
+    if (ro) ro.observe(canvas); else window.addEventListener('resize', resize);
+
+    /* ---- pointer parallax ---- */
+    var tx = 0, ty = 0, mx = 0, my = 0;
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      window.addEventListener('pointermove', function (e) {
+        tx = (e.clientX / window.innerWidth  - 0.5);
+        ty = (e.clientY / window.innerHeight - 0.5);
+      }, { passive: true });
+    }
+
+    /* ---- run only while the hero is the live scene and the tab is visible ---- */
+    var live = true, visible = !document.hidden, raf = 0, t0 = performance.now();
+    document.addEventListener('scene:live', function (ev) { live = (ev.detail === 0); tick(); });
+    document.addEventListener('visibilitychange', function () { visible = !document.hidden; tick(); });
+
+    function frame(now) {
+      var t = (now - t0) / 1000;
+      mx += (tx - mx) * 0.045;
+      my += (ty - my) * 0.045;
+      group.rotation.y = t * 0.045 + mx * 0.55;
+      group.rotation.x = Math.sin(t * 0.16) * 0.10 - my * 0.34;
+      camera.position.z = 26 + Math.sin(t * 0.22) * 1.6;
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(frame);
+    }
+    function tick() {
+      var should = live && visible;
+      if (should && !raf) { t0 = performance.now() - 1000; raf = requestAnimationFrame(frame); }
+      else if (!should && raf) { cancelAnimationFrame(raf); raf = 0; }
+    }
+
+    requestAnimationFrame(function (n) { frame(n); });
+    canvas.classList.add('on');
+    tick();
+  })();
 })();
 </script>
 </body>
