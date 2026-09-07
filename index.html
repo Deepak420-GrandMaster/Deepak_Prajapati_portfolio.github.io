@@ -7,7 +7,7 @@
 <!-- Hardening. NOTE: X-Frame-Options, HSTS, X-Content-Type-Options and
      CSP frame-ancestors are response headers -- a static GitHub Pages site
      cannot set them. Everything expressible in markup is set below. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; connect-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; upgrade-insecure-requests" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'none'; connect-src 'self'; script-src 'self' 'sha256-4FuGhN1Cdd/PUwQbbFmc/2UqMFU+V3Ks+M+xf7dI0c0=' 'sha256-d5lgEQPcqSsqo8srJjtZAcCG7lQwbyFCiNXvfePsZjM=' 'sha256-zSZ3Z2y4CBpJ1aXamL3AtRNj0EuM/y/QgFMQDrIpSiE=' 'sha256-2jzhf+TQzDft8PkZbddA/7wf2I8U4QIGarc3YRyTWLs=' 'sha256-iP+L7QcUpBB5AtmVa9RQl2KhHt+354s8xWekUoz9DiY='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com; upgrade-insecure-requests" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="color-scheme" content="light" />
 <meta name="theme-color" content="#f6f3ec" />
@@ -24,9 +24,9 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Deepak Prajapati · AI Engineer & Data Scientist" />
 <meta name="twitter:description" content="Applied machine learning, evaluation-driven LLM and RAG systems, and analytics engineering." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%23f6f3ec'/%3E%3Cg fill='none' stroke='%23c79a3e' stroke-width='1.4'%3E%3Cellipse cx='12' cy='12' rx='9.4' ry='3.8' transform='rotate(58 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='9.4' ry='3.8' transform='rotate(-58 12 12)'/%3E%3C/g%3E%3Ccircle cx='12' cy='12' r='2.4' fill='%237d5f1b'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
 <style>
 /* ============================================================
@@ -386,9 +386,29 @@ h1.hero-title{font-size:clamp(2.1rem,5.7vw,4.9rem);max-width:15ch;margin-bottom:
 .doodle-spark{right:4.5%;bottom:17%;width:128px;animation:drift 9s var(--ease-soft) infinite}
 .doodle-spark path{stroke-dasharray:7 6;animation:flow 7s linear infinite}
 .doodle-db{left:4.5%;top:23%;width:56px;animation:drift 11s var(--ease-soft) .8s infinite}
-@keyframes markPulse{
-  0%,100%{box-shadow:0 0 0 3px rgba(199,154,62,.20),0 0 0 7px rgba(199,154,62,.09)}
-  50%    {box-shadow:0 0 0 4px rgba(199,154,62,.28),0 0 0 10px rgba(199,154,62,.04)}
+/* ---- wordmark glyph: an orbital. Two inclined shells, a nucleus and one
+   electron on the outer ring -- the shared visual grammar of atomic and
+   quantum diagrams, and of a node in a network. Decorative only. ---- */
+.wordmark .mark{
+  width:1.5em;height:1.5em;flex:none;overflow:visible;
+  animation:orbSpin 16s linear infinite;
+  transition:filter var(--t) var(--ease-soft);
+}
+.wordmark .mark .orb{
+  stroke:var(--brass-hi);stroke-width:1.15;fill:none;
+  transform-origin:12px 12px;opacity:.85;
+}
+.wordmark .mark .o1{transform:rotate(58deg)}
+.wordmark .mark .o2{transform:rotate(-58deg)}
+.wordmark .mark .nuc{fill:var(--brass)}
+.wordmark .mark .el{fill:var(--oxide);transform-origin:12px 12px;animation:elOrbit 4.2s linear infinite}
+@keyframes orbSpin{to{transform:rotate(360deg)}}
+@keyframes elOrbit{to{transform:rotate(-360deg)}}
+/* hover spins the shell up rather than resizing anything */
+.wordmark:hover .mark{animation-duration:3.4s;filter:drop-shadow(0 0 5px rgba(199,154,62,.55))}
+.wordmark:hover .mark .el{animation-duration:1.1s}
+@media (prefers-reduced-motion:reduce){
+  .wordmark .mark,.wordmark .mark .el{animation:none}
 }
 @keyframes drift{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
 @keyframes flow{to{stroke-dashoffset:-200}}
@@ -656,19 +676,10 @@ h1.hero-title{font-size:clamp(2.1rem,5.7vw,4.9rem);max-width:15ch;margin-bottom:
 /* ---- topbar: monogram mark + a nav that responds ---- */
 .wordmark{display:inline-flex;align-items:center;gap:.62rem}
 .wordmark::before{
-  content:'';
-  width:.58rem;height:.58rem;border-radius:50%;flex:none;
-  background:linear-gradient(140deg,var(--brass-hi) 0%,var(--brass) 100%);
-  /* concentric rings read as a live signal node, echoing the tag dots */
-  box-shadow:0 0 0 3px rgba(199,154,62,.20),0 0 0 7px rgba(199,154,62,.09);
-  animation:markPulse 3.4s var(--ease-soft) infinite;
-  transition:transform var(--t) var(--ease),box-shadow var(--t) var(--ease);
+  content:none;
 }
-.topbar:hover .wordmark::before{transform:scale(1.15)}
-.wordmark:hover::before{
-  transform:scale(1.35);
-  box-shadow:0 0 0 5px rgba(199,154,62,.30),0 0 0 12px rgba(199,154,62,.10);
-}
+
+
 .topnav button:hover{color:var(--brass)}
 .topnav button::before{
   content:'';position:absolute;left:50%;top:-.34rem;
@@ -678,7 +689,6 @@ h1.hero-title{font-size:clamp(2.1rem,5.7vw,4.9rem);max-width:15ch;margin-bottom:
 }
 .topnav button:hover::before{transform:translateX(-50%) scale(1)}
 @media (prefers-reduced-motion:reduce){
-  .wordmark::before{animation:none;transition:none}
   .topnav button::before{transition:none}
 }
 
@@ -1462,7 +1472,7 @@ a.chip-link::after{
       <circle class="cog" cx="30" cy="30" r="3.4"/>
     </svg>
     <header class="topbar" data-r style="--d:0">
-      <span class="wordmark">Deepak Prajapati</span>
+      <span class="wordmark"><svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse class="orb o1" cx="12" cy="12" rx="10.6" ry="4.3"/><ellipse class="orb o2" cx="12" cy="12" rx="10.6" ry="4.3"/><circle class="nuc" cx="12" cy="12" r="2.5"/><circle class="el" cx="22.6" cy="12" r="1.5"/></svg>Deepak Prajapati</span>
       <nav class="topnav" aria-label="Primary">
         <button data-go="0">Home</button>
         <button data-go="1">Projects</button>
@@ -1590,9 +1600,9 @@ a.chip-link::after{
 
     <div class="col col-alt">
       <blockquote class="pull" data-r="right" style="--d:0">&ldquo;I design clean workflows, build scalable data systems, and turn complex datasets into business-ready intelligence.&rdquo;</blockquote>
-      <p class="prose" data-r="right" style="--d:1">Analytics engineer with an <strong>MSc in Big Data &amp; AI</strong> and <strong>4+ years</strong> spanning data quality, KPI governance, and analytics &mdash; including leading QC analyst teams at Numerator at 95%+ SLA.</p>
-      <p class="prose" data-r="right" style="--d:2">At TravelJuice I own the analytics stack end-to-end: <strong>BigQuery mart models</strong> across the full funnel (search, conversion, checkout, loyalty, product performance), rebuilt <strong>GA4/GTM tracking</strong> with custom dimensions and server-side tagging, an <strong>82% Meta Ads vs GA4 attribution gap</strong> closed via Consent Mode V2, and <strong>70%</strong> off BigQuery costs through partitioning and query optimization &mdash; all surfaced in <strong>Looker Studio and Apache Superset</strong> dashboards that marketing and product run on daily. I also trained an in-house <strong>ML model</strong>, shipped a one-click <strong>Brevo newsletter generator</strong> that removed manual email build time, and partner directly with <strong>small and regional French airports</strong> on the data behind their growth.</p>
-      <p class="prose" data-r="right" style="--d:3">On the AI side I build <strong>evaluation-driven LLM applications</strong>: an agentic RAG assistant tuned with RAGAS (faithfulness <strong>0.60 &rarr; 0.92</strong>) and a custom LLM eval harness. Most recently <strong>France River Flow</strong> &mdash; live discharge for <strong>3,272 French rivers</strong> and 121,530 km of network, pulled from the open Hub&rsquo;Eau API across all 96 departments and animated downstream on the map. Certified in Microsoft PL-300 and Six Sigma; fluent in English and Hindi, working proficiency in French.</p>
+      <p class="prose" data-r="right" style="--d:1">AI engineer working on <strong>evaluation-driven LLM systems</strong>, with an <strong>MSc in Big Data &amp; AI</strong> and <strong>4+ years</strong> in data quality and investigation &mdash; the discipline that decides whether a model's output can actually be trusted.</p>
+      <p class="prose" data-r="right" style="--d:2">I build retrieval systems around <strong>evaluation, not demos</strong>. For the agentic travel assistant I designed test cases for <strong>unsupported claims, incomplete retrieval, ambiguous queries and conflicting sources</strong>, then used <strong>RAGAS</strong> to drive each iteration &mdash; faithfulness <strong>0.60 &rarr; 0.92</strong> &mdash; and shipped it as a live Streamlit service on Llama 3.3, Groq and ChromaDB. The resume-screening pipeline separates hard requirements from transferable evidence and returns matched requirements, gaps and a confidence score, rather than keyword overlap.</p>
+      <p class="prose" data-r="right" style="--d:3">That rigour comes from the data side. At TravelJuice I own the analytics stack end-to-end &mdash; <strong>BigQuery mart models</strong> across the funnel, rebuilt <strong>GA4/GTM tracking</strong>, an <strong>82% Meta Ads vs GA4 attribution gap</strong> traced to consent-gated tracking and closed with Consent Mode V2, and <strong>70%</strong> off BigQuery costs. Earlier, at Numerator, I led QC analyst teams at <strong>95%+ SLA</strong> across 800+ blocks a week. Certified Microsoft PL-300 and Six Sigma. <strong>English C1 &middot; Hindi C1 &middot; French B1</strong>, based in Nice.</p>
       <div class="stats">
         <div class="stat" data-r="scale" style="--d:5"><b data-target="4" data-suffix="+">4+</b><span>Years Exp</span></div>
         <div class="stat" data-r="scale" style="--d:6"><b data-target="5" data-suffix="">5</b><span>Featured Projects</span></div>
@@ -2235,7 +2245,7 @@ a.chip-link::after{
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduced) {
     try {
-      const { animate, stagger } = await import('https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm');
+      const { animate, stagger } = await import('./vendor/anime.esm.js');
       document.documentElement.classList.add('has-anime');
 
       const played = new Set();
@@ -2337,9 +2347,9 @@ a.chip-link::after{
     [C + ':nth-child(5) .mini-solid']: 'Démo en ligne',
 
     [S + ' .pull']: '&laquo;&nbsp;Je conçois des workflows clairs, je bâtis des systèmes de données scalables, et je transforme des jeux de données complexes en intelligence exploitable.&nbsp;&raquo;',
-    [S + ' .prose:nth-of-type(1)']: "Ingénieur analytics titulaire d'un <strong>MSc Big Data &amp; IA</strong>, avec <strong>4+ années</strong> couvrant la qualité des données, la gouvernance des KPI et l'analytics &mdash; dont l'encadrement d'équipes d'analystes QC chez Numerator à 95%+ de SLA.",
-    [S + ' .prose:nth-of-type(2)']: "Chez TravelJuice je pilote la stack analytics de bout en bout : <strong>modèles mart BigQuery</strong> sur tout le funnel (recherche, conversion, checkout, fidélité, performance produit), refonte du <strong>tracking GA4/GTM</strong> avec dimensions personnalisées et tagging server-side, un <strong>écart d'attribution de 82% entre Meta Ads et GA4</strong> comblé via le Consent Mode V2, et <strong>70%</strong> de coûts BigQuery en moins par partitionnement et optimisation des requêtes &mdash; le tout exposé dans des dashboards <strong>Looker Studio et Apache Superset</strong> utilisés au quotidien par le marketing et le produit. J'ai aussi entraîné un <strong>modèle ML</strong> interne, livré un générateur de newsletters <strong>Brevo</strong> en un clic qui supprime le montage manuel des e-mails, et j'accompagne directement les <strong>petits et moyens aéroports français</strong> sur les données qui portent leur croissance.",
-    [S + ' .prose:nth-of-type(3)']: "Côté IA, je construis des <strong>applications LLM pilotées par l'évaluation</strong> : un assistant RAG agentique réglé avec RAGAS (fidélité <strong>0,60 &rarr; 0,92</strong>) et un harnais d'évaluation LLM sur mesure. Plus récemment <strong>France River Flow</strong> &mdash; le débit en direct de <strong>3 272 rivières françaises</strong> et 121 530 km de réseau, issus de l'API ouverte Hub'Eau sur les 96 départements et animés vers l'aval sur la carte. Certifié Microsoft PL-300 et Six Sigma ; anglais et hindi courants, français professionnel.",
+    [S + ' .prose:nth-of-type(1)']: "Ingénieur IA travaillant sur des <strong>systèmes LLM pilotés par l'évaluation</strong>, titulaire d'un <strong>MSc Big Data &amp; IA</strong> et fort de <strong>4+ années</strong> en qualité des données et investigation &mdash; la discipline qui détermine si la sortie d'un modèle est réellement fiable.",
+    [S + ' .prose:nth-of-type(2)']: "Je construis des systèmes de recherche autour de <strong>l'évaluation, pas de la démo</strong>. Pour l'assistant de voyage agentique, j'ai conçu des cas de test pour les <strong>affirmations non étayées, la recherche incomplète, les requêtes ambiguës et les sources contradictoires</strong>, puis utilisé <strong>RAGAS</strong> pour guider chaque itération &mdash; fidélité <strong>0,60 &rarr; 0,92</strong> &mdash; et livré le tout en service Streamlit sur Llama 3.3, Groq et ChromaDB. Le pipeline de tri de CV sépare exigences strictes et compétences transférables, et renvoie exigences satisfaites, manques et score de confiance plutôt qu'un simple recoupement de mots-clés.",
+    [S + ' .prose:nth-of-type(3)']: "Cette rigueur vient de la donnée. Chez TravelJuice je pilote la stack analytics de bout en bout &mdash; <strong>modèles mart BigQuery</strong> sur le funnel, refonte du <strong>tracking GA4/GTM</strong>, un <strong>écart d'attribution de 82% entre Meta Ads et GA4</strong> attribué au consentement et corrigé via Consent Mode V2, et <strong>70%</strong> de coûts BigQuery en moins. Auparavant, chez Numerator, j'ai encadré des équipes d'analystes QC à <strong>95%+ de SLA</strong> sur 800+ blocs par semaine. Certifié Microsoft PL-300 et Six Sigma. <strong>Anglais C1 &middot; Hindi C1 &middot; Français B1</strong>, basé à Nice.",
     [S + ' .stat:nth-child(1) span']: "Ans d'exp.",
     [S + ' .stat:nth-child(2) span']: 'Projets phares',
     [S + ' .stat:nth-child(3) span:not(.meter)']: "Écart d'attribution comblé",
@@ -2542,7 +2552,7 @@ a.chip-link::after{
   (async function lenisBoot() {
     if (reduced) { root.classList.add('no-lenis'); return; }
     try {
-      var mod   = await import('https://cdn.jsdelivr.net/npm/lenis@1.3.26/+esm');
+      var mod   = await import('./vendor/lenis.esm.js');
       var Lenis = mod.default || mod.Lenis;
       if (!Lenis) throw new Error('Lenis export not found');
 
@@ -2593,7 +2603,7 @@ a.chip-link::after{
 
     var THREE;
     try {
-      THREE = await import('https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js');
+      THREE = await import('./vendor/three.module.js');
     } catch (err) {
       console.warn('[cinematic] three.js unavailable:', err); return;
     }
