@@ -30,6 +30,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
 <script src="assets/js/boot.js"></script>
 <link rel="modulepreload" href="assets/js/three-fx.js" />
+<link rel="stylesheet" href="assets/css/bioviz.css" />
 <style>
 /* ============================================================
    TOKENS — light only
@@ -1572,7 +1573,7 @@ html.intro.tunnel-on{--hold:1.9s}
 .col-photo .bg{opacity:1}
 .col-photo .bg canvas{display:block;width:100%;height:100%}
 /* ============================================================
-   FX LAYER 2 — menu, seals, scalloped edges, cursor, 3D settle
+   FX LAYER 2 — menu, scalloped edges, cursor, 3D settle
    ============================================================ */
 
 /* ---- scalloped scene edges: each scene rises with a scalloped lip ---- */
@@ -1599,27 +1600,7 @@ html.intro.tunnel-on{--hold:1.9s}
 }
 @keyframes aurora{from{transform:translate3d(-2%,0,0) scale(1)}to{transform:translate3d(3%,-3%,0) scale(1.08)}}
 
-/* ---- spinning seals ---- */
-.seal{position:absolute;z-index:3;width:120px;height:120px;pointer-events:none}
-.seal svg{display:block;width:100%;height:100%;overflow:visible}
-.seal .ring{transform-origin:60px 60px;animation:sealSpin 28s linear infinite}
-.seal text{font-family:var(--mono);font-size:8.6px;font-weight:600;letter-spacing:.12em;fill:var(--ink-2)}
-.seal .core{fill:var(--paper-3);stroke:var(--brass);stroke-width:1.2;transition:fill var(--t) var(--ease-soft)}
-.seal .arrow{fill:none;stroke:var(--oxide);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke var(--t) var(--ease-soft)}
-.seal-hero{right:7%;top:22%}
-.seal-hero svg{rotate:calc(var(--hp,0) * 200deg)}
-a.seal{pointer-events:auto;display:block}
-a.seal:hover .core{fill:var(--brass)}
-a.seal:hover .arrow{stroke:var(--paper-3)}
-.seal-contact{right:clamp(20px,3vw,48px);top:12%}
-.seal-contact svg{rotate:calc((1 - var(--sp,1)) * -160deg)}
 .close-a{position:relative}
-@keyframes sealSpin{to{transform:rotate(360deg)}}
-@media (max-width:900px){
-  .seal-hero{display:none}
-  .seal-contact{width:96px;height:96px;top:16px}
-}
-@media (prefers-reduced-motion:reduce){.seal .ring{animation:none}.seal svg{rotate:none}}
 
 /* ---- closing wordmark ---- */
 .scene[data-ghost]::after{
@@ -1967,8 +1948,9 @@ html.qlab-open{overflow:hidden}
       <circle class="pole" cx="40" cy="10" r="2"/><circle class="pole" cx="40" cy="70" r="2"/>
       <circle class="psi" r="2.6"/>
     </svg>
+    <div class="bio bio-arc" data-depth="10" aria-hidden="true"></div>
+    <div class="bio bio-ribbon" data-depth="14" aria-hidden="true"><canvas></canvas></div>
     <div class="hero-mega" aria-hidden="true">Prajapati</div>
-    <div class="seal seal-hero" data-depth="16" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="sealA" d="M60 60m-42 0a42 42 0 1 1 84 0a42 42 0 1 1 -84 0"/></defs><g class="ring"><text><textPath href="#sealA" textLength="262" lengthAdjust="spacing">AI ENGINEER &#8226; DATA SCIENTIST &#8226; NICE, FRANCE &#8226; </textPath></text></g><circle class="core" cx="60" cy="60" r="16"/><path class="arrow" d="M54 66L66 54M57 54H66V63"/></svg></div>
     <header class="topbar" data-r style="--d:0">
       <span class="wordmark"><svg class="mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse class="orb o1" cx="12" cy="12" rx="10.6" ry="4.3"/><ellipse class="orb o2" cx="12" cy="12" rx="10.6" ry="4.3"/><circle class="nuc" cx="12" cy="12" r="2.5"/><circle class="el" cx="22.6" cy="12" r="1.5"/></svg>Deepak Prajapati</span>
       <nav class="topnav" aria-label="Primary">
@@ -2017,6 +1999,7 @@ html.qlab-open{overflow:hidden}
         <g class="nd3"><circle class="nd" cx="196" cy="76"  r="8.5"/><circle class="core" cx="196" cy="76" r="3"/></g>
         <g class="nd4"><circle class="nd" cx="282" cy="96"  r="7"/><circle class="core" cx="282" cy="96"  r="3"/></g>
       </svg>
+      <div class="bio bio-aln at-projects" data-set="cys" data-rows="8" aria-hidden="true"></div>
       <div class="head" data-r>
         <span class="eyebrow">Selected Works</span>
         <h2 class="display">Featured<br /><em>Projects</em></h2>
@@ -2114,6 +2097,7 @@ html.qlab-open{overflow:hidden}
   <!-- ══════════ 2 · TIMELINE ══════════ -->
   <section class="scene tone-b split" data-i="2" aria-label="Timeline">
     <div class="col">
+      <div class="bio bio-mat" aria-hidden="true"></div>
       <div class="head" data-r>
         <span class="eyebrow">Chronicles</span>
         <h2 class="display">Career<br /><em>Timeline</em></h2>
@@ -2289,6 +2273,7 @@ html.qlab-open{overflow:hidden}
         <span class="tag">AI Content Detection</span><span class="tag">Computer Vision</span>
         <span class="tag">Signal Integrity</span><span class="tag">False-Positive Analysis</span>
       </div>
+      <div class="bio bio-aln at-skills" data-set="dna" data-rows="9" aria-hidden="true"></div>
     </div>
 
     <div class="prof-grid">
@@ -2305,7 +2290,6 @@ html.qlab-open{overflow:hidden}
   <!-- ══════════ 4 · CONTACT ══════════ -->
   <section class="scene tone-b closing" data-i="4" data-ghost="Hello" aria-label="Contact">
     <div class="close-a">
-      <a class="seal seal-contact" href="mailto:deepak.byte07@gmail.com" aria-label="Send an email"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="sealB" d="M60 60m-42 0a42 42 0 1 1 84 0a42 42 0 1 1 -84 0"/></defs><g class="ring"><text><textPath href="#sealB" textLength="262" lengthAdjust="spacing">SAY HELLO &#8226; LET'S BUILD &#8226; SAY HELLO &#8226; </textPath></text></g><circle class="core" cx="60" cy="60" r="16"/><path class="arrow" d="M54 66L66 54M57 54H66V63"/></svg></a>
       <span class="eyebrow" data-r>Connect</span>
       <h2 class="display" data-r style="--d:1">Get In<br /><em class="brass-word">Touch</em></h2>
       <p class="desc" data-r style="--d:2">I'm always interested in new opportunities and collaborations. Let's talk about applied AI: agentic systems, retrieval pipelines, and models that get evaluated before they ship.</p>
@@ -3334,6 +3318,7 @@ html.qlab-open{overflow:hidden}
 </div>
 <div class="qlab" id="qlab" role="dialog" aria-modal="true" aria-hidden="true"></div>
 <script src="assets/js/fx.js" defer></script>
+<script src="assets/js/bioviz.js" defer></script>
 <script src="assets/js/qlab.js" defer></script>
 </body>
 </html>
