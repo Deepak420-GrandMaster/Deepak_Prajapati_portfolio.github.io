@@ -1,6 +1,6 @@
 /* ============================================================
    Bio-data figures -- drawn by assets/js/bioviz.js
-   Arc diagram + protein ribbon (hero), cysteine-motif alignment
+   Arc diagram (hero), cysteine-motif alignment
    (projects), contact map (timeline), Shine-Dalgarno alignment
    (skills). Decorative only.
    ============================================================ */
@@ -34,11 +34,6 @@ html.intro .hero.is-live .bio-arc .arc{animation-delay:calc(var(--hold,.6s) + .3
 }
 .bio-arc .dot.hot{fill:var(--bio-blue);transform:scale(1.8)}
 .bio-arc .dot2{fill:var(--bio-ink);opacity:.28}
-
-/* ---- protein ribbon: rotates on its own, drag to turn it ---- */
-.bio-ribbon{right:5.5%;top:25%;width:clamp(190px,17vw,260px);aspect-ratio:1;pointer-events:auto;cursor:grab}
-.bio-ribbon:active{cursor:grabbing}
-.bio-ribbon canvas{display:block;width:100%;height:100%;touch-action:none}
 
 /* ---- motif alignment: rows slide into register, the motif lights up ---- */
 .bio-aln{
