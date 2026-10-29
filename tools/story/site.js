@@ -124,6 +124,20 @@ function setupHeader() {
   update();
 }
 
+// The header shows where you are on the page.
+function setupNavSpy() {
+  const links = $$('.top nav a[href^="#"]');
+  const targets = links.map((a) => (a.getAttribute('href') === '#story' ? $('.walk') : $(a.getAttribute('href'))));
+  const update = () => {
+    const y = innerHeight * 0.4;
+    let on = -1;
+    targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top <= y && t.getBoundingClientRect().bottom > y) on = i; });
+    links.forEach((a, i) => a.toggleAttribute('aria-current', i === on));
+  };
+  addEventListener('scroll', update, { passive: true });
+  update();
+}
+
 function setupTilt() {
   if (reduce || matchMedia('(pointer: coarse)').matches) return;
   for (const card of $$('.project')) {
@@ -140,4 +154,5 @@ setupWalk();
 setupReveals();
 setupSpines();
 setupHeader();
+setupNavSpy();
 setupTilt();
