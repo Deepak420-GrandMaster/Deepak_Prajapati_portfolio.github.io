@@ -50,7 +50,7 @@
         <h1>From checking data<br />to building AI<br /><em>people can trust.</em></h1>
         <p class="lede">I’m Deepak. I build evaluation-driven AI systems: agentic RAG, retrieval and LLM evaluation.<br class="desktop-break" /> This is the story behind the work.</p>
         <div class="hero-actions">
-          <a class="begin" href="#story" data-go="0">Walk with me <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
+          <a class="begin" href="#story" data-go="0" data-magnetic>Walk with me <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
           <a class="work-link" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
           <a class="work-link" href="assets/Deepak%20Prajapati%20Resume26.pdf" download="Deepak_Prajapati_CV.pdf">Download CV <span aria-hidden="true">↓</span></a>
         </div>
@@ -150,12 +150,25 @@
     </div>
   </section>
 
-  <section class="about gut" id="about" aria-labelledby="about-title">
-    <div class="head">
-      <p class="kicker">01 / Beyond the CV</p>
-      <h2 id="about-title">How I <em>work.</em></h2>
-      <p>The habits that show up in everything I build.</p>
+  <section class="about gut" id="about" aria-labelledby="about-title" data-bg="#FBF8F3">
+    <div class="about-top">
+      <div class="head">
+        <p class="kicker">01 / Beyond the CV</p>
+        <h2 id="about-title">How I <em>work.</em></h2>
+        <p>The habits that show up in everything I build.</p>
+      </div>
+      <figure class="portrait" data-reveal>
+        <img src="images/deepak-portrait.jpg" width="640" height="640" alt="Deepak Prajapati" loading="lazy" />
+        <figcaption><span class="live-dot" aria-hidden="true"></span> Open to AI &amp; data roles</figcaption>
+      </figure>
     </div>
+    <p class="statement" data-fill>I learned not to trust a number until I had checked it. Now I build AI the same way: <em>measured, tested, then shipped.</em></p>
+    <ul class="stats" aria-label="Results in numbers">
+      <li data-reveal><b data-count="82" data-suffix="%">82%</b><span>Meta Ads vs GA4 conversion gap traced and closed</span></li>
+      <li data-reveal><b data-count="70" data-suffix="%">70%</b><span>cut from BigQuery costs</span></li>
+      <li data-reveal><b data-count="0.92" data-from="0.60" data-decimals="2">0.92</b><span>RAGAS faithfulness, up from 0.60</span></li>
+      <li data-reveal><b data-count="95" data-suffix="%+">95%+</b><span>SLA across 800+ QC blocks a week</span></li>
+    </ul>
     <ul class="traits">
       <li data-reveal>
         <h3>I check the number first</h3>
@@ -177,7 +190,7 @@
     <p class="about-facts">English C1 · Hindi C1 · French B1 · Based in Nice, France · Microsoft PL-300 and Six Sigma Yellow Belt certified</p>
   </section>
 
-  <section class="journey gut" id="journey" aria-labelledby="journey-title">
+  <section class="journey gut" id="journey" aria-labelledby="journey-title" data-bg="#EEF5EF">
     <div class="head">
       <p class="kicker">02 / The path so far</p>
       <h2 id="journey-title">Journey</h2>
@@ -279,14 +292,20 @@
     </div>
   </section>
 
-  <section class="projects gut" id="projects" aria-labelledby="projects-title">
+  <div class="marquee" aria-hidden="true" data-bg="#F5F5F7">
+    <div class="marquee-track">
+      <span>Python</span><i>✦</i><span>SQL</span><i>✦</i><span>PyTorch</span><i>✦</i><span>Agentic RAG</span><i>✦</i><span>RAGAS</span><i>✦</i><span>BigQuery</span><i>✦</i><span>ChromaDB</span><i>✦</i><span>LLM evaluation</span><i>✦</i><span>GA4 &amp; GTM</span><i>✦</i><span>Streamlit</span><i>✦</i>
+    </div>
+  </div>
+
+  <section class="projects gut" id="projects" aria-labelledby="projects-title" data-bg="#F5F5F7">
     <div class="head">
       <p class="kicker">03 / Made to be checked</p>
       <h2 id="projects-title">Measured, then<br /><em>shipped.</em></h2>
       <p>Things I built, and the numbers that say whether they work.</p>
     </div>
 
-    <article class="project feature" aria-labelledby="p-rag" data-reveal>
+    <article class="project feature" aria-labelledby="p-rag" data-reveal data-cursor="Try it" data-href="https://deepak420-grandmaster-airbnb-agentic-rag-app-s4hmxa.streamlit.app/">
       <div class="media rag-visual" aria-hidden="true">
         <p class="rv-label">RAGAS faithfulness</p>
         <div class="rv-meter"><i></i><span class="rv-from">0.60</span><span class="rv-to">0.92</span></div>
@@ -307,7 +326,7 @@
     </article>
 
     <div class="grid">
-      <article class="project" aria-labelledby="p-river" data-reveal>
+      <article class="project" aria-labelledby="p-river" data-reveal data-cursor="Explore" data-href="https://france-river-flow.streamlit.app/">
         <img class="shot" src="images/france-river-flow.jpg" width="900" height="600" alt="The river network of metropolitan France drawn from live hydrometric data" loading="lazy" />
         <p class="project-index">02 · Geospatial · Live</p>
         <h3 id="p-river">France River Flow</h3>
@@ -317,20 +336,20 @@
           <a href="https://github.com/Deepak420-GrandMaster/France-River-Flow-Map" rel="noopener">Code on GitHub</a>
         </p>
       </article>
-      <article class="project" aria-labelledby="p-hr" data-reveal>
+      <article class="project" aria-labelledby="p-hr" data-reveal data-cursor="Code" data-href="https://github.com/Deepak420-GrandMaster/HR-AI-Agent">
         <div class="cv-visual" aria-hidden="true"><span class="cv-card"><b>Matched</b><i></i><i></i><i></i></span><span class="cv-card"><b>Gaps</b><i></i><i></i></span><span class="cv-score">Fit<small>with reasons</small></span></div>
         <p class="project-index">03 · AI automation</p>
         <h3 id="p-hr">HR Resume Screening</h3>
         <p>A CV screening pipeline that separates hard requirements from transferable evidence, and returns matched requirements, gaps and a confidence score instead of keyword overlap. It cut screening time by more than 70%.</p>
         <p class="links"><a href="https://github.com/Deepak420-GrandMaster/HR-AI-Agent" rel="noopener">Code on GitHub</a></p>
       </article>
-      <article class="project" aria-labelledby="p-fraud" data-reveal>
+      <article class="project" aria-labelledby="p-fraud" data-reveal data-cursor="Code" data-href="https://github.com/Deepak420-GrandMaster/Fraud-Detection">
         <p class="project-index">04 · Machine learning</p>
         <h3 id="p-fraud">Fraud Detection</h3>
         <p>Supervised and unsupervised models on 284K heavily imbalanced card transactions: deep neural networks, Isolation Forest, K-Means and One-Class SVM, compared on precision, recall and confusion matrices.</p>
         <p class="links"><a href="https://github.com/Deepak420-GrandMaster/Fraud-Detection" rel="noopener">Code on GitHub</a></p>
       </article>
-      <article class="project" aria-labelledby="p-stock" data-reveal>
+      <article class="project" aria-labelledby="p-stock" data-reveal data-cursor="Code" data-href="https://github.com/Deepak420-GrandMaster/Stock-Market-Analysis">
         <p class="project-index">05 · Forecasting</p>
         <h3 id="p-stock">Stock Market Prediction</h3>
         <p>Price-trend forecasting with RAG, PyTorch and Matplotlib, turning market history into insights investors and analysts can act on.</p>
@@ -340,11 +359,12 @@
     <a class="all-work" href="https://github.com/Deepak420-GrandMaster" rel="noopener">There’s always another experiment running.<span>Follow the builds on GitHub</span></a>
   </section>
 
-  <section class="contact gut" id="contact" aria-labelledby="contact-title">
+  <section class="contact gut" id="contact" aria-labelledby="contact-title" data-bg="#FCEDE6">
     <p class="kicker">Thanks for walking with me</p>
     <h2 id="contact-title">Say bonjour.</h2>
     <p>I’m open to AI and data roles in France and beyond. If you have a problem where the answer has to be right, I’d like to hear about it.</p>
-    <p class="mail-line"><a class="mail" href="mailto:deepak.byte07@gmail.com">deepak.byte07@gmail.com</a></p>
+    <p class="mail-line"><a class="mail" href="mailto:deepak.byte07@gmail.com" data-magnetic>deepak.byte07@gmail.com</a></p>
+    <p class="clock"><span class="live-dot" aria-hidden="true"></span> Nice, France · <time id="nice-time">local time</time></p>
     <ul class="social">
       <li><a href="https://www.linkedin.com/in/deepak-prajapati-695963204/" rel="noopener">LinkedIn</a></li>
       <li><a href="https://github.com/Deepak420-GrandMaster" rel="noopener">GitHub</a></li>

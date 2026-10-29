@@ -150,9 +150,188 @@ function setupTilt() {
   }
 }
 
+// ---------- motion: everything below is skipped under reduced motion ----------
+
+// The page colour flows from section to section instead of meeting at hard edges.
+function setupPageColour() {
+  const parts = $$('[data-bg]');
+  if (!parts.length) return;
+  const root = document.documentElement;
+  const update = () => {
+    const mid = innerHeight * 0.5;
+    for (const el of parts) {
+      const r = el.getBoundingClientRect();
+      if (r.top <= mid && r.bottom > mid) { root.style.setProperty('--page', el.dataset.bg); break; }
+    }
+  };
+  addEventListener('scroll', update, { passive: true });
+  update();
+}
+
+// A statement that lights up word by word as it scrolls through.
+function setupFill() {
+  for (const el of $$('[data-fill]')) {
+    const words = [];
+    const walk = (node) => {
+      for (const child of [...node.childNodes]) {
+        if (child.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          for (const part of child.textContent.split(/(\s+)/)) {
+            if (!part) continue;
+            if (/^\s+$/.test(part)) { frag.append(part); continue; }
+            const w = document.createElement('span');
+            w.className = 'w';
+            w.textContent = part;
+            words.push(w);
+            frag.append(w);
+          }
+          child.replaceWith(frag);
+        } else walk(child);
+      }
+    };
+    walk(el);
+    el.classList.add('filling');
+    const update = () => {
+      const r = el.getBoundingClientRect();
+      const p = clamp((innerHeight * 0.82 - r.top) / (r.height + innerHeight * 0.35));
+      const lit = p * words.length;
+      words.forEach((w, i) => w.style.setProperty('--lit', clamp(lit - i).toFixed(2)));
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+}
+
+// Section headlines rise out of a mask.
+function setupHeadlines() {
+  const heads = $$('.head h2, .contact h2');
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -10% 0px' });
+  for (const h of heads) {
+    const inner = document.createElement('span');
+    inner.className = 'mask-inner';
+    inner.append(...h.childNodes);
+    h.append(inner);
+    h.classList.add('mask');
+    io.observe(h);
+  }
+}
+
+// Calls to action lean toward the pointer.
+function setupMagnetic() {
+  for (const el of $$('[data-magnetic]')) {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2);
+      el.style.transform = `translate(${(x * 0.22).toFixed(1)}px, ${(y * 0.3).toFixed(1)}px)`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+  }
+}
+
+// A small label follows the pointer over project cards; clicking the card opens its main link.
+function setupCursorLabel() {
+  const cards = $$('[data-cursor]');
+  if (!cards.length) return;
+  const label = document.createElement('div');
+  label.className = 'cursor-label';
+  label.setAttribute('aria-hidden', 'true');
+  document.body.append(label);
+  let x = 0, y = 0, lx = 0, ly = 0, raf = 0;
+  const tick = () => {
+    lx += (x - lx) * 0.2; ly += (y - ly) * 0.2;
+    label.style.transform = `translate(${lx.toFixed(1)}px, ${ly.toFixed(1)}px) translate(-50%, -50%)`;
+    raf = Math.abs(x - lx) + Math.abs(y - ly) > 0.3 ? requestAnimationFrame(tick) : 0;
+  };
+  addEventListener('pointermove', (e) => {
+    x = e.clientX; y = e.clientY;
+    if (!raf) raf = requestAnimationFrame(tick);
+  }, { passive: true });
+  for (const card of cards) {
+    card.classList.add('clickable');
+    card.addEventListener('pointerenter', (e) => {
+      label.textContent = card.dataset.cursor;
+      lx = x = e.clientX; ly = y = e.clientY;
+      label.classList.add('on');
+    });
+    card.addEventListener('pointerleave', () => label.classList.remove('on'));
+    card.addEventListener('pointerover', (e) => label.classList.toggle('hide', !!e.target.closest('a')));
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a') || getSelection().toString()) return;
+      window.open(card.dataset.href, '_blank', 'noopener');
+    });
+  }
+}
+
+// The marquee drifts on its own and runs faster, either way, with the scroll.
+function setupMarquee() {
+  const track = $('.marquee-track');
+  if (!track) return;
+  track.append(...[...track.children].map((n) => n.cloneNode(true)));
+  let pos = 0, dir = -1, boost = 0, lastY = scrollY, last = performance.now(), seen = false;
+  new IntersectionObserver(([e]) => { seen = e.isIntersecting; }).observe(track.parentElement);
+  const frame = (now) => {
+    requestAnimationFrame(frame);
+    if (!seen) { last = now; lastY = scrollY; return; }
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    const dy = scrollY - lastY;
+    lastY = scrollY;
+    if (dy) { dir = dy > 0 ? -1 : 1; boost = Math.min(14, boost + Math.abs(dy) * 0.06); }
+    boost *= Math.exp(-dt * 3);
+    pos += dir * (40 + boost * 60) * dt;
+    const half = track.scrollWidth / 2;
+    if (pos <= -half) pos += half;
+    if (pos > 0) pos -= half;
+    track.style.transform = `translate3d(${pos.toFixed(1)}px, 0, 0) skewX(${(-dir * boost * 0.6).toFixed(2)}deg)`;
+  };
+  requestAnimationFrame(frame);
+}
+
+// Numbers count up the first time they come into view.
+function setupCounters() {
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      io.unobserve(e.target);
+      const el = e.target, to = +el.dataset.count, from = +(el.dataset.from ?? 0);
+      const dec = +(el.dataset.decimals ?? 0), suffix = el.dataset.suffix ?? '';
+      const t0 = performance.now();
+      const step = (now) => {
+        const t = clamp((now - t0) / 1400);
+        const v = from + (to - from) * (1 - Math.pow(1 - t, 3));
+        el.textContent = v.toFixed(dec) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+  }, { threshold: 0.6 });
+  $$('[data-count]').forEach((el) => io.observe(el));
+}
+
+// Local time in Nice, for anyone deciding when to call.
+function setupClock() {
+  const el = $('#nice-time');
+  if (!el) return;
+  const fmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris', timeZoneName: 'short' });
+  const update = () => { el.textContent = fmt.format(new Date()); };
+  update();
+  setInterval(update, 30000);
+}
+
 setupWalk();
 setupReveals();
 setupSpines();
 setupHeader();
 setupNavSpy();
 setupTilt();
+setupPageColour();
+setupClock();
+if (!reduce) {
+  setupFill();
+  setupHeadlines();
+  setupMarquee();
+  setupCounters();
+  if (matchMedia('(pointer: fine)').matches) { setupMagnetic(); setupCursorLabel(); }
+}

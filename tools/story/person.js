@@ -70,7 +70,18 @@ export function makePerson() {
     brow.rotation.z = s * -0.12;
   }
   part(head, SPHERE, m.skin, 0, 0.088, 0.112, 0.016, 0.024, 0.02); // nose
-  part(head, BOX, mat(0x6B3B2E), 0, 0.048, 0.104, 0.034, 0.006, 0.01); // mouth
+  // a short beard and moustache, and clear-rimmed glasses
+  part(head, SPHERE, m.hair, 0, 0.036, 0.032, 0.084, 0.066, 0.088);
+  part(head, BOX, m.hair, 0, 0.066, 0.108, 0.05, 0.012, 0.014);
+  part(head, BOX, mat(0x6B3B2E), 0, 0.05, 0.118, 0.03, 0.006, 0.01); // mouth
+  const rim = mat(0xC9CED3, { rough: 0.3, metal: 0.4 });
+  for (const s of [-1, 1]) {
+    const lens = part(head, new THREE.TorusGeometry(0.026, 0.0045, 6, 18), rim, s * 0.04, 0.115, 0.112);
+    lens.scale.set(1.15, 0.9, 1);
+    const arm = part(head, BOX, rim, s * 0.088, 0.118, 0.06, 0.006, 0.006, 0.1);
+    arm.castShadow = false;
+  }
+  part(head, BOX, rim, 0, 0.12, 0.114, 0.026, 0.005, 0.005);
 
   // arms
   const arms = [-1, 1].map((s) => {
