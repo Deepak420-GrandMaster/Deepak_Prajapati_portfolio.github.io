@@ -1,64 +1,37 @@
 # tools
 
-## csp-rehash.py
+## story (the scroll-driven walk)
 
-The page pins every inline `<script>` in its Content-Security-Policy by
-SHA-256 hash, so `script-src` does not need `'unsafe-inline'`.
+The home page is a walk through six chapters, from Vadodara to Nice: a small
+procedural figure walks along a road in a low-poly 3D world as the page scrolls,
+and the light moves through one day (dawn to night). Everything is generated in
+code; the walk loads no models, textures or images.
 
-**Any edit to an inline script changes its hash. If the CSP is not updated,
-the browser blocks every script and the page renders blank.** Run this after
-touching any inline script:
+Sources live in `tools/story/`:
 
-```bash
-python3 tools/csp-rehash.py
-```
+- `site.js` — page behaviour (chapter cards, chapter map, caption, reveals,
+  timeline). It loads the 3D walk only when WebGL is available and reduced
+  motion is off; otherwise the story reads as plain chapters.
+- `walk.js` — renderer, sky, light for each time of day, camera and scroll logic.
+- `scenes.js` — the six sets (Vadodara, the market, Numerator, IIT Ropar,
+  Montpellier, Nice).
+- `person.js` — the walking figure, his outfits, walk cycle and wave.
+- `kit.js` — shared materials and primitives.
 
-Two things it gets right that are easy to get wrong by hand:
-
-- The hash is taken over **LF-normalised** content. `index.html` uses CRLF
-  line endings, and the HTML parser converts them before hashing, so hashing
-  the raw bytes produces wrong hashes and a blank page.
-- Only `<script>` elements **without** a `src` attribute are hashed.
-
-`style-src` still needs `'unsafe-inline'`: the markup uses `style="--d:N"`
-attributes, which hashes cannot cover.
-
-## three-fx (Three.js bundle)
-
-The page loads one slim Three.js bundle, `assets/js/three-fx.js` (~135 KB
-gzipped), instead of the full library (~415 KB gzipped). It holds the classes
-the hero field uses plus the intro tunnel and the light cables. The source is
-`tools/three-fx/entry.js`; after editing it, rebuild with:
+The page loads the bundled output in `assets/js/story/`. After editing anything in
+`tools/story/`, rebuild from the repository root:
 
 ```bash
-npx esbuild tools/three-fx/entry.js --bundle --minify --format=esm \
-  --target=es2020 --legal-comments=none \
-  --alias:three=./vendor/three.module.js --outfile=assets/js/three-fx.js
+./tools/story/build.sh
 ```
 
-`vendor/three.module.js` and `vendor/three.core.js` are only the build input;
-the page no longer loads them. If you change the inline module script, run
-`python3 tools/csp-rehash.py` as described above.
+It runs esbuild with `three` resolved to `vendor/three.module.js` (r185) and
+writes `site.js` plus one hashed `walk-*.js` chunk. Commit the rebuilt files.
 
-## boot.js and fx.js
+The page has no inline scripts or styles, so the Content-Security-Policy in
+`index.html` needs no hashes.
 
-`assets/js/boot.js` is a tiny blocking script that decides, before first
-paint, whether this visit gets the tunnel intro (once per session, capable
-devices, no reduced-motion). `assets/js/fx.js` runs the tunnel, the scroll
-scrubs, the pointer effects and the cables. Both are same-origin files, so the
-CSP needs no extra hashes for them.
+## Fonts
 
-## qlab.js (Quantum Lab game)
-
-`assets/js/qlab.js` is the puzzle game behind the circuit card in Contact:
-three qubits, H / X / CNOT gates, 100 simulated measurements, four levels,
-stars saved in `localStorage` (`dp-qlab`). The simulation is a real statevector.
-It is a separate same-origin file, so the CSP needs no extra hash.
-
-## Language
-
-The site opens in the first supported language it finds, in this order:
-`?lang=fr|en` in the link, the visitor's own earlier choice (`dp-lang`), the
-browser's language list (`navigator.languages`), then English. Only a click on
-the EN / FR switch is remembered; an auto-detected language keeps following the
-browser. French strings live in the `FR` map in the inline i18n script.
+`assets/fonts/` holds Fraunces and Public Sans (latin subsets), both under the
+SIL Open Font License; the licence texts sit next to the files.
